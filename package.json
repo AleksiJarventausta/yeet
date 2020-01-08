@@ -1,0 +1,18 @@
+{
+  "name": "fullstack_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./backend/bin/www",
+    "postinstall": "npm install --prefix client && npm install --prefix backend && npm run build --prefix client ",
+    "server": " node ./backend/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^4.0.1",
+    "passport-jwt": "^4.0.0"
+  }
+}
