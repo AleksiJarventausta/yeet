@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Utils
 import jwt_decode from "jwt-decode";
@@ -9,10 +9,10 @@ import setAuthToken from "./utils/setAuth";
 import { Provider } from "react-redux";
 import store from "./store";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
-import Login from './components/auth/Login';
+import Login from "./components/auth/Login";
 
-import './App.css';
-import Axios from 'axios';
+import "./App.css";
+import Axios from "axios";
 
 if (localStorage.jwtTokenTeams) {
   // Set auth token header auth
@@ -35,24 +35,19 @@ if (localStorage.jwtTokenTeams) {
     window.location.href = "./";
   }
 }
-Axios.defaults.baseURL="http://yeet-yeet.rahtiapp.fi";
+Axios.defaults.baseURL = "http://yeet-yeet.rahtiapp.fi";
 
 function App() {
   return (
-
     <Provider store={store}>
-        <Router >
-          <div className="App">
-
-          </div>
-          <Switch>
-              <Route path="/" component= {Login}/>
-          </Switch>
-
-        </Router>
-      </Provider>
+      <Router>
+        <div className="App"></div>
+        <Switch>
+          <Route path="/" component={Login} />
+        </Switch>
+      </Router>
+    </Provider>
   );
 }
-
 
 export default App;
