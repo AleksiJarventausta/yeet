@@ -12,8 +12,9 @@ var Promise = require('bluebird');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var userRoute = require('./routes/users');
+var cors = require('cors');
 var app = express();
-
+app.use(cors());
 
 var mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = "";

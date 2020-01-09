@@ -43,6 +43,5 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "./",
-  "proxy": "http://localhost:5000"
+  "proxy": "http://yeet-yeet.rahtiapp.fi/"
 }

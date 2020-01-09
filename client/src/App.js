@@ -12,6 +12,7 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import Login from './components/auth/Login';
 
 import './App.css';
+import Axios from 'axios';
 
 if (localStorage.jwtTokenTeams) {
   // Set auth token header auth
@@ -51,5 +52,6 @@ function App() {
       </Provider>
   );
 }
+
 
 export default App;
