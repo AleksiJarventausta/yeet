@@ -35,6 +35,7 @@ if (localStorage.jwtTokenTeams) {
     window.location.href = "./";
   }
 }
+Axios.defaults.baseURL="http://yeet-yeet.rahtiapp.fi";
 
 function App() {
   return (
