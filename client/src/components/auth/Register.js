@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {  withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { registerUser } from "../../actions/authActions";
 import { Grid } from "@material-ui/core";
 
 class Register extends Component {
@@ -18,6 +17,7 @@ class Register extends Component {
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
+
   onSubmit = e => {
     e.preventDefault();
 
@@ -26,9 +26,11 @@ class Register extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    
-
-    this.props.registerUser(newUser, this.props.history);
+    axios
+        .post("/user/register", userData)
+        .then(res => history.push("/"))
+        .catch(err => 
+        console.log(err));   
   };
 
 

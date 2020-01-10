@@ -1,19 +1,23 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Utils
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuth";
 
-// Redux
-import { Provider } from "react-redux";
-import store from "./store";
-import { setCurrentUser, logoutUser } from "./actions/authActions";
-import Login from './components/auth/Login';
+import Login from "./components/auth/Login";
 
-import './App.css';
-import Axios from 'axios';
+import "./App.css";
+import Axios from "axios";
 
+
+
+Axios.defaults.baseURL = "http://yeet-yeet.rahtiapp.fi";
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.setCurrentUser = this.setCurrentUser.bind(this);
 if (localStorage.jwtTokenTeams) {
   // Set auth token header auth
   const token = JSON.parse(localStorage.jwtTokenTeams);
@@ -23,36 +27,44 @@ if (localStorage.jwtTokenTeams) {
   const decoded = jwt_decode(token);
 
   // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
+  this.setCurrentUser(decoded);
 
   // Check for expired token
   const currentTime = Date.now() / 1000; // to get in milliseconds
   if (decoded.exp < currentTime) {
     // Logout user
-    store.dispatch(logoutUser());
+    this.setCurrentUser(null)
 
     // Redirect to login
     window.location.href = "./";
   }
 }
-Axios.defaults.baseURL="http://yeet-yeet.rahtiapp.fi";
+  }
+  state = {
+    user: {},
+    isAuthenticated: false,
+    errors: []
+  };
 
-function App() {
-  return (
+  setCurrentUser(user) {
+    this.setState({ user });
+  }
 
-    <Provider store={store}>
-        <Router >
-          <div className="App">
-
-          </div>
-          <Switch>
-              <Route path="/" component= {Login}/>
-          </Switch>
-
-        </Router>
-      </Provider>
-  );
+  render() {
+    return (
+      <Router>
+        <div className="App"></div>
+        <Switch>
+          <Route
+            path="/login"
+            render={props => (
+              <Login {...props} setCurrentUser={this.setCurrentUser} />
+            )}
+          />
+        </Switch>
+      </Router>
+    );
+  }
 }
-
 
 export default App;
