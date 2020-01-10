@@ -22,16 +22,21 @@ export default class Feed extends React.Component {
   }
 
   render() {
-    const items = this.state.items;
-    /*const items = [
+    //const items = this.state.items;
+    const items = [
       {
         _id: "0123",
         description: "I am a gamer",
         username: "user1",
-        games: ["Lol", "Wow", "CS"]
+        games: ["LoL", "Wow", "CS"]
       },
-      { _id: "0123", description: "I am an another gamer" }
-    ]; */
+      {
+        _id: "0123",
+        description: "I am an another gamer",
+        username: "Autism",
+        games: ["Wow", "CS"]
+      }
+    ];
     const feeditems = items.map(item => (
       <div>
         <FeedItem
@@ -40,8 +45,6 @@ export default class Feed extends React.Component {
           games={item.games}
           username={item.username}
         ></FeedItem>
-        <button>Like</button>
-        <button>Not like</button>
       </div>
     ));
     return <div>{feeditems}</div>;

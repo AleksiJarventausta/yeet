@@ -1,16 +1,14 @@
 import React from "react";
 
 export default function FeedItem(props) {
-  /*
   const gameItems = props.games.map(game => {
-    
-  })
-  */
+    return <span>{game + " "}</span>;
+  });
 
   return (
     <div class="ui card">
       <div class="content">
-        <div class="header">{props.games}</div>
+        <div class="header">Games: {gameItems}</div>
 
         <div class="description">{props.description}</div>
       </div>

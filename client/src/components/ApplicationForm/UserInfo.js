@@ -12,7 +12,7 @@ export default class UserInfo extends React.Component {
   render() {
     return (
       <div>
-        {/* this.state.isAutist && <p></p>*/}
+        {/* this.state.isAutist && <p>juttui</p>*/}
         {/*TODO: Tee kentistä koko alueen levyiset*/}
         <p>Name: </p>
         <Form>

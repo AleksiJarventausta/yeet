@@ -7,7 +7,7 @@ export default class ApplicationForm extends React.Component {
     return (
       <div>
         <UserInfo></UserInfo>
-        <p>description: </p>
+        <p>Description: </p>
         <DescriptionBox />
         <p>game search things</p>
         <button>Start searching</button>
