@@ -8,6 +8,7 @@ import setAuthToken from "./utils/setAuth";
 
 import Login from "./components/auth/Login";
 import Feed from "./components/Feed";
+import ApplicationForm from "./components/ApplicationForm";
 
 import "./App.css";
 import Axios from "axios";
@@ -63,10 +64,7 @@ class App extends React.Component {
           {/* Kontentti row */}
           <Grid.Row>
             <Grid.Column width={7}>
-              <p>
-                My own post My own post My own post My own post My own post My
-                own post My own post My own post My own post My own post{" "}
-              </p>
+              <ApplicationForm />
               <p>
                 Search status Search status Search status Search status Search
                 status Search status Search status Search status Search status
