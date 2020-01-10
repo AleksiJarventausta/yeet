@@ -14,7 +14,7 @@ export default class UserInfo extends React.Component {
       <div>
         {/* this.state.isAutist && <p>juttui</p>*/}
         {/*TODO: Tee kentistä koko alueen levyiset*/}
-        <p>Name: </p>
+        <span>Name: </span>
         <Form>
           <Input
             fluid
@@ -25,7 +25,7 @@ export default class UserInfo extends React.Component {
             value={this.state.username}
           />
         </Form>
-        <p>Discord: </p>
+        <span>Discord: </span>
         <Form>
           <Input
             fluid
@@ -36,7 +36,7 @@ export default class UserInfo extends React.Component {
             value={this.state.discord}
           />
         </Form>
-        <p>Additional contact info: </p>
+        <span>Additional contact info: </span>
         <Form>
           <Input
             fluid

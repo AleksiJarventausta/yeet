@@ -45,6 +45,7 @@ export default class Feed extends React.Component {
           games={item.games}
           username={item.username}
         ></FeedItem>
+        <div></div> {/* Makes little space between FeedItems */}
       </div>
     ));
     return <div>{feeditems}</div>;

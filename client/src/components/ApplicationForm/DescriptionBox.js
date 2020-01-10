@@ -12,6 +12,7 @@ export default class CreatePost extends React.Component {
   render() {
     return (
       <div>
+        <span>Description: </span>
         <Form>
           <TextArea
             style={{ width: "100%", minWidth: "100%", maxWidth: "100%" }}
@@ -29,9 +30,9 @@ export default class CreatePost extends React.Component {
             value={this.state.description}
           />
         </Form>
-        <p>
+        <span>
           Characters used: {CHAR_MAX - this.state.charsLeft}/{CHAR_MAX}
-        </p>
+        </span>
       </div>
     );
   }
