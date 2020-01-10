@@ -61,29 +61,25 @@ class App extends React.Component {
               {<p>Header</p> /* TODO: Add Header component here */}
             </Grid.Column>
           </Grid.Row>
-          {/* Kontentti row */}
-          <Grid.Row>
-            <Grid.Column width={7}>
-              <ApplicationForm />
-              <p>
-                Search status Search status Search status Search status Search
-                status Search status Search status Search status Search status
-                Search status Search status Search status{" "}
-              </p>
-              {/* TODO: Add OwnPost and StatusInfo components here */}
-            </Grid.Column>
-            <Grid.Column width={9}>
-              <Feed></Feed>
-              {/* TODO: Add OtherUsersPost(s) here */}
-            </Grid.Column>
-          </Grid.Row>
           <Switch>
+            <Route path="/" exact>
+              {/* Kontentti row */}
+              <Grid.Row>
+                <Grid.Column width={7}>
+                  <ApplicationForm />
+                </Grid.Column>
+                <Grid.Column width={9}>
+                  <Feed></Feed>
+                </Grid.Column>
+              </Grid.Row>
+            </Route>
             <Route
               path="/login"
               render={props => (
                 <Login {...props} setCurrentUser={this.setCurrentUser} />
               )}
             />
+            <Route>Error: Something went wrong :( Try again later.</Route>
           </Switch>
         </Grid>
       </Router>

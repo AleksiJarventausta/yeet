@@ -41,7 +41,7 @@ export default class CreatePost extends React.Component {
   }
 }
 
-/*
+/* A PU A
 export default class DescriptionBox extends React.Component {
   state = {
     description: "",
