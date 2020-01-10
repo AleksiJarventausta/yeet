@@ -39,6 +39,7 @@ if (localStorage.jwtTokenTeams) {
     window.location.href = "./";
   }
 }
+<<<<<<< HEAD
   }
   state = {
     user: {},
@@ -65,6 +66,21 @@ if (localStorage.jwtTokenTeams) {
       </Router>
     );
   }
+=======
+Axios.defaults.baseURL = "http://yeet-yeet.rahtiapp.fi";
+
+function App() {
+  return (
+    <Provider store={store}>
+      <Router>
+        <div className="App"></div>
+        <Switch>
+          <Route path="/" component={Login} />
+        </Switch>
+      </Router>
+    </Provider>
+  );
+>>>>>>> a91252c50d63fb78a44880cebb8b2e4d9c715b1a
 }
 
 export default App;
