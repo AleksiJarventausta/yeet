@@ -5,20 +5,21 @@ var Schema = mongoose.Schema;
 var userSchema = new Schema({
     _id: Schema.Types.ObjectId,
 
-    name:{ 
+    username:{ 
         type: String,
         required: true
     },
     email: {
         type: String,
-        required: true
     },
     password: {
         type: String,
         required: true
     },
-    profilePicture: Number,
-    blogs: [{type: Schema.Types.ObjectId, ref:'Post'}]
+    discord: {
+        type: String,
+        required: true,
+    },
 });
 
 module.exports = mongoose.model('User', userSchema);

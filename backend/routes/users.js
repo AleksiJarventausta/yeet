@@ -17,14 +17,14 @@ router.post('/login', function (req, res) {
     return res.status(400).json(errors);
   }
 
-  const email = req.body.email;
+  const username= req.body.username;
   const password = req.body.password;
 
   // Find user by email
-  User.findOne({ email }).then(user => {
+  User.findOne({ username  }).then(user => {
     // Check if user exists
     if (!user) {
-      return res.status(404).json({ emailnotfound: "Email not found" });
+      return res.status(404).json({ username: "User not found" });
     }
 
     // Check password
@@ -34,8 +34,7 @@ router.post('/login', function (req, res) {
         // Create JWT Payload
         const payload = {
           id: user.id,
-          name: user.name,
-          email: user.email
+          username: user.username,
         };
 
         // Sign token
@@ -70,13 +69,13 @@ router.post('/register', function (req, res) {
         return res.status(400).json(errors);
     }
 
-    User.findOne({email: req.body.email}, function (err, user) {
+    User.findOne({username: req.body.username}, function (err, user) {
         if (user) {
             return res.status(400).json({email: "Email already in use."});
         } else {
             let registeringUser = new User({
-                name: req.body.name,
-                email: req.body.email,
+                username: req.body.username,
+                discord: req.body.discord,
                 password: req.body.password,
                 _id : new mongoose.Types.ObjectId()
             });
@@ -95,6 +94,7 @@ router.post('/register', function (req, res) {
 
     });
 });
+
 router.get('/search',
     passport.authenticate("jwt", {session: false}),
     function (req, res) {

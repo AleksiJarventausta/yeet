@@ -12,6 +12,7 @@ var Promise = require('bluebird');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var userRoute = require('./routes/users');
+var matchRoute = require('./routes/matchmaking');
 var cors = require('cors');
 var app = express();
 app.use(cors());
@@ -78,6 +79,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/user', userRoute);
+app.use('/match', matchRoute);
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.resolve(__dirname, '..', 'client', 'build')));
