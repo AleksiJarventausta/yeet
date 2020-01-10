@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuth";
 
 import Login from "./components/auth/Login";
+import Feed from "./components/Feed";
 
 import "./App.css";
 import Axios from "axios";
@@ -74,11 +75,7 @@ class App extends React.Component {
               {/* TODO: Add OwnPost and StatusInfo components here */}
             </Grid.Column>
             <Grid.Column width={9}>
-              <p>
-                Other users post(s) Other users post(s) Other users post(s)
-                Other users post(s) Other users post(s) Other users post(s)
-                Other users post(s) Other users post(s) Other users post(s){" "}
-              </p>
+              <Feed></Feed>
               {/* TODO: Add OtherUsersPost(s) here */}
             </Grid.Column>
           </Grid.Row>
