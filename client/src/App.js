@@ -61,6 +61,7 @@ class App extends React.Component {
               {<p>Header</p> /* TODO: Add Header component here */}
             </Grid.Column>
           </Grid.Row>
+          <Divider />
           <Switch>
             <Route path="/" exact>
               {/* Kontentti row */}

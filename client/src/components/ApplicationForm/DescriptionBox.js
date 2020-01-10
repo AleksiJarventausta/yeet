@@ -29,13 +29,9 @@ export default class CreatePost extends React.Component {
             value={this.state.description}
           />
         </Form>
-        <Grid>
-          <Grid.Row>
-            <p>
-              Characters used: {CHAR_MAX - this.state.charsLeft}/{CHAR_MAX}
-            </p>
-          </Grid.Row>
-        </Grid>
+        <p>
+          Characters used: {CHAR_MAX - this.state.charsLeft}/{CHAR_MAX}
+        </p>
       </div>
     );
   }
