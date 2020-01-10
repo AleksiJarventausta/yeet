@@ -9,6 +9,7 @@ import setAuthToken from "./utils/setAuth";
 import Login from "./components/auth/Login";
 import Feed from "./components/Feed";
 import ApplicationForm from "./components/ApplicationForm";
+import Header from "./components/Header";
 
 import "./App.css";
 import Axios from "axios";
@@ -58,7 +59,7 @@ class App extends React.Component {
           {/* Header row */}
           <Grid.Row centered>
             <Grid.Column>
-              {<p>Header</p> /* TODO: Add Header component here */}
+              <Header />
             </Grid.Column>
           </Grid.Row>
           <Divider />
