@@ -5,18 +5,15 @@ module.exports = function validateRegisteration (data) {
     let errors = {};
 
     //convert empty points to strings so we can use validator
-    data.email = !isEmpty(data.email)? data.email: "";
-    data.name = !isEmpty(data.name)? data.name: "";
+    data.username = !isEmpty(data.username)? data.username: "";
+    data.discord = !isEmpty(data.discord)? data.discord: "";
     data.password= !isEmpty(data.password)? data.password: "";
 
-    if(Validator.isEmpty(data.name)) {
+    if(Validator.isEmpty(data.username)) {
         errors.name = "Name field can't be empty.";
     }
-
-    if(Validator.isEmpty(data.email)) {
-        errors.email = "Email field can't be empty.";
-    } else if(!Validator.isEmail(data.email)) {
-        errors.email = "Email is invalid"
+    if(Validator.isEmpty(data.discord)) {
+        errors.discord= "discord field can't be empty.";
     }
 
     if(Validator.isEmpty(data.password)) {
