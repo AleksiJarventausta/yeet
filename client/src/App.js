@@ -52,15 +52,45 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <div className="App"></div>
-        <Switch>
-          <Route
-            path="/login"
-            render={props => (
-              <Login {...props} setCurrentUser={this.setCurrentUser} />
-            )}
-          />
-        </Switch>
+        <Grid container stackable>
+          {/* Header row */}
+          <Grid.Row centered>
+            <Grid.Column>
+              {<p>Header</p> /* TODO: Add Header component here */}
+            </Grid.Column>
+          </Grid.Row>
+          {/* Kontentti row */}
+          <Grid.Row>
+            <Grid.Column width={7}>
+              <p>
+                My own post My own post My own post My own post My own post My
+                own post My own post My own post My own post My own post{" "}
+              </p>
+              <p>
+                Search status Search status Search status Search status Search
+                status Search status Search status Search status Search status
+                Search status Search status Search status{" "}
+              </p>
+              {/* TODO: Add OwnPost and StatusInfo components here */}
+            </Grid.Column>
+            <Grid.Column width={9}>
+              <p>
+                Other users post(s) Other users post(s) Other users post(s)
+                Other users post(s) Other users post(s) Other users post(s)
+                Other users post(s) Other users post(s) Other users post(s){" "}
+              </p>
+              {/* TODO: Add OtherUsersPost(s) here */}
+            </Grid.Column>
+          </Grid.Row>
+          <Switch>
+            <Route
+              path="/login"
+              render={props => (
+                <Login {...props} setCurrentUser={this.setCurrentUser} />
+              )}
+            />
+          </Switch>
+        </Grid>
       </Router>
     );
   }
