@@ -29,7 +29,7 @@ export default class UserInfo extends React.Component {
         <Form>
           <Input
             fluid
-            placeholder="Discord name and tag, eg. User#1234"
+            placeholder="eg. testUser#1234"
             onChange={(event, data) => {
               this.setState({ discord: data.value });
             }}
@@ -40,7 +40,7 @@ export default class UserInfo extends React.Component {
         <Form>
           <Input
             fluid
-            placeholder="Additional contact information, eg. MTGA User#1234"
+            placeholder="eg. MTGA testPlayer#1234"
             onChange={(event, data) => {
               this.setState({ additional: data.value });
             }}

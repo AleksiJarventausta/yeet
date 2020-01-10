@@ -1,8 +1,9 @@
 import React from "react";
+import { Grid, Divider } from "semantic-ui-react";
 
 export default function FeedItem(props) {
   const gameItems = props.games.map(game => {
-    return <span>{game + " "}</span>;
+    return <span style={{ color: "black" }}>{game + " "}</span>;
   });
 
   return (
@@ -14,15 +15,21 @@ export default function FeedItem(props) {
       </div>
 
       <div class="extra content">
-        <i class="user icon" />
-        {props.username}
-        {/* Nimi vasemmalle, Buttonit oikealle */}
-        <button class="ui positive basic button">
-          <i class="icon thumbs up" />
-        </button>
-        <button class="ui negative basic button">
-          <i class="icon thumbs down" />
-        </button>
+        <Grid>
+          <Grid.Column width={6}>
+            <i class="user icon" />
+            {props.username}
+          </Grid.Column>
+          <Grid.Column width={10} textAlign="right">
+            {/* Nimi vasemmalle, Buttonit oikealle */}
+            <button class="ui positive basic button">
+              <i class="icon thumbs up" />
+            </button>
+            <button class="ui negative basic button">
+              <i class="icon thumbs down" />
+            </button>
+          </Grid.Column>
+        </Grid>
       </div>
     </div>
   );
