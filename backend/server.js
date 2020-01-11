@@ -14,6 +14,7 @@ var passport = require('passport');
 var userRoute = require('./routes/users');
 var matchRoute = require('./routes/matchmaking');
 var gameRoute = require('./routes/games');
+var postRoute = require('./routes/posts');
 var cors = require('cors');
 var app = express();
 app.use(cors());
@@ -79,6 +80,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user', userRoute);
 app.use('/match', matchRoute);
+app.use('/post', postRoute)
 app.use('/games', gameRoute);
 
 

@@ -1,9 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
-const mongoose = require("mongoose");
-const User = require("../models/User");
-const Post = require("../models/Post");
 const axios = require("axios");
+
 
 const axiosConfig = {
   headers: {
@@ -20,7 +18,7 @@ router.post(
       const searchString =
         'search "' +
         req.body.search +
-        '";where total_rating >0 & total_rating_count > 100; fields total_rating,name,popularity,artworks; limit 20;';
+        '";where total_rating >0 & total_rating_count > 100; fields total_rating,name,popularity,artworks; limit 10;';
       axios
         .post("https://api-v3.igdb.com/games", searchString, axiosConfig)
         .then(igRes => {
