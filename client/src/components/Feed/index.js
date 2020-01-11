@@ -13,18 +13,21 @@ export default class Feed extends React.Component {
     const items = [];
     axios
       .get("/match/matches")
-      .then(res => (items = res))
+      .then(res => {
+        const data = res.data;
+        console.log("haettu data:", data);
+        this.setState({ items: data });
+      })
       .catch(err => console.log(err));
-    return items;
   }
 
   componentDidMount() {
-    const fetchedItems = this.getPosts();
-    this.setState({ items: fetchedItems });
+    this.getPosts();
   }
 
   render() {
-    //const items = this.state.items;
+    let items = this.state.items;
+    /*
     const items = [
       {
         _id: "0123",
@@ -46,14 +49,19 @@ export default class Feed extends React.Component {
         games: ["Wow", "CS"]
       }
     ];
-    const feeditems = items.map(item => (
-      <FeedItem
-        key={item._id}
-        description={item.description}
-        games={item.games}
-        username={item.username}
-      />
-    ));
+    */
+    let feeditems = null;
+    if (items) {
+      feeditems = items.map(item => (
+        <FeedItem
+          key={item._id}
+          description={item.description}
+          games={["testGame", "testGame2"]}
+          username={item.poster.username}
+        />
+      ));
+    }
+    console.log("this.props.items:", this.props.items);
     return (
       this.props.isSearching && (
         <div>
