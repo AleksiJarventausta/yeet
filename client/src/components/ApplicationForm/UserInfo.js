@@ -11,10 +11,29 @@ export default class UserInfo extends React.Component {
 
   render() {
     return (
+      <Form>
+        <Form.Field>
+          <label>Name:</label>
+          <input placeholder="username/nickname" />
+        </Form.Field>
+        <Form.Field>
+          <label>Discord:</label>
+          <input placeholder="eg. testUser#1234" />
+        </Form.Field>
+        <Form.Field>
+          <label>Additional contact information:</label>
+          <input placeholder="eg. MTGA testPlayer#1234" />
+        </Form.Field>
+      </Form>
+    );
+  }
+}
+
+/* 
+  render() {
+    return (
       <div>
-        {/* this.state.isAutist && <p></p>*/}
-        {/*TODO: Tee kentistä koko alueen levyiset*/}
-        <p>Name: </p>
+        <span>Name: </span>
         <Form>
           <Input
             fluid
@@ -25,22 +44,22 @@ export default class UserInfo extends React.Component {
             value={this.state.username}
           />
         </Form>
-        <p>Discord: </p>
+        <span>Discord: </span>
         <Form>
           <Input
             fluid
-            placeholder="Discord name and tag, eg. User#1234"
+            placeholder="eg. testUser#1234"
             onChange={(event, data) => {
               this.setState({ discord: data.value });
             }}
             value={this.state.discord}
           />
         </Form>
-        <p>Additional contact info: </p>
+        <span>Additional contact info: </span>
         <Form>
           <Input
             fluid
-            placeholder="Additional contact information, eg. MTGA User#1234"
+            placeholder="eg. MTGA testPlayer#1234"
             onChange={(event, data) => {
               this.setState({ additional: data.value });
             }}
@@ -51,3 +70,5 @@ export default class UserInfo extends React.Component {
     );
   }
 }
+
+*/

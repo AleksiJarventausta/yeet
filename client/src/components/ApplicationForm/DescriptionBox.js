@@ -13,29 +13,28 @@ export default class CreatePost extends React.Component {
     return (
       <div>
         <Form>
-          <TextArea
-            style={{ width: "100%", minWidth: "100%", maxWidth: "100%" }}
-            rows={3}
-            placeholder="Write your description here..."
-            onChange={(event, data) => {
-              if (data.value.length <= CHAR_MAX) {
-                this.setState({
-                  description: data.value,
-                  charsLeft: CHAR_MAX - data.value.length
-                });
-                //console.log("state vaihdettu");
-              }
-            }}
-            value={this.state.description}
-          />
-        </Form>
-        <Grid>
-          <Grid.Row>
-            <p>
+          <Form.Field>
+            <label>Description:</label>
+            <TextArea
+              style={{ width: "100%", minWidth: "100%", maxWidth: "100%" }}
+              rows={3}
+              placeholder="Write your description here..."
+              onChange={(event, data) => {
+                if (data.value.length <= CHAR_MAX) {
+                  this.setState({
+                    description: data.value,
+                    charsLeft: CHAR_MAX - data.value.length
+                  });
+                  //console.log("state vaihdettu");
+                }
+              }}
+              value={this.state.description}
+            />
+            <label>
               Characters used: {CHAR_MAX - this.state.charsLeft}/{CHAR_MAX}
-            </p>
-          </Grid.Row>
-        </Grid>
+            </label>
+          </Form.Field>
+        </Form>
       </div>
     );
   }

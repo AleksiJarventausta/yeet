@@ -19,16 +19,14 @@ class Login extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
-  componentDidUpdate() {
-  }
+  componentDidUpdate() {}
 
-  onSubmit(e){
+  onSubmit(e) {
     e.preventDefault();
     const newLogin = {
-      email: this.state.email,
+      username: this.state.email,
       password: this.state.password
     };
     axios
@@ -46,10 +44,8 @@ class Login extends Component {
         // Set current user
         this.props.setCurrentUser(decoded);
       })
-      .catch(err =>
-        this.setState({errors:err.response.data})
-      );
-  };
+      .catch(err => this.setState({ errors: err.response.data }));
+  }
 
   render() {
     const { errors } = this.state;

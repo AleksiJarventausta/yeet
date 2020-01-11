@@ -9,6 +9,7 @@ import setAuthToken from "./utils/setAuth";
 import Login from "./components/auth/Login";
 import Feed from "./components/Feed";
 import ApplicationForm from "./components/ApplicationForm";
+import Header from "./components/Header";
 
 import "./App.css";
 import Axios from "axios";
@@ -19,6 +20,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.setCurrentUser = this.setCurrentUser.bind(this);
+    this.changeSearchingState = this.changeSearchingState.bind(this);
     if (localStorage.jwtTokenTeams) {
       // Set auth token header auth
       const token = JSON.parse(localStorage.jwtTokenTeams);
@@ -44,11 +46,18 @@ class App extends React.Component {
   state = {
     user: {},
     isAuthenticated: false,
-    errors: []
+    errors: [],
+    isSearching: false
   };
 
   setCurrentUser(user) {
     this.setState({ user });
+  }
+
+  changeSearchingState() {
+    const currentState = this.state.isSearching;
+    console.log("Clicked! the current state on app is!", currentState);
+    this.setState({ isSearching: !currentState });
   }
 
   render() {
@@ -58,18 +67,19 @@ class App extends React.Component {
           {/* Header row */}
           <Grid.Row centered>
             <Grid.Column>
-              {<p>Header</p> /* TODO: Add Header component here */}
+              <Header />
             </Grid.Column>
           </Grid.Row>
+
           <Switch>
             <Route path="/" exact>
               {/* Kontentti row */}
               <Grid.Row>
                 <Grid.Column width={7}>
-                  <ApplicationForm />
+                  <ApplicationForm clicked={this.changeSearchingState} />
                 </Grid.Column>
                 <Grid.Column width={9}>
-                  <Feed></Feed>
+                  <Feed isSearching={this.state.isSearching}></Feed>
                 </Grid.Column>
               </Grid.Row>
             </Route>
