@@ -47,15 +47,12 @@ export default class Feed extends React.Component {
       }
     ];
     const feeditems = items.map(item => (
-      <div className="centered">
-        <FeedItem
-          key={item._id}
-          description={item.description}
-          games={item.games}
-          username={item.username}
-        ></FeedItem>
-        <div></div> {/* Makes little space between FeedItems */}
-      </div>
+      <FeedItem
+        key={item._id}
+        description={item.description}
+        games={item.games}
+        username={item.username}
+      />
     ));
     return (
       this.props.isSearching && (
