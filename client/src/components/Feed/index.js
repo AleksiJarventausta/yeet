@@ -61,7 +61,6 @@ export default class Feed extends React.Component {
         />
       ));
     }
-    console.log("this.props.items:", this.props.items);
     return (
       this.props.isSearching && (
         <div>
