@@ -7,26 +7,26 @@ export default function FeedItem(props) {
   });
 
   return (
-    <div class="ui card">
-      <div class="content">
-        <div class="header">{gameItems}</div>
+    <div className="ui card">
+      <div className="content">
+        <div className="header">{gameItems}</div>
 
-        <div class="description">{props.description}</div>
+        <div className="description">{props.description}</div>
       </div>
 
-      <div class="extra content">
+      <div className="extra content">
         <Grid>
           <Grid.Column width={6}>
-            <i class="user icon" />
+            <i className="user icon" />
             {props.username}
           </Grid.Column>
           <Grid.Column width={10} textAlign="right">
             {/* Nimi vasemmalle, Buttonit oikealle */}
-            <button class="ui positive basic button">
+            <button className="ui positive basic button">
               <i class="icon thumbs up" />
             </button>
-            <button class="ui negative basic button">
-              <i class="icon thumbs down" />
+            <button className="ui negative basic button">
+              <i className="icon thumbs down" />
             </button>
           </Grid.Column>
         </Grid>

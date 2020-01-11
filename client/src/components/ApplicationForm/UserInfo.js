@@ -11,9 +11,28 @@ export default class UserInfo extends React.Component {
 
   render() {
     return (
+      <Form>
+        <Form.Field>
+          <label>Name:</label>
+          <input placeholder="username/nickname" />
+        </Form.Field>
+        <Form.Field>
+          <label>Discord:</label>
+          <input placeholder="eg. testUser#1234" />
+        </Form.Field>
+        <Form.Field>
+          <label>Additional contact information:</label>
+          <input placeholder="eg. MTGA testPlayer#1234" />
+        </Form.Field>
+      </Form>
+    );
+  }
+}
+
+/* 
+  render() {
+    return (
       <div>
-        {/* this.state.isAutist && <p>juttui</p>*/}
-        {/*TODO: Tee kentistä koko alueen levyiset*/}
         <span>Name: </span>
         <Form>
           <Input
@@ -51,3 +70,5 @@ export default class UserInfo extends React.Component {
     );
   }
 }
+
+*/

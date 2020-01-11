@@ -62,7 +62,7 @@ class App extends React.Component {
               <Header />
             </Grid.Column>
           </Grid.Row>
-          <Divider />
+
           <Switch>
             <Route path="/" exact>
               {/* Kontentti row */}

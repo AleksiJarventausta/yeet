@@ -2,6 +2,8 @@ import React from "react";
 import FeedItem from "./FeedItem";
 import axios from "axios";
 
+import { Header, Grid, Divider, Label } from "semantic-ui-react";
+
 export default class Feed extends React.Component {
   state = {
     items: []
@@ -31,14 +33,14 @@ export default class Feed extends React.Component {
         games: ["LoL", "Wow", "CS"]
       },
       {
-        _id: "0123",
+        _id: "2223",
         description: "I am an another gamer",
         username: "Autism",
         games: ["Wow", "CS"]
       }
     ];
     const feeditems = items.map(item => (
-      <div class="centered">
+      <div className="centered">
         <FeedItem
           key={item._id}
           description={item.description}
@@ -50,7 +52,7 @@ export default class Feed extends React.Component {
     ));
     return (
       <div>
-        <h2>Found gamers:</h2>
+        <Header as="h2">Found gamers:</Header>
         {feeditems}
       </div>
     );
