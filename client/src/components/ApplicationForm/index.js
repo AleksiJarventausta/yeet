@@ -25,18 +25,21 @@ export default class ApplicationForm extends React.Component {
   render() {
     return (
       <div>
+        <h2>Your application form</h2>
         <UserInfo></UserInfo>
         <DescriptionBox />
         <span>game search things</span>
         <br />
-        <Button
-          onClick={() => this.whenClicked()}
-          color={this.state.color}
-          class="ui icon right labeled button"
-        >
-          {this.state.text}
-          <i aria-hidden="true" class="right arrow icon"></i>
-        </Button>
+        <div class="centered">
+          <Button
+            onClick={() => this.whenClicked()}
+            color={this.state.color}
+            class="ui icon right labeled button"
+          >
+            {this.state.text}
+            <i aria-hidden="true" class="right arrow icon"></i>
+          </Button>
+        </div>
       </div>
     );
   }

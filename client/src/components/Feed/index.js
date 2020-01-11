@@ -38,7 +38,7 @@ export default class Feed extends React.Component {
       }
     ];
     const feeditems = items.map(item => (
-      <div>
+      <div class="centered">
         <FeedItem
           key={item._id}
           description={item.description}
@@ -48,6 +48,11 @@ export default class Feed extends React.Component {
         <div></div> {/* Makes little space between FeedItems */}
       </div>
     ));
-    return <div>{feeditems}</div>;
+    return (
+      <div>
+        <h2>Found gamers:</h2>
+        {feeditems}
+      </div>
+    );
   }
 }
