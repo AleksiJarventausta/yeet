@@ -20,7 +20,7 @@ export default class ApplicationForm extends React.Component {
       active: true
     };
     axios
-      .post("/match/search", data)
+      .post("/post/search", data)
       .then(res => console.log("Uusi hakemus tehty", res))
       .catch(err => console.log(err));
   }
