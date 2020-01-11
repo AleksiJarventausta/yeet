@@ -3,6 +3,7 @@ import DescriptionBox from "./DescriptionBox";
 import UserInfo from "./UserInfo";
 import { Button, Icon, Message, Header } from "semantic-ui-react";
 import { green, red } from "@material-ui/core/colors";
+import axios from "axios";
 
 // TODO: Laita tämä käyttämään App.js:n tilaa isSearching eikä omaa paskakikkaretta
 
@@ -13,6 +14,17 @@ export default class ApplicationForm extends React.Component {
     text: "Start searching"
   };
 
+  sendNewPost() {
+    const data = {
+      description: "apua", // TODO: hanki tähän kaikki tarvittavat tiedot
+      active: true
+    };
+    axios
+      .post("/match/search", data)
+      .then(res => console.log("Uusi hakemus tehty", res))
+      .catch(err => console.log(err));
+  }
+
   whenClicked() {
     this.props.clicked();
     const current = this.state.isSearching;
@@ -21,6 +33,7 @@ export default class ApplicationForm extends React.Component {
         color: "red",
         text: "Stop searching"
       });
+      this.sendNewPost();
     } else {
       this.setState({
         color: "green",
