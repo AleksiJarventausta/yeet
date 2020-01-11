@@ -1,9 +1,24 @@
 import React from "react";
 import { Grid, Divider, Label, Card, Icon, Button } from "semantic-ui-react";
+import axios from "axios";
 
 export default class FeedItem extends React.Component {
   liked() {
-    const id = this.props.key;
+    const id = this.props.id;
+    console.log("Liked", id);
+    const data = {
+      _id: id,
+      like: true
+    };
+    axios
+      .post("/match/like", data)
+      .then(res => console.log("aaa", res))
+      .catch(err => console.log(err));
+  }
+
+  notLiked() {
+    const id = this.props.id;
+    console.log("Not liked", id);
   }
 
   render() {
@@ -22,15 +37,15 @@ export default class FeedItem extends React.Component {
         </Card.Content>
         <Card.Content>
           <Grid>
-            <Grid.Column width={6}>
+            <Grid.Column width={7}>
               <i className="user icon" />
               {this.props.username}
             </Grid.Column>
-            <Grid.Column width={10} textAlign="right">
-              <Button>
+            <Grid.Column width={9} textAlign="right">
+              <Button onClick={() => this.liked()}>
                 <Icon name="thumbs up"></Icon>
               </Button>
-              <Button>
+              <Button onClick={() => this.notLiked()}>
                 <Icon name="thumbs down"></Icon>
               </Button>
             </Grid.Column>

@@ -55,6 +55,7 @@ export default class Feed extends React.Component {
       feeditems = items.map(item => (
         <FeedItem
           key={item._id}
+          id={item._id}
           description={item.description}
           games={["testGame", "testGame2"]}
           username={item.poster.username}
