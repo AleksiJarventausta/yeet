@@ -13,6 +13,8 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var userRoute = require('./routes/users');
 var matchRoute = require('./routes/matchmaking');
+var gameRoute = require('./routes/games');
+var postRoute = require('./routes/posts');
 var cors = require('cors');
 var app = express();
 app.use(cors());
@@ -22,7 +24,6 @@ var mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
 
 // For local dev
 // var mongoURL = 'mongodb://localhost:27017/demodb';
-
 
 if (mongoURL == null) {
   var mongoHost, mongoPort, mongoDatabase, mongoPassword, mongoUser;
@@ -68,7 +69,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 // view engine setup
 
-
 require("./config/passport")(passport);
 
 app.use(logger('dev'));
@@ -80,6 +80,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user', userRoute);
 app.use('/match', matchRoute);
+app.use('/post', postRoute)
+app.use('/games', gameRoute);
+
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.resolve(__dirname, '..', 'client', 'build')));
@@ -103,6 +106,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({email: 'aaaaa'});
 });
-
 
 module.exports = app;

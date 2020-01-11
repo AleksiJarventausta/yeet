@@ -1,14 +1,13 @@
 const router = require("express").Router();
 const passport = require("passport");
 const mongoose = require("mongoose");
-const User = require("../models/User");
 const Post = require("../models/Post");
 
 router.get(
   "/matches",
   passport.authenticate("jwt", { session: false }),
   function(req, res) {
-    Post.find({ creator: { $ne: req.user._id } })
+    Post.find({ poster: { $ne: req.user._id } })
       .select("-liked -unliked  -__proto__ -__v")
       .populate("poster", "username discord")
       .exec(function(err, posts) {
@@ -27,6 +26,7 @@ router.post(
       if (post) {
         post.active = req.body.active;
         post.description = req.body.description;
+
         post.save(null, function(err, post) {
           if (err) return res.status(400).json({ error: "failed" });
           res.status(200).send("update ok");
@@ -40,7 +40,6 @@ router.post(
         });
         newPost.save(null, function(err, post) {
           if (err) return res.status(400).json({ error: "failed" });
-
           res.status(200).send("new post ok");
         });
       }
