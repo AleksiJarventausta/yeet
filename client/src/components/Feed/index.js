@@ -51,10 +51,12 @@ export default class Feed extends React.Component {
       </div>
     ));
     return (
-      <div>
-        <Header as="h2">Found gamers:</Header>
-        {feeditems}
-      </div>
+      this.props.isSearching && (
+        <div>
+          <Header as="h2">Found gamers:</Header>
+          {feeditems}
+        </div>
+      )
     );
   }
 }

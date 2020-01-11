@@ -4,6 +4,8 @@ import UserInfo from "./UserInfo";
 import { Button, Icon, Message, Header } from "semantic-ui-react";
 import { green, red } from "@material-ui/core/colors";
 
+// TODO: Laita tämä käyttämään App.js:n tilaa isSearching eikä omaa paskakikkaretta
+
 export default class ApplicationForm extends React.Component {
   state = {
     isSearching: false,
@@ -12,6 +14,7 @@ export default class ApplicationForm extends React.Component {
   };
 
   whenClicked() {
+    this.props.clicked();
     const current = this.state.isSearching;
     if (!this.state.isSearching) {
       this.setState({
