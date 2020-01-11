@@ -1,22 +1,31 @@
 import React from "react";
 import DescriptionBox from "./DescriptionBox";
 import UserInfo from "./UserInfo";
-import { Button } from "semantic-ui-react";
+import { Button, Icon } from "semantic-ui-react";
 import { green, red } from "@material-ui/core/colors";
 
 export default class ApplicationForm extends React.Component {
   state = {
     isSearching: false,
     color: "green",
-    text: "Start searching"
+    text: "Start searching",
+    icon: "right arrow icon"
   };
 
   whenClicked() {
     const current = this.state.isSearching;
     if (!this.state.isSearching) {
-      this.setState({ color: "red", text: "Stop searching" });
+      this.setState({
+        color: "red",
+        text: "Stop searching",
+        icon: "left arrof icon"
+      });
     } else {
-      this.setState({ color: "green", text: "Start searching" });
+      this.setState({
+        color: "green",
+        text: "Start searching",
+        icon: "right arrow icon"
+      });
     }
     this.setState({ isSearching: !current });
     console.log("Clicked!");
@@ -31,13 +40,10 @@ export default class ApplicationForm extends React.Component {
         <span>game search things</span>
         <br />
         <div class="centered">
-          <Button
-            onClick={() => this.whenClicked()}
-            color={this.state.color}
-            class="ui icon right labeled button"
-          >
+          <Button onClick={() => this.whenClicked()} color={this.state.color}>
+            {this.state.isSearching && <Icon name="pause" />}
             {this.state.text}
-            <i aria-hidden="true" class="right arrow icon"></i>
+            {!this.state.isSearching && <Icon name="right arrow icon" />}
           </Button>
         </div>
       </div>

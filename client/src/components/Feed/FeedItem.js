@@ -1,15 +1,15 @@
 import React from "react";
-import { Grid, Divider } from "semantic-ui-react";
+import { Grid, Divider, Label } from "semantic-ui-react";
 
 export default function FeedItem(props) {
   const gameItems = props.games.map(game => {
-    return <span style={{ color: "black" }}>{game + " "}</span>;
+    return <Label> {game + " "}</Label>;
   });
 
   return (
     <div class="ui card">
       <div class="content">
-        <div class="header">Games: {gameItems}</div>
+        <div class="header">{gameItems}</div>
 
         <div class="description">{props.description}</div>
       </div>
