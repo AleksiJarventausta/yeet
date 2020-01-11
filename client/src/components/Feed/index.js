@@ -30,7 +30,14 @@ export default class Feed extends React.Component {
         _id: "0123",
         description: "I am a gamer",
         username: "user1",
-        games: ["LoL", "Wow", "CS"]
+        games: [
+          "LoL",
+          "Wow",
+          "CS",
+          "League of Legends",
+          "World of Warcraft",
+          "Counter-Strike: Global offensive"
+        ]
       },
       {
         _id: "2223",

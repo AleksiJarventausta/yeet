@@ -6,6 +6,8 @@ export default function FeedItem(props) {
     return <Label> {game + " "}</Label>;
   });
 
+  // Fix here things (dont use divs and classname, use instead ui-semantic things (<Card>))
+
   return (
     <div className="ui card">
       <div className="content">
