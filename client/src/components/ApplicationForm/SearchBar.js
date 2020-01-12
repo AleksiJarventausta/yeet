@@ -121,13 +121,11 @@ export default class SearchExampleStandard extends Component {
 
   handleSearchChange = (e, { value }) => {
     console.log("handleSearchChange");
-
+    this.getGameList(value);
     this.setState({ isLoading: true, value });
 
     setTimeout(() => {
       if (this.state.value.length < 1) return this.setState(initialState);
-      this.getGameList(value);
-      console.log("state.gameList:", this.state.gamesList);
 
       const re = new RegExp(_.escapeRegExp(this.state.value), "i");
       const isMatch = result => re.test(result.title);
