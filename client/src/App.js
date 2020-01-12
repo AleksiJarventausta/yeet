@@ -12,6 +12,7 @@ import ApplicationForm from "./components/ApplicationForm";
 import Header from "./components/Header";
 import Register from "./components/auth/Register"
 import SignOut from "./components/auth/SignOut"
+import UserInfo from "./components/Settings/userInfo.js"
 
 import "./App.css";
 import Axios from "axios";
@@ -108,6 +109,12 @@ class App extends React.Component {
               <SignOut {...props} setCurrentUser={this.setCurrentUser}/>
               )}
             />
+            <Route
+              path="/userinfo"
+              render={props => (
+                <UserInfo {...props}/>
+                )}
+              />
             <Route>Error: Something went wrong :( Try again later.</Route>
           </Switch>
         </Grid>
