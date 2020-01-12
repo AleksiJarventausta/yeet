@@ -16,6 +16,9 @@ var userSchema = new Schema({
     type: String,
     required: true
   },
+  additional: {
+    type: String,
+  },
   discord: {
     type: String,
     required: true
