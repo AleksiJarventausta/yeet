@@ -10,6 +10,7 @@ import Login from "./components/auth/Login";
 import Feed from "./components/Feed";
 import ApplicationForm from "./components/ApplicationForm";
 import Header from "./components/Header";
+import Register from "./components/auth/Register"
 
 import "./App.css";
 import Axios from "axios";
@@ -87,6 +88,12 @@ class App extends React.Component {
               path="/login"
               render={props => (
                 <Login {...props} setCurrentUser={this.setCurrentUser} />
+              )}
+            />
+            <Route
+              path="/register"
+              render={props => (
+                <Register {...props}/>
               )}
             />
             <Route>Error: Something went wrong :( Try again later.</Route>
