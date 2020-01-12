@@ -31,10 +31,8 @@ export default class FeedItem extends React.Component {
 
   render() {
     const gameItems = this.props.games.map(game => {
-      return <Label> {game + " "}</Label>;
+      return <Label size="huge"> {game + " "}</Label>;
     });
-
-    // Fix here things (dont use divs and classname, use instead ui-semantic things (<Card>))
 
     return (
       <Card>
@@ -44,21 +42,17 @@ export default class FeedItem extends React.Component {
           <Card.Description>{this.props.description}</Card.Description>
         </Card.Content>
         <Card.Content>
-          <Grid>
-            <Grid.Column width={7}>
-              <Icon name="user"/>
-              {this.props.username}
-            </Grid.Column>
-            <Grid.Column width={9} textAlign="right">
-              <Button color="green" onClick={() => this.liked()}>
-                <Icon name="thumbs up"></Icon>
-              </Button>
-              <Button color="red" onClick={() => this.notLiked()}>
-                <Icon name="thumbs down"></Icon>
-              </Button>
-            </Grid.Column>
-          </Grid>
+          <Icon name="user" />
+          {this.props.username}
         </Card.Content>
+        <Button.Group attached="bottom" size="big">
+          <Button icon="thumbs up" color="green" onClick={() => this.liked()} />
+          <Button
+            icon="thumbs down"
+            color="red"
+            onClick={() => this.notLiked()}
+          />
+        </Button.Group>
       </Card>
     );
   }
