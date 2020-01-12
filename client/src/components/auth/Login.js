@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { Grid } from "@material-ui/core";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuth";
 import jwt_decode from "jwt-decode";
@@ -55,7 +54,6 @@ class Login extends Component {
   render() {
     const { errors } = this.state;
     return (
-        <Grid container justify="center">
           <Message>
           <Form noValidate onSubmit={this.onSubmit}>
             <div className="auth-group">
@@ -99,7 +97,6 @@ class Login extends Component {
           </Form>
           No account? Register <Link to="/register"> here </Link>
         </Message>
-        </Grid>
     );
   }
 }

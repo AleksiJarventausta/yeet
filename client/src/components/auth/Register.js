@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import {  withRouter } from "react-router-dom";
-import { connect } from "react-redux";
 import axios from "axios";
-import { Grid } from "@material-ui/core";
 
 export default class Register extends Component {
     constructor() {
@@ -40,7 +38,6 @@ export default class Register extends Component {
     const {errors} = this.props;
     return (
       <div className="base-wrapper">
-        <Grid container justify="center">
           <form noValidate onSubmit={this.onSubmit}>
 
           <div className="auth-group">
@@ -95,7 +92,6 @@ export default class Register extends Component {
         <div className="bottom-group">
         </div>
           </form>
-      </Grid>
       </div>
 
     );
