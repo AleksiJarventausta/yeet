@@ -62,7 +62,8 @@ export default class HeaderThing extends React.Component {
                       active={this.state.activeItem === 'settings'}
                       onClick={this.handleItemClick}>
               <Dropdown.Menu>
-                <Dropdown.Item icon='globe' text='Placeholder' />
+                <Dropdown.Item icon='user circle' text='User Info'
+                  as={Link} to='/userinfo'/>
               </Dropdown.Menu>
             </Dropdown>
         </Menu.Menu>

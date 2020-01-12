@@ -14,13 +14,65 @@ export default class ApplicationForm extends React.Component {
     info: {
       games: [],
       username: "",
-      disocrd: "",
+      discord: "",
       additional: "",
       description: ""
     },
     color: this.props.styles.positiveColor,
     text: "Start searching"
   };
+
+  getUserInfo() {
+    const items = [];
+    axios
+      .get("/post")
+      .then(res => {
+        const data = res.data;
+        console.log("haettu userinfo data:", data);
+        this.setState({
+          info: {
+            games: data.games,
+            username: "placeholder user",
+            discord: "ph nickname#1234",
+            additional: "ph MTGA username#4321",
+            description: data.description
+          }
+        });
+      })
+      .catch(err => console.log(err));
+  }
+
+  componentDidMount() {
+    // Fetch data from backend
+
+    if (this.state.info.username === "") {
+      this.getUserInfo();
+    }
+
+    /* Test data
+    this.setState({
+      info: {
+        games: ["This", "That"],
+        username: "user",
+        discord: "nickname#1234",
+        additional: "MTGA username#4321",
+        description: "I am a gamer."
+      }
+    }); */
+  }
+
+  updateState(data) {
+    console.log("updated state");
+    this.setState(prevState => ({
+      info: {
+        ...prevState.info,
+        username: data.username,
+        discord: data.discord,
+        additional: data.additional,
+        description: data.description
+      }
+    }));
+  }
 
   gameslistUpdated(updatedList) {
     // Ei niin mitään lupausta että toi staten päivittäminen toimii
@@ -68,11 +120,17 @@ export default class ApplicationForm extends React.Component {
       <div>
         <Header as="h2">Your application form</Header>
         <Message>
-          <UserInfo></UserInfo>
+          <UserInfo
+            updateInfo={this.updateState.bind(this)}
+            info={this.state.info}
+          ></UserInfo>
           <div>
             <br />
           </div>
-          <DescriptionBox />
+          <DescriptionBox
+            updateInfo={this.updateState.bind(this)}
+            info={this.state.info}
+          />
           <br />
           <SearchBar
             games={this.state.info.games}

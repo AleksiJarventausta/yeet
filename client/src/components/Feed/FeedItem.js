@@ -50,10 +50,10 @@ export default class FeedItem extends React.Component {
               {this.props.username}
             </Grid.Column>
             <Grid.Column width={9} textAlign="right">
-              <Button color="red" onClick={() => this.liked()}>
+              <Button color="green" onClick={() => this.liked()}>
                 <Icon name="thumbs up"></Icon>
               </Button>
-              <Button onClick={() => this.notLiked()}>
+              <Button color="red" onClick={() => this.notLiked()}>
                 <Icon name="thumbs down"></Icon>
               </Button>
             </Grid.Column>
