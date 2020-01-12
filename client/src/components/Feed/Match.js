@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Divider, Label } from "semantic-ui-react";
+import { Grid, Divider, Label, Card, Header, Icon, Button, Container } from "semantic-ui-react";
 
 export default class Match extends React.Component {
   state = {
@@ -12,31 +12,28 @@ export default class Match extends React.Component {
 
   render() {
   return (
-    <div className={this.className}>
-      <div className="content">
-        <i className="user icon" />
-        {this.props.username}
-        <br />
-        <br />
+    <Card fluid>
+      <Card.Content>
+        <Header size="medium">
+          <Icon name="user"/>
+          <Header.Content>{this.props.username}</Header.Content>
+        </Header>
         You share interest in these games:
-        <div className="header">{this.gameItems}</div>
-        <br />
-        <div className="description">{this.props.description}</div>
-        <br />
-      </div>
+        <Container>{this.gameItems}</Container>
+        <Card.Description>{this.props.description}</Card.Description>
+      </Card.Content>
 
-      <div className="extra content">
+      <Card.Content extra>
 
           {/* Nimi vasemmalle, Buttonit oikealle */}
-          <button
-            className="ui positive basic button">
+          <Button positive>
             Accept
-          </button>
-          <button className="ui negative basic button">
+          </Button>
+          <Button negative>
             Decline
-          </button>
-      </div>
-    </div>
+          </Button>
+      </Card.Content>
+    </Card>
   );
 }
 }

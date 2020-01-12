@@ -1,5 +1,6 @@
 import React from "react";
 import FeedItem from "./FeedItem";
+import Match from "./Match";
 import axios from "axios";
 
 import { Header, Grid, Divider, Label } from "semantic-ui-react";
@@ -66,6 +67,12 @@ export default class Feed extends React.Component {
       this.props.isSearching && (
         <div>
           <Header as="h2">Found gamers:</Header>
+          {/* Placeholder Match objekti */}
+          <Match
+          description={"UwU OwO"}
+          games={["testGame", "testGame2"]}
+          username={"HentaiMaster9000"}
+          />
           {feeditems}
         </div>
       )
