@@ -3,7 +3,7 @@ import DescriptionBox from "./DescriptionBox";
 import UserInfo from "./UserInfo";
 import SearchBar from "./SearchBar";
 import Games from "./Games";
-import { Button, Icon, Message, Header } from "semantic-ui-react";
+import { Button, Icon, Header, Segment } from "semantic-ui-react";
 import axios from "axios";
 
 // TODO: Laita tämä käyttämään App.js:n tilaa isSearching eikä omaa paskakikkaretta
@@ -119,45 +119,45 @@ export default class ApplicationForm extends React.Component {
     return (
       <div>
         <Header as="h2">Your application form</Header>
-        <Message>
-          <UserInfo
-            updateInfo={this.updateState.bind(this)}
-            info={this.state.info}
-            isSearching={this.state.isSearching}
-          ></UserInfo>
-          <div>
+        <Segment.Group>
+          <Segment>
+            <UserInfo
+              updateInfo={this.updateState.bind(this)}
+              info={this.state.info}
+              isSearching={this.state.isSearching}
+            />
+          </Segment>
+          <Segment>
+            <DescriptionBox
+              updateInfo={this.updateState.bind(this)}
+              info={this.state.info}
+              isSearching={this.state.isSearching}
+            />
+          </Segment>
+          <Segment>
+            <SearchBar
+              isSearching={this.state.isSearching}
+              games={this.state.info.games}
+              listUpdated={this.gameslistUpdated.bind(this)}
+            />
             <br />
-          </div>
-          <DescriptionBox
-            updateInfo={this.updateState.bind(this)}
-            info={this.state.info}
-            isSearching={this.state.isSearching}
-          />
-          <br />
-          <SearchBar
-            isSearching={this.state.isSearching}
-            games={this.state.info.games}
-            listUpdated={this.gameslistUpdated.bind(this)}
-          />
-          <br />
-          <Games
-            games={this.state.info.games}
-            listUpdated={this.gameslistUpdated.bind(this)}
-            isSearching={this.state.isSearching}
-          />
-          <br />
-        </Message>
-        <div className="centered">
-          <Button
-            fluid
-            onClick={() => this.whenClicked()}
-            color={this.state.color}
-          >
-            {this.state.isSearching && <Icon name="pause" />}
-            {this.state.text}
-            {!this.state.isSearching && <Icon name="right arrow icon" />}
-          </Button>
-        </div>
+            <Games
+              games={this.state.info.games}
+              listUpdated={this.gameslistUpdated.bind(this)}
+              isSearching={this.state.isSearching}
+            />
+          </Segment>
+        </Segment.Group>
+        <Button
+          fluid
+          size="big"
+          onClick={() => this.whenClicked()}
+          color={this.state.color}
+        >
+          {this.state.isSearching && <Icon name="pause" />}
+          {this.state.text}
+          {!this.state.isSearching && <Icon name="right arrow icon" />}
+        </Button>
       </div>
     );
   }
