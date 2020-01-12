@@ -36,6 +36,23 @@ router.post(
   }
 );
 
+router.get("", passport.authenticate("jwt", { session: false }), function(
+  req,
+  res
+) {
+  Post.findOne({ poster: req.user._id })
+    .select("-liked -unliked -poster -_id")
+    .exec(function(err, post) {
+      if (err)
+        return res.status(400).json({ error: "Failed to get user's post" });
+      if (post) {
+        return res.status(200).json(post);
+      } else {
+        return res.status(400).json({ error: "Failed to get user's post" });
+      }
+    });
+});
+
 router.post(
   "/addgame",
   passport.authenticate("jwt", { session: false }),
@@ -45,7 +62,7 @@ router.post(
         return res.status(400).json({ error: "Failed to add game to list" });
       if (post) {
         if (post.games.includes(req.body._id)) {
-          return res.status(200).json({error: "List already has this game"});
+          return res.status(200).json({ error: "List already has this game" });
         }
         post.games.push(req.body._id);
         post.save(null, function(err, post) {
@@ -67,12 +84,11 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   function(req, res) {
     Post.findOne({ poster: req.user._id }).exec(function(err, post) {
-      if (err)
-        return res.status(400).json({ error: "Failed to delete game" });
+      if (err) return res.status(400).json({ error: "Failed to delete game" });
       if (post) {
         const gameIndex = post.games.indexOf(req.body._id);
         if (gameIndex == -1) {
-          return res.status(200).json({error: "Game wasn't in the list."})
+          return res.status(200).json({ error: "Game wasn't in the list." });
         }
         post.games.splice(gameIndex, 1);
         post.save(null, function(err, post) {
