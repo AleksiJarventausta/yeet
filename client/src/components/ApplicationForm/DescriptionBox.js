@@ -4,6 +4,13 @@ import { TextArea, Button, Grid, Form } from "semantic-ui-react";
 const CHAR_MAX = 255;
 
 export default class CreatePost extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      charsLeft: CHAR_MAX
+    };
+  }
+
   state = {
     charsLeft: CHAR_MAX
   };
@@ -34,7 +41,7 @@ export default class CreatePost extends React.Component {
               }}
             />
             <label>
-              Characters used: {CHAR_MAX - this.state.charsLeft}/{CHAR_MAX}
+              Characters used: {this.props.info.description.length}/{CHAR_MAX}
             </label>
           </Form.Field>
         </Form>
