@@ -5,7 +5,7 @@ import setAuthToken from "../../utils/setAuth";
 import jwt_decode from "jwt-decode";
 
 import {Link} from "react-router-dom";
-import { Button, Message, Form} from "semantic-ui-react";
+import { Button, Message, Form, Grid} from "semantic-ui-react";
 
 
 class Login extends Component {
@@ -47,6 +47,7 @@ class Login extends Component {
         const decoded = jwt_decode(token);
         // Set current user
         this.props.setCurrentUser(decoded);
+        this.props.history.push("/");
       })
       .catch(err => this.setState({ errors: err.response.data }));
   }
@@ -54,6 +55,8 @@ class Login extends Component {
   render() {
     const { errors } = this.state;
     return (
+        <Grid centered>
+          <Grid.Column>
           <Message>
           <Form noValidate onSubmit={this.onSubmit}>
             <div className="auth-group">
@@ -97,6 +100,8 @@ class Login extends Component {
           </Form>
           No account? Register <Link to="/register"> here </Link>
         </Message>
+        </Grid.Column>
+        </Grid>
     );
   }
 }

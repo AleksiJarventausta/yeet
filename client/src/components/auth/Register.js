@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import {  withRouter } from "react-router-dom";
 import axios from "axios";
+import { Button, Message, Form, Grid} from "semantic-ui-react";
 
-export default class Register extends Component {
+class Register extends Component {
     constructor() {
         super();
         this.state = {
-            name: "",
-            email:"",
+            username: "",
+            discord:"",
             password: "",
             errors:{}
         };
@@ -21,77 +22,83 @@ export default class Register extends Component {
     e.preventDefault();
 
     const newUser = {
-      name: this.state.name,
-      email: this.state.email,
+      username: this.state.username,
+      discord: this.state.discord,
       password: this.state.password
     };
     axios
         .post("/user/register", newUser)
-        //.then(res => history.push("/"))
+        .then(res => this.props.history.push("/"))
         .catch(err =>
         console.log(err));
   };
 
 
   render() {
-    //const {errors} = this.state;
     const {errors} = this.props;
     return (
       <div className="base-wrapper">
-          <form noValidate onSubmit={this.onSubmit}>
-
+        <Grid centered>
+          <Grid.Column>
+            <Message>
+          <Form noValidate onSubmit={this.onSubmit}>
           <div className="auth-group">
+            <Form.Field>
           <label>
             <div className="auth-label">Name</div>
             <input
               onChange={this.onChange}
-              value={this.state.name}
-              error={errors.name}
-              id="name"
+              value={this.state.username}
+              id="username"
               type="text"
               className="auth-input"
+              placeholder="username"
             />
-            <div className="auth-error">{errors.name}</div>
-          </label>
+        </label>
+        </Form.Field>
         </div>
 
         <div className="auth-group">
+          <Form.Field>
           <label>
-            <div className="auth-label">Email address</div>
+            <div className="auth-label">Discord</div>
             <input
               onChange={this.onChange}
-              value={this.state.email}
-              error={errors.email}
-              id="email"
-              type="email"
+              value={this.state.discord}
+              id="discord"
+              type="text"
               className="auth-input"
+              placeholder="user#0000"
             />
-            <div className="auth-error">{errors.email}</div>
-          </label>
+        </label>
+        </Form.Field>
         </div>
 
         <div className="auth-group">
+          <Form.Field>
           <label>
-            <div className="auth-label">Password</div>
+            <div className="auth-label">Password (min 8 characters)</div>
             <input
               onChange={this.onChange}
-              error={errors.password}
               id="password"
               type="password"
               className="auth-input"
             />
-            <div className="auth-error">{errors.password}</div>
-          </label>
+        </label>
+        </Form.Field>
         </div>
 
         <div>
-          <button type="submit" className="auth-button">
+          <Button type="submit" className="auth-button">
             Sign up
-          </button>
+          </Button>
         </div>
         <div className="bottom-group">
         </div>
-          </form>
+      </Form>
+      </Message>
+      </Grid.Column>
+      </Grid>
       </div>
 
     );
@@ -104,9 +111,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-/*
-export default connect(
-  mapStateToProps,
-  {registerUser}
-)(withRouter(Register));
-*/
+export default withRouter(Register)
