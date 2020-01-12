@@ -10,7 +10,7 @@ import axios from "axios";
 export default class ApplicationForm extends React.Component {
   state = {
     isSearching: false,
-    color: "green",
+    color: this.props.styles.positiveColor,
     text: "Start searching"
   };
 
@@ -30,13 +30,13 @@ export default class ApplicationForm extends React.Component {
     const current = this.state.isSearching;
     if (!this.state.isSearching) {
       this.setState({
-        color: "red",
+        color: this.props.styles.negativeColor,
         text: "Stop searching"
       });
       this.sendNewPost(!current);
     } else {
       this.setState({
-        color: "green",
+        color: this.props.styles.positiveColor,
         text: "Start searching"
       });
       this.sendNewPost(!current);

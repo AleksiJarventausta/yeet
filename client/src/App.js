@@ -22,6 +22,7 @@ class App extends React.Component {
     super(props);
     this.setCurrentUser = this.setCurrentUser.bind(this);
     this.changeSearchingState = this.changeSearchingState.bind(this);
+
     if (localStorage.jwtTokenTeams) {
       // Set auth token header auth
       const token = JSON.parse(localStorage.jwtTokenTeams);
@@ -48,8 +49,13 @@ class App extends React.Component {
     user: {},
     isAuthenticated: false,
     errors: [],
-    isSearching: false
+    isSearching: false,
+    styles: {
+      positiveColor: "green",
+      negativeColor: "red"
+    }
   };
+
 
   setCurrentUser(user) {
     this.setState({ user });
@@ -68,7 +74,7 @@ class App extends React.Component {
           {/* Header row */}
           <Grid.Row centered>
             <Grid.Column>
-              <Header />
+              <Header/>
             </Grid.Column>
           </Grid.Row>
 
@@ -77,7 +83,8 @@ class App extends React.Component {
               {/* Kontentti row */}
               <Grid.Row>
                 <Grid.Column width={7}>
-                  <ApplicationForm clicked={this.changeSearchingState} />
+                  <ApplicationForm styles ={this.state.styles}
+                    clicked={this.changeSearchingState} />
                 </Grid.Column>
                 <Grid.Column width={9}>
                   <Feed isSearching={this.state.isSearching}></Feed>
