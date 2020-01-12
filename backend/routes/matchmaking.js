@@ -17,26 +17,25 @@ router.get(
   }
 );
 
-
-
 router.post("/like", passport.authenticate("jwt", { session: false }), function(
   req,
   res
 ) {
-  let userId = req.body._id;
-  Post.findOne({poster: userId}, function(err, otherPost) {
-    if (req.body.like) {
-      otherPost.liked.push(req.user._id)
-    } else {
-      otherPost.unliked.push(req.user._id)
-    }
-    otherPost.save();
-    Post.findOne({poster: req.user._id}, function (err, userPost) {
-      if(userPost.liked.includes(userId) && req.body.like) {
-        console.log("match made in heaven.");
+  let userId = mongoose.Types.ObjectId(req.body._id);
+  Post.findOne({ _id: userId })
+    .exec(function(err, otherPost) {
+      if (req.body.like) {
+        otherPost.liked.push(req.user._id);
+      } else {
+        otherPost.unliked.push(req.user._id);
       }
-    })
-  })
+      otherPost.save();
+      Post.findOne({ poster: req.user._id }, function(err, userPost) {
+        if (userPost.liked.includes(userId) && req.body.like) {
+          console.log("match made in heaven.");
+        }
+      });
+    });
   res.send("ok");
 });
 

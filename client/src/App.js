@@ -11,6 +11,7 @@ import Feed from "./components/Feed";
 import ApplicationForm from "./components/ApplicationForm";
 import Header from "./components/Header";
 import Register from "./components/auth/Register"
+import SignOut from "./components/auth/SignOut"
 
 import "./App.css";
 import Axios from "axios";
@@ -47,7 +48,6 @@ class App extends React.Component {
   }
   state = {
     user: {},
-    isAuthenticated: false,
     errors: [],
     isSearching: false,
     styles: {
@@ -55,7 +55,6 @@ class App extends React.Component {
       negativeColor: "red"
     }
   };
-
 
   setCurrentUser(user) {
     this.setState({ user });
@@ -74,7 +73,7 @@ class App extends React.Component {
           {/* Header row */}
           <Grid.Row centered>
             <Grid.Column>
-              <Header/>
+              <Header user={this.state.user}/>
             </Grid.Column>
           </Grid.Row>
 
@@ -101,6 +100,12 @@ class App extends React.Component {
               path="/register"
               render={props => (
                 <Register {...props}/>
+              )}
+            />
+          <Route
+            path="/signout"
+            render={props => (
+              <SignOut {...props} setCurrentUser={this.setCurrentUser}/>
               )}
             />
             <Route>Error: Something went wrong :( Try again later.</Route>

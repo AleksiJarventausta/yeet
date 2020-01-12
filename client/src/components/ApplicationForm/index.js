@@ -4,7 +4,6 @@ import UserInfo from "./UserInfo";
 import SearchBar from "./SearchBar";
 import Games from "./Games";
 import { Button, Icon, Message, Header } from "semantic-ui-react";
-import { green, red } from "@material-ui/core/colors";
 import axios from "axios";
 
 // TODO: Laita tämä käyttämään App.js:n tilaa isSearching eikä omaa paskakikkaretta
