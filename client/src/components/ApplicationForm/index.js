@@ -1,6 +1,8 @@
 import React from "react";
 import DescriptionBox from "./DescriptionBox";
 import UserInfo from "./UserInfo";
+import SearchBar from "./SearchBar";
+import Games from "./Games";
 import { Button, Icon, Message, Header } from "semantic-ui-react";
 import { green, red } from "@material-ui/core/colors";
 import axios from "axios";
@@ -11,8 +13,25 @@ export default class ApplicationForm extends React.Component {
   state = {
     isSearching: false,
     color: "green",
-    text: "Start searching"
+    text: "Start searching",
+    info: {
+      games: ["TestGame1", "TestGame2"],
+      username: "",
+      disocrd: "",
+      additional: "",
+      description: ""
+    }
   };
+
+  gameslistUpdated(updatedList) {
+    // Ei niin mitään lupausta että toi staten päivittäminen toimii
+    this.setState(prevState => ({
+      info: {
+        ...prevState.info,
+        games: updatedList
+      }
+    }));
+  }
 
   sendNewPost(searchState) {
     const data = {
@@ -55,7 +74,16 @@ export default class ApplicationForm extends React.Component {
             <br />
           </div>
           <DescriptionBox />
-          <span>game search things</span>
+          <br />
+          <SearchBar
+            games={this.state.info.games}
+            listUpdated={this.gameslistUpdated.bind(this)}
+          />
+          <br />
+          <Games
+            games={this.state.info.games}
+            listUpdated={this.gameslistUpdated.bind(this)}
+          />
           <br />
         </Message>
         <div className="centered">
