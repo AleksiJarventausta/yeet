@@ -123,6 +123,7 @@ export default class ApplicationForm extends React.Component {
           <UserInfo
             updateInfo={this.updateState.bind(this)}
             info={this.state.info}
+            isSearching={this.state.isSearching}
           ></UserInfo>
           <div>
             <br />
@@ -130,9 +131,11 @@ export default class ApplicationForm extends React.Component {
           <DescriptionBox
             updateInfo={this.updateState.bind(this)}
             info={this.state.info}
+            isSearching={this.state.isSearching}
           />
           <br />
           <SearchBar
+            isSearching={this.state.isSearching}
             games={this.state.info.games}
             listUpdated={this.gameslistUpdated.bind(this)}
           />
@@ -140,6 +143,7 @@ export default class ApplicationForm extends React.Component {
           <Games
             games={this.state.info.games}
             listUpdated={this.gameslistUpdated.bind(this)}
+            isSearching={this.state.isSearching}
           />
           <br />
         </Message>
