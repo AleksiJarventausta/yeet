@@ -1,7 +1,13 @@
 import React from "react";
-import { Grid, Divider, Label, Menu, Header } from "semantic-ui-react";
+import {Label, Menu, Header, Dropdown} from "semantic-ui-react";
 
 export default class HeaderThing extends React.Component {
+  state = {
+    activeItem: ""
+  }
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
   render() {
     return (
       <Menu>
@@ -9,10 +15,28 @@ export default class HeaderThing extends React.Component {
           <Header as="h1">MatchGamer</Header>
         </Menu.Item>
 
+
+
         <Menu.Menu position="right">
-          <Menu.Item name="Home">Home</Menu.Item>
-          <Menu.Item name="Settings">Settings</Menu.Item>
-          <Menu.Item name="Log in">Log in</Menu.Item>
+          <Menu.Item name="home"
+                    active={this.state.activeItem === 'home'}
+                    onClick={this.handleItemClick}>
+                    Home
+          </Menu.Item>
+
+            <Dropdown item text='Settings'
+                      name='settings'
+                      active={this.state.activeItem === 'settings'}
+                      onClick={this.handleItemClick}>
+              <Dropdown.Menu>
+                <Dropdown.Item icon='edit' text='Place' />
+                <Dropdown.Item icon='globe' text='Holder' />
+              </Dropdown.Menu>
+            </Dropdown>
+          <Menu.Item name="logIn"
+            active={this.state.activeItem === 'logIn'}
+            onClick={this.handleItemClick}>
+            >Log in</Menu.Item>
         </Menu.Menu>
       </Menu>
     );
