@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import {  withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import axios from "axios";
 import { Grid } from "@material-ui/core";
 
-class Register extends Component {
+export default class Register extends Component {
     constructor() {
         super();
         this.state = {
@@ -27,10 +28,10 @@ class Register extends Component {
       password: this.state.password
     };
     axios
-        .post("/user/register", userData)
-        .then(res => history.push("/"))
-        .catch(err => 
-        console.log(err));   
+        .post("/user/register", newUser)
+        //.then(res => history.push("/"))
+        .catch(err =>
+        console.log(err));
   };
 
 
@@ -107,7 +108,9 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
+/*
 export default connect(
   mapStateToProps,
-  { registerUser }
+  {registerUser}
 )(withRouter(Register));
+*/
