@@ -14,7 +14,6 @@ export default class UserInfo extends React.Component {
             onChange={(event, data) => {
               //this.setState({ username: data.value });
               const newData = {
-                ...this.state,
                 username: data.value
               };
               this.props.updateInfo(newData);
@@ -29,7 +28,6 @@ export default class UserInfo extends React.Component {
             onChange={(event, data) => {
               //this.setState({ username: data.value });
               const newData = {
-                ...this.state,
                 discord: data.value
               };
               this.props.updateInfo(newData);

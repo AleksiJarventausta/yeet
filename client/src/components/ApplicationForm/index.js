@@ -14,7 +14,7 @@ export default class ApplicationForm extends React.Component {
     isSearching: false,
     info: {
       games: [],
-      username: "aaa",
+      username: "",
       discord: "",
       additional: "",
       description: ""
@@ -23,8 +23,34 @@ export default class ApplicationForm extends React.Component {
     text: "Start searching"
   };
 
+  getUserInfo() {
+    const items = [];
+    axios
+      .get("/post")
+      .then(res => {
+        const data = res.data;
+        console.log("haettu userinfo data:", data);
+        this.setState({
+          info: {
+            games: data.games,
+            username: "placeholder user",
+            discord: "ph nickname#1234",
+            additional: "ph MTGA username#4321",
+            description: data.description
+          }
+        });
+      })
+      .catch(err => console.log(err));
+  }
+
   componentDidMount() {
     // Fetch data from backend
+
+    if (this.state.info.username === "") {
+      this.getUserInfo();
+    }
+
+    /* Test data
     this.setState({
       info: {
         games: ["This", "That"],
@@ -33,7 +59,7 @@ export default class ApplicationForm extends React.Component {
         additional: "MTGA username#4321",
         description: "I am a gamer."
       }
-    });
+    }); */
   }
 
   updateState(data) {
@@ -43,7 +69,8 @@ export default class ApplicationForm extends React.Component {
         ...prevState.info,
         username: data.username,
         discord: data.discord,
-        additional: data.additional
+        additional: data.additional,
+        description: data.description
       }
     }));
   }
@@ -101,7 +128,10 @@ export default class ApplicationForm extends React.Component {
           <div>
             <br />
           </div>
-          <DescriptionBox />
+          <DescriptionBox
+            updateInfo={this.updateState.bind(this)}
+            info={this.state.info}
+          />
           <br />
           <SearchBar
             games={this.state.info.games}
