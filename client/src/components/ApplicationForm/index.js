@@ -148,7 +148,11 @@ export default class ApplicationForm extends React.Component {
           <br />
         </Message>
         <div className="centered">
-          <Button onClick={() => this.whenClicked()} color={this.state.color}>
+          <Button
+            fluid
+            onClick={() => this.whenClicked()}
+            color={this.state.color}
+          >
             {this.state.isSearching && <Icon name="pause" />}
             {this.state.text}
             {!this.state.isSearching && <Icon name="right arrow icon" />}
