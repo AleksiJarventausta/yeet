@@ -1,39 +1,34 @@
 import React from "react";
-import { Grid, Divider, Label, Card, Header, Icon, Button, Container } from "semantic-ui-react";
+import { Label, Card, Header, Icon, Button } from "semantic-ui-react";
 
 export default class Match extends React.Component {
   state = {
     matched: false
   };
 
-  gameItems = this.props.games.map(game => {
-    return <Label> {game + " "}</Label>;
-  });
-
   render() {
-  return (
-    <Card fluid>
-      <Card.Content>
-        <Header size="medium">
-          <Icon name="user"/>
-          <Header.Content>{this.props.username}</Header.Content>
-        </Header>
-        You share interest in these games:
-        <Container>{this.gameItems}</Container>
-        <Card.Description>{this.props.description}</Card.Description>
-      </Card.Content>
+    return (
+      <Card fluid>
+        <Card.Content>
+          <Header size="huge">
+            <Icon name="user" />
+            <Header.Content>{this.props.username}</Header.Content>
+          </Header>
+          You share interest in these games:
+          <Label.Group size="big">
+            {this.props.games.map(game => {
+              return <Label> {game}</Label>;
+            })}
+          </Label.Group>
+          <Card.Description>{this.props.description}</Card.Description>
+        </Card.Content>
 
-      <Card.Content extra>
-
+        <Button.Group attached="bottom" size="big">
           {/* Nimi vasemmalle, Buttonit oikealle */}
-          <Button positive>
-            Accept
-          </Button>
-          <Button negative>
-            Decline
-          </Button>
-      </Card.Content>
-    </Card>
-  );
-}
+          <Button positive>Accept</Button>
+          <Button negative>Decline</Button>
+        </Button.Group>
+      </Card>
+    );
+  }
 }
