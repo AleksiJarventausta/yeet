@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {Label, Menu, Header, Dropdown} from "semantic-ui-react";
+import {Button, Menu, Header, Dropdown} from "semantic-ui-react";
 
 
 export default class HeaderThing extends React.Component {
@@ -30,22 +30,18 @@ export default class HeaderThing extends React.Component {
         <Menu.Item>
           <Header as="h1">MatchGamer</Header>
         </Menu.Item>
-
-
-
         <Menu.Menu position="right">
           <Menu.Item name="home"
                     active={this.state.activeItem === 'home'}
-                    onClick={this.handleItemClick}>
-          <Link
-            to='/'>
-            Home</Link>
-
+                    onClick={this.handleItemClick}
+                    as={Link} to='/'>
+              Home
           </Menu.Item>
+
           <Menu.Item name="logIn"
             active={this.state.activeItem === 'logIn'}
-            onClick={this.handleItemClick}>
-            <Link to='/login'> Login </Link>
+            onClick={this.handleItemClick}
+            as={Link} to='/login'>
           </Menu.Item>
             <Dropdown item text='Settings'
                       name='settings'
