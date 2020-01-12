@@ -14,14 +14,14 @@ export default class ApplicationForm extends React.Component {
     text: "Start searching"
   };
 
-  sendNewPost() {
+  sendNewPost(searchState) {
     const data = {
       description: "apua", // TODO: hanki tähän kaikki tarvittavat tiedot
-      active: true
+      active: searchState
     };
     axios
       .post("/post/search", data)
-      .then(res => console.log("Uusi hakemus tehty", res))
+      .then(res => console.log("Uusi hakemus tehty", data, res))
       .catch(err => console.log(err));
   }
 
@@ -33,12 +33,13 @@ export default class ApplicationForm extends React.Component {
         color: "red",
         text: "Stop searching"
       });
-      this.sendNewPost();
+      this.sendNewPost(!current);
     } else {
       this.setState({
         color: "green",
         text: "Start searching"
       });
+      this.sendNewPost(!current);
     }
     this.setState({ isSearching: !current });
     console.log("Clicked!");

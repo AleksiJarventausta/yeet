@@ -12,13 +12,21 @@ export default class FeedItem extends React.Component {
     };
     axios
       .post("/match/like", data)
-      .then(res => console.log("aaa", res))
+      .then(res => console.log("sent liked", res))
       .catch(err => console.log(err));
   }
 
   notLiked() {
     const id = this.props.id;
     console.log("Not liked", id);
+    const data = {
+      _id: id,
+      like: false
+    };
+    axios
+      .post("/match/like", data)
+      .then(res => console.log("sent not liked", res))
+      .catch(err => console.log(err));
   }
 
   render() {
