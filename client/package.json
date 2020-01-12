@@ -24,10 +24,10 @@
     "semantic-ui-react": "^0.88.2"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "craco eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject", 
   },
   "eslintConfig": {
     "extends": "react-app"
