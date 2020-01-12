@@ -54,7 +54,6 @@ class Login extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div className="base-wrapper">
         <Grid container justify="center">
           <Message>
           <Form noValidate onSubmit={this.onSubmit}>
@@ -92,18 +91,16 @@ class Login extends Component {
             </div>
 
             <div>
-              <Button type="submit" className="auth-button">
+              <Button type="submit">
                 Sign In
               </Button>
               <Button >
                 Register
               </Button>
             </div>
-            <div className="bottom-group"></div>
           </Form>
         </Message>
         </Grid>
-      </div>
     );
   }
 }
