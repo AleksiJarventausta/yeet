@@ -14,14 +14,39 @@ export default class ApplicationForm extends React.Component {
     isSearching: false,
     info: {
       games: [],
-      username: "",
-      disocrd: "",
+      username: "aaa",
+      discord: "",
       additional: "",
       description: ""
     },
     color: this.props.styles.positiveColor,
     text: "Start searching"
   };
+
+  componentDidMount() {
+    // Fetch data from backend
+    this.setState({
+      info: {
+        games: ["This", "That"],
+        username: "user",
+        discord: "nickname#1234",
+        additional: "MTGA username#4321",
+        description: "I am a gamer."
+      }
+    });
+  }
+
+  updateState(data) {
+    console.log("updated state");
+    this.setState(prevState => ({
+      info: {
+        ...prevState.info,
+        username: data.username,
+        discord: data.discord,
+        additional: data.additional
+      }
+    }));
+  }
 
   gameslistUpdated(updatedList) {
     // Ei niin mitään lupausta että toi staten päivittäminen toimii
@@ -69,7 +94,10 @@ export default class ApplicationForm extends React.Component {
       <div>
         <Header as="h2">Your application form</Header>
         <Message>
-          <UserInfo></UserInfo>
+          <UserInfo
+            updateInfo={this.updateState.bind(this)}
+            info={this.state.info}
+          ></UserInfo>
           <div>
             <br />
           </div>

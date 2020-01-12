@@ -3,26 +3,55 @@ import React from "react";
 import { TextArea, Button, Grid, Form, Input } from "semantic-ui-react";
 
 export default class UserInfo extends React.Component {
-  state = {
-    username: "",
-    discord: "",
-    additional: ""
-  };
-
   render() {
+    console.log("UserInfoon tulevat tiedot", this.props.info);
+
     return (
       <Form>
         <Form.Field>
           <label>Name:</label>
-          <input placeholder="username/nickname" />
+          <Input
+            onChange={(event, data) => {
+              //this.setState({ username: data.value });
+              const newData = {
+                ...this.state,
+                username: data.value
+              };
+              this.props.updateInfo(newData);
+            }}
+            value={this.props.info.username}
+            placeholder="username/nickname"
+          />
         </Form.Field>
         <Form.Field>
           <label>Discord:</label>
-          <input placeholder="eg. testUser#1234" />
+          <Input
+            onChange={(event, data) => {
+              //this.setState({ username: data.value });
+              const newData = {
+                ...this.state,
+                discord: data.value
+              };
+              this.props.updateInfo(newData);
+            }}
+            value={this.props.info.discord}
+            placeholder="eg. testUser#1234"
+          />
         </Form.Field>
         <Form.Field>
           <label>Additional contact information:</label>
-          <input placeholder="eg. MTGA testPlayer#1234" />
+          <Input
+            onChange={(event, data) => {
+              //this.setState({ username: data.value });
+              const newData = {
+                ...this.state,
+                additional: data.value
+              };
+              this.props.updateInfo(newData);
+            }}
+            value={this.props.info.additional}
+            placeholder="eg. MTGA testPlayer#1234"
+          />
         </Form.Field>
       </Form>
     );
