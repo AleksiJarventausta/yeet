@@ -1,5 +1,7 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import {Label, Menu, Header, Dropdown} from "semantic-ui-react";
+
 
 export default class HeaderThing extends React.Component {
   state = {
@@ -15,8 +17,10 @@ export default class HeaderThing extends React.Component {
 
     if (name === 'home') {
       console.log("Switch to home layout")
+      //this.props.history.push('/')
     } else if (name === 'logIn') {
       console.log("Switch to login layout")
+      //this.props.history.push('/login')
     }
   }
 
@@ -33,12 +37,15 @@ export default class HeaderThing extends React.Component {
           <Menu.Item name="home"
                     active={this.state.activeItem === 'home'}
                     onClick={this.handleItemClick}>
-                    Home
+          <Link
+            to='/'>
+            Home</Link>
+
           </Menu.Item>
           <Menu.Item name="logIn"
             active={this.state.activeItem === 'logIn'}
             onClick={this.handleItemClick}>
-            Log in
+            <Link to='/login'> Login </Link>
           </Menu.Item>
             <Dropdown item text='Settings'
                       name='settings'
