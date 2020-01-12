@@ -4,11 +4,15 @@ import { Grid } from "@material-ui/core";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuth";
 import jwt_decode from "jwt-decode";
+
+import { Button, Message, Form} from "semantic-ui-react";
+
+
 class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: "",
+      username: "",
       password: "",
       errors: {}
     };
@@ -26,7 +30,7 @@ class Login extends Component {
   onSubmit(e) {
     e.preventDefault();
     const newLogin = {
-      username: this.state.email,
+      username: this.state.username,
       password: this.state.password
     };
     axios
@@ -52,43 +56,52 @@ class Login extends Component {
     return (
       <div className="base-wrapper">
         <Grid container justify="center">
-          <form noValidate onSubmit={this.onSubmit}>
+          <Message>
+          <Form noValidate onSubmit={this.onSubmit}>
             <div className="auth-group">
-              <label>
-                <div className="auth-label">Email address</div>
-                <input
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
-                  className="auth-input"
-                />
-                <div className="auth-error">{errors.email}</div>
-              </label>
+              <Form.Field>
+                <label>
+                  <div className="auth-label">Username</div>
+                  <input
+                    onChange={this.onChange}
+                    value={this.state.username}
+                    error={errors.username}
+                    id="username"
+                    type="username"
+                    className="auth-input"
+                  />
+                <div className="auth-error">{errors.username}</div>
+                </label>
+              </Form.Field>
             </div>
 
             <div className="auth-group">
-              <label>
-                <div className="auth-label">Password</div>
-                <input
-                  onChange={this.onChange}
-                  error={errors.password}
-                  id="password"
-                  type="password"
-                  className="auth-input"
-                />
-                <div className="auth-error">{errors.password}</div>
-              </label>
+              <Form.Field>
+                <label>
+                  <div className="auth-label">Password</div>
+                  <input
+                    onChange={this.onChange}
+                    error={errors.password}
+                    id="password"
+                    type="password"
+                    className="auth-input"
+                  />
+                  <div className="auth-error">{errors.password}</div>
+                </label>
+              </Form.Field>
             </div>
 
             <div>
-              <button type="submit" className="auth-button">
+              <Button type="submit" className="auth-button">
                 Sign In
-              </button>
+              </Button>
+              <Button >
+                Register
+              </Button>
             </div>
             <div className="bottom-group"></div>
-          </form>
+          </Form>
+        </Message>
         </Grid>
       </div>
     );
