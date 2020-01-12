@@ -2,6 +2,8 @@ import _ from "lodash";
 import React, { Component } from "react";
 import { Search, Grid, Header, Segment, Form } from "semantic-ui-react";
 
+import axios from "axios";
+
 const initialState = { isLoading: false, results: [], value: "" };
 
 // Testidataa
@@ -74,9 +76,43 @@ const source = [
 
 export default class SearchExampleStandard extends Component {
   state = initialState;
+  /*
+  getGameList(value) {
+    const list = [
+      { title: "LoL" },
+      { title: "WoW" },
+      { title: "Counter-Strike" }
+    ];
+    this.setState({
+      gamesList: list
+    });
+*/
+  /*
+  componentDidMount() {
+    this.getGameList(this.state.value);
+  }
+  */
+
+  getGameList(value) {
+    const address = "/games/search";
+    axios
+      .post(address, { search: value })
+      .then(res => {
+        const data = res.data;
+        console.log("haettu games data:", data);
+        const list = [];
+        data.map(game => {
+          list.push({ title: game.name });
+        });
+        this.setState({
+          results: list
+        });
+      })
+      .catch(err => console.log(err));
+  }
 
   handleResultSelect = (e, { result }) => {
-    console.log("Selected:", result.title);
+    console.log("Selected:", result);
     this.setState({ value: "" });
     const list = this.props.games;
     list.push(result.title);
@@ -85,18 +121,22 @@ export default class SearchExampleStandard extends Component {
 
   handleSearchChange = (e, { value }) => {
     console.log("handleSearchChange");
+
     this.setState({ isLoading: true, value });
 
     setTimeout(() => {
       if (this.state.value.length < 1) return this.setState(initialState);
+      this.getGameList(value);
+      console.log("state.gameList:", this.state.gamesList);
 
       const re = new RegExp(_.escapeRegExp(this.state.value), "i");
       const isMatch = result => re.test(result.title);
 
       this.setState({
-        isLoading: false,
-        results: _.filter(source, isMatch)
+        isLoading: false
+        /*results: _.filter(this.state.gamesList, isMatch)*/
       });
+      console.log("this.state.results", this.state.results);
     }, 300);
   };
 
