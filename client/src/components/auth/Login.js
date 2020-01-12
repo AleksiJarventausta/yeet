@@ -5,6 +5,7 @@ import axios from "axios";
 import setAuthToken from "../../utils/setAuth";
 import jwt_decode from "jwt-decode";
 
+import {Link} from "react-router-dom";
 import { Button, Message, Form} from "semantic-ui-react";
 
 
@@ -94,11 +95,9 @@ class Login extends Component {
               <Button type="submit">
                 Sign In
               </Button>
-              <Button >
-                Register
-              </Button>
             </div>
           </Form>
+          No account? Register <Link to="/register"> here </Link>
         </Message>
         </Grid>
     );
