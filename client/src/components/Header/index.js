@@ -6,7 +6,19 @@ export default class HeaderThing extends React.Component {
     activeItem: ""
   }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  handleItemClick = (e, { name }) => {
+    if (this.state.activeItem !== name) {
+      this.setState({activeItem: name })
+    } else {
+      this.setState({activeItem: ""})
+    }
+
+    if (name === 'home') {
+      console.log("Switch to home layout")
+    } else if (name === 'logIn') {
+      console.log("Switch to login layout")
+    }
+  }
 
   render() {
     return (
@@ -23,7 +35,11 @@ export default class HeaderThing extends React.Component {
                     onClick={this.handleItemClick}>
                     Home
           </Menu.Item>
-
+          <Menu.Item name="logIn"
+            active={this.state.activeItem === 'logIn'}
+            onClick={this.handleItemClick}>
+            Log in
+          </Menu.Item>
             <Dropdown item text='Settings'
                       name='settings'
                       active={this.state.activeItem === 'settings'}
@@ -33,10 +49,6 @@ export default class HeaderThing extends React.Component {
                 <Dropdown.Item icon='globe' text='Holder' />
               </Dropdown.Menu>
             </Dropdown>
-          <Menu.Item name="logIn"
-            active={this.state.activeItem === 'logIn'}
-            onClick={this.handleItemClick}>
-            >Log in</Menu.Item>
         </Menu.Menu>
       </Menu>
     );
