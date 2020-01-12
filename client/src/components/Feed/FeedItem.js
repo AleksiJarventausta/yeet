@@ -46,7 +46,7 @@ export default class FeedItem extends React.Component {
         <Card.Content>
           <Grid>
             <Grid.Column width={7}>
-              <i className="user icon" />
+              <Icon name="user"/>
               {this.props.username}
             </Grid.Column>
             <Grid.Column width={9} textAlign="right">
@@ -63,32 +63,3 @@ export default class FeedItem extends React.Component {
     );
   }
 }
-
-/*
-(
-      <div className="ui card">
-        <div className="content">
-          <div className="header">{gameItems}</div>
-
-          <div className="description">{this.props.description}</div>
-        </div>
-
-        <div className="extra content">
-          <Grid>
-            <Grid.Column width={6}>
-              <i className="user icon" />
-              {this.props.username}
-            </Grid.Column>
-            <Grid.Column width={10} textAlign="right">
-              <button className="ui positive basic button">
-                <i class="icon thumbs up" />
-              </button>
-              <button className="ui negative basic button">
-                <i className="icon thumbs down" />
-              </button>
-            </Grid.Column>
-          </Grid>
-        </div>
-      </div>
-    );
-    */
