@@ -13,7 +13,7 @@ export default class ApplicationForm extends React.Component {
   state = {
     isSearching: false,
     info: {
-      games: ["TestGame1", "TestGame2"],
+      games: [],
       username: "",
       disocrd: "",
       additional: "",

@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React, { Component } from "react";
-import { Search, Grid, Header, Segment } from "semantic-ui-react";
+import { Search, Grid, Header, Segment, Form } from "semantic-ui-react";
 
 const initialState = { isLoading: false, results: [], value: "" };
 
@@ -105,17 +105,24 @@ export default class SearchExampleStandard extends Component {
 
     return (
       <Grid>
-        <Grid.Column width={6}>
-          <Search
-            loading={isLoading}
-            onResultSelect={this.handleResultSelect}
-            onSearchChange={_.debounce(this.handleSearchChange, 500, {
-              leading: true
-            })}
-            results={results}
-            value={value}
-            {...this.props}
-          />
+        <Grid.Column>
+          <Form>
+            <Form.Field>
+              <label>Search games:</label>
+            </Form.Field>
+            <Form.Field>
+              <Search
+                loading={isLoading}
+                onResultSelect={this.handleResultSelect}
+                onSearchChange={_.debounce(this.handleSearchChange, 500, {
+                  leading: true
+                })}
+                results={results}
+                value={value}
+                {...this.props}
+              />
+            </Form.Field>
+          </Form>
         </Grid.Column>
         {/* ___For debugging purposes only___
         <Grid.Column width={10}>
