@@ -28,9 +28,11 @@ class Register extends Component {
     };
     axios
         .post("/user/register", newUser)
-        .then(res => this.props.history.push("/"))
-        .catch(err =>
-        console.log(err));
+        .then(res => {
+          this.props.history.push("/");
+          this.props.setCurrentTab("home");
+        })
+        .catch(err => console.log(err));
   };
 
 

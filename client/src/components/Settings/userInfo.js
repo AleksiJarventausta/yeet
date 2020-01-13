@@ -14,6 +14,7 @@ class UserInfo extends Component {
     this.state = {
       username: "username",
       discord: "vilps#1234",
+      additional: "additionalinfo",
       newpassword1: "",
       newpassword2: "",
       password: "",
@@ -28,6 +29,7 @@ class UserInfo extends Component {
     const newInfo= {
       username: this.state.username,
       discord: this.state.discord,
+      additional: this.state.additional,
       newpassword1: this.state.newpassword1,
       newpassword2: this.state.newpassword2,
       password: this.state.password
@@ -56,6 +58,8 @@ class UserInfo extends Component {
       this.setState({username: data.value})
     } else if (e.target.name === "discord") {
       this.setState({discord: data.value})
+    } else if (e.target.name === "additional") {
+      this.setState({additional: data.value})
     } else if (e.target.name === "newpassword1") {
       this.setState({password1: data.value})
     } else if (e.target.name === "newpassword2") {
@@ -85,6 +89,12 @@ class UserInfo extends Component {
           </Form.Field>
           <Form.Field>
           <Input
+          name="additional"
+          onChange={(event, data) => {this.updateBox(event, data)}}
+          value={this.state.additional}/>
+          </Form.Field>
+          <Form.Field>
+          <Input
           name="newpassword1"
           onChange={(event, data) => {this.updateBox(event, data)}}
           placeholder="New Password"
@@ -106,15 +116,15 @@ class UserInfo extends Component {
           <Button type="submit">
             <Icon name="pencil alternate" />
             Save
-            </Button>
+          </Button>
           {this.state.infosaved &&
               <h2>
                 info saved
               </h2>
-            }
-            {this.state.errors!=="" &&
+          }
+          {this.state.errors!=="" &&
              <h2>
-              some-errors: {this.state.errors}
+              some errors: {this.state.errors}
             </h2>
           }
         </Form>

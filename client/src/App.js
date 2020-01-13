@@ -25,6 +25,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.setCurrentUser = this.setCurrentUser.bind(this);
+    this.setCurrentTab = this.setCurrentTab.bind(this);
     this.changeSearchingState = this.changeSearchingState.bind(this);
 
     if (localStorage.jwtTokenTeams) {
@@ -54,6 +55,7 @@ class App extends React.Component {
     errors: [],
     isSearching: false,
     posts: [],
+    /* Current tab e.g current view: "home", "signOut", "logIn", "userInfo" */
     currentTab: "home",
     styles: {
       positiveColor: "green",
@@ -70,6 +72,10 @@ class App extends React.Component {
   // if the user starts searching
   // fetch posts from the database and put them
   // on the state of this component
+  setCurrentTab(tab) {
+    this.setState({ currentTab: tab });
+    console.log("Set tab to: " + tab);
+  }
   changeSearchingState() {
     const currentState = this.state.isSearching;
     console.log("Clicked! the current state on app is!", currentState);
@@ -114,7 +120,11 @@ class App extends React.Component {
           {/* Header row */}
           <Grid.Row centered>
             <Grid.Column>
-              <Header tab={this.state.currentTab} user={this.state.user} />
+              <Header
+                setCurrentTab={this.setCurrentTab}
+                tab={this.state.currentTab}
+                user={this.state.user}
+              />
             </Grid.Column>
           </Grid.Row>
 
@@ -141,17 +151,31 @@ class App extends React.Component {
             <Route
               path="/login"
               render={props => (
-                <Login {...props} setCurrentUser={this.setCurrentUser} />
+                <Login
+                  {...props}
+                  setCurrentTab={this.setCurrentTab}
+                  setCurrentUser={this.setCurrentUser}
+                />
               )}
             />
-            <Route path="/register" render={props => <Register {...props} />} />
+            <Route
+              path="/register"
+              render={props => (
+                <Register {...props} setCurrentTab={this.setCurrentTab} />
+              )}
+            />
             <Route
               path="/signout"
               render={props => (
                 <SignOut {...props} setCurrentUser={this.setCurrentUser} />
               )}
             />
-            <Route path="/userinfo" render={props => <UserInfo {...props} />} />
+            <Route
+              path="/userinfo"
+              render={props => (
+                <UserInfo {...props} setCurrentTab={this.setCurrentTab} />
+              )}
+            />
             <Route>Error: Something went wrong :( Try again later.</Route>
           </Switch>
         </Grid>
