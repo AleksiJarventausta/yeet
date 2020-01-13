@@ -31,13 +31,15 @@ export default class FeedItem extends React.Component {
 
   render() {
     const gameItems = this.props.games.map(game => {
-      return <Label size="large"> {game + " "}</Label>;
+      return <Label> {game + " "}</Label>;
     });
 
     return (
       <Card>
         <Card.Content>
-          <Card.Header>{gameItems}</Card.Header>
+          <Card.Header>
+            <Label.Group size="large">{gameItems}</Label.Group>
+          </Card.Header>
 
           <Card.Description>{this.props.description}</Card.Description>
 
