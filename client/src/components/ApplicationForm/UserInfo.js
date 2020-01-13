@@ -26,7 +26,7 @@ export default class UserInfo extends React.Component {
         <Form.Field>
           <label>Discord:</label>
           <Input
-            disabled={this.props.isSearching}
+            disabled
             onChange={(event, data) => {
               //this.setState({ username: data.value });
               const newData = {

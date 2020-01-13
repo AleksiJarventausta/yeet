@@ -6,6 +6,7 @@ export default class FeedItem extends React.Component {
   liked() {
     const id = this.props.id;
     console.log("Liked", id);
+    this.props.voted(id);
     const data = {
       _id: id,
       like: true
@@ -19,6 +20,7 @@ export default class FeedItem extends React.Component {
   notLiked() {
     const id = this.props.id;
     console.log("Not liked", id);
+    this.props.voted(id);
     const data = {
       _id: id,
       like: false
