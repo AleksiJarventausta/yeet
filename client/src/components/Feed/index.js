@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import FeedItem from "./FeedItem";
 import Match from "./Match";
 import axios from "axios";
@@ -6,6 +6,17 @@ import axios from "axios";
 import { Header, Grid, Divider, Label } from "semantic-ui-react";
 
 export default class Feed extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
+  state = {
+    nests: null,
+    listening: false,
+    matched: false
+  }
+
+
   postVoted(id) {
     console.log("postVoted:", id);
     const newItems = this.props.posts.map(item => {
@@ -17,27 +28,23 @@ export default class Feed extends React.Component {
     this.props.updatePosts(newItems);
   }
 
-  /*
-  getPosts() {
-    const items = [];
-    axios
-      .get("/match/matches")
-      .then(res => {
-        const data = res.data;
-        console.log("haettu data:", data);
-        const items = data.map(item => {
-          return { ...item, voted: false };
-        });
-
-        this.setState({ items: items });
-      })
-      .catch(err => console.log(err));
-  }
-
   componentDidMount() {
-    this.getPosts();
-  }
-  */
+      console.log("Feeditem did mount");
+      if (true) {
+        console.log("if true");
+        const events = new EventSource('http://yeet-yeet.rahtiapp.fi/match/connnect');
+        events.onmessage = (event) => {
+          const parsedData = JSON.parse(event.data);
+          if (event.data === "matched") {
+            this.setState({matched:true})
+          }
+        };
+
+        this.setState({listening: true});
+        console.log("set listening true");
+      }
+    };
+
 
   render() {
     let items = this.props.posts;
@@ -64,6 +71,10 @@ export default class Feed extends React.Component {
     return (
       this.props.isSearching && (
         <div>
+          {/*true && <h1>Matched!</h1>*/}
+          {this.state.matched && <h1>Matched!</h1>}
+
+
           <Header as="h2">Found gamers:</Header>
           {/* Placeholder Match objekti */}
           <Match
