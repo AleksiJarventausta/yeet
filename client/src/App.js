@@ -128,7 +128,7 @@ class App extends React.Component {
   onGameslistUpdated(updatedList) {
     this.setState(prevState => ({
       user: {
-        ...prevState.info,
+        ...prevState.user,
         games: updatedList
       }
     }));

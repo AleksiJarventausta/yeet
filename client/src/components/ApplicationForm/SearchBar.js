@@ -114,9 +114,13 @@ export default class SearchExampleStandard extends Component {
   handleResultSelect = (e, { result }) => {
     console.log("Selected:", result);
     this.setState({ value: "" });
-    const list = this.props.games;
+    const list = this.props.info.games;
     list.push(result.title);
-    this.props.listUpdated(list);
+    const newData = {
+      ...this.props.info,
+      games: list
+    };
+    this.props.updateInfo(newData);
   };
 
   handleSearchChange = (e, { value }) => {
