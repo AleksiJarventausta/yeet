@@ -14,8 +14,8 @@ class HeaderThing extends React.Component {
     } else if (name === "logIn" ) {
       this.props.history.push("/login");
     } else if (name === "signOut" ) {
-        this.props.history.push("/signout");
-    } else if (name === "userinfo" ) {
+      this.props.history.push("/signout");
+    } else if (name === "userInfo" ) {
       this.props.history.push("/userinfo");
     }
     this.props.setCurrentTab(name);
