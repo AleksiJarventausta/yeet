@@ -6,14 +6,17 @@ import Games from "./Games";
 import { Button, Icon, Header, Segment } from "semantic-ui-react";
 import axios from "axios";
 
-// TODO: Laita tämä käyttämään App.js:n tilaa isSearching eikä omaa paskakikkaretta
+// Texts for the button
+const START_TEXT = "Start searching";
+const STOP_TEXT = "Stop searching";
 
 export default class ApplicationForm extends React.Component {
   state = {
     color: this.props.styles.positiveColor,
-    text: "Start searching"
+    text: START_TEXT
   };
 
+  // Send the application information to the database
   sendUpdatedInfoToDatabase(data) {
     // Change the address and parse data to form the back wants
     const address = "";
@@ -25,6 +28,8 @@ export default class ApplicationForm extends React.Component {
       .catch(err => console.log(err));
   }
 
+  // Send users (changed) info to the App.js and
+  // to the database (commented out)
   updateState(newUser) {
     console.log("updated userInfo:", newUser);
     const info = {
@@ -44,7 +49,8 @@ export default class ApplicationForm extends React.Component {
     this.props.updateGamelist(updatedList);
   }
 
-  // Sends the new application to the database (?)
+  // Sends the new application to the database (?),
+  // when the users starts the search
   sendNewPost(searchState) {
     const data = {
       description: "hard-coded palceholder", // TODO: hanki tähän kaikki tarvittavat tiedot
@@ -56,23 +62,27 @@ export default class ApplicationForm extends React.Component {
       .catch(err => console.log(err));
   }
 
+  // Change search state (isSearching) in the App.js and
+  // change the buttons style to match current search state and
+  // notify back end that searching as started.
   whenClicked() {
     this.props.clicked();
     const current = this.props.isSearching;
     if (!current) {
+      console.log("Searching has been started!");
       this.setState({
         color: this.props.styles.negativeColor,
-        text: "Stop searching"
+        text: STOP_TEXT
       });
       this.sendNewPost(!current);
     } else {
+      console.log("Searching has been stopped!");
       this.setState({
         color: this.props.styles.positiveColor,
-        text: "Start searching"
+        text: START_TEXT
       });
       this.sendNewPost(!current);
     }
-    console.log("Clicked!");
   }
 
   render() {

@@ -1,6 +1,8 @@
 import React from "react";
-import { TextArea, Button, Grid, Form } from "semantic-ui-react";
+import { TextArea, Form } from "semantic-ui-react";
 
+// Maximum numbers ofcharacters the user can use
+// on his/hers description
 const CHAR_MAX = 255;
 
 export default class CreatePost extends React.Component {
@@ -15,11 +17,7 @@ export default class CreatePost extends React.Component {
     charsLeft: CHAR_MAX
   };
 
-  componentDidMount() {}
-
   render() {
-    //console.log("DescriptionBox props.info:", this.props.info);
-    //console.log("Characters used:", this.props.info.description.length);
     return (
       <div>
         <Form>
