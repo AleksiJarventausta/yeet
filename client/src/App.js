@@ -187,11 +187,13 @@ class App extends React.Component {
                   />
                 </Grid.Column>
                 <Grid.Column width={9}>
-                  <Feed
-                    updatePosts={this.updatePosts.bind(this)}
-                    posts={this.state.posts}
-                    isSearching={this.state.isSearching}
-                  ></Feed>
+                  {this.state.isSearching && (
+                    <Feed
+                      updatePosts={this.updatePosts.bind(this)}
+                      posts={this.state.posts}
+                      isSearching={this.state.isSearching}
+                    ></Feed>
+                  )}
                 </Grid.Column>
               </Grid.Row>
             </Route>
@@ -220,7 +222,11 @@ class App extends React.Component {
             <Route
               path="/userinfo"
               render={props => (
-                <UserInfo {...props} user={this.state.user} setCurrentTab={this.setCurrentTab} />
+                <UserInfo
+                  {...props}
+                  user={this.state.user}
+                  setCurrentTab={this.setCurrentTab}
+                />
               )}
             />
             <Route>Error: Something went wrong :( Try again later.</Route>
