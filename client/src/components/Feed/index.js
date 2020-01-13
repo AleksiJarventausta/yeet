@@ -6,21 +6,18 @@ import axios from "axios";
 import { Header, Grid, Divider, Label } from "semantic-ui-react";
 
 export default class Feed extends React.Component {
-  state = {
-    items: []
-  };
-
   postVoted(id) {
     console.log("postVoted:", id);
-    const newItems = this.state.items.map(item => {
+    const newItems = this.props.posts.map(item => {
       if (item._id == id) {
         item.voted = true;
       }
       return item;
     });
-    this.setState({ items: newItems });
+    this.props.updatePosts(newItems);
   }
 
+  /*
   getPosts() {
     const items = [];
     axios
@@ -40,32 +37,11 @@ export default class Feed extends React.Component {
   componentDidMount() {
     this.getPosts();
   }
+  */
 
   render() {
-    let items = this.state.items;
-    /*
-    const items = [
-      {
-        _id: "0123",
-        description: "I am a gamer",
-        username: "user1",
-        games: [
-          "LoL",
-          "Wow",
-          "CS",
-          "League of Legends",
-          "World of Warcraft",
-          "Counter-Strike: Global offensive"
-        ]
-      },
-      {
-        _id: "2223",
-        description: "I am an another gamer",
-        username: "Autism",
-        games: ["Wow", "CS"]
-      }
-    ];
-    */
+    let items = this.props.posts;
+
     let feeditems = null;
     let counter = 0;
     if (items) {

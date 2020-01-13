@@ -6,6 +6,8 @@ import { Grid, Divider } from "semantic-ui-react";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuth";
 
+import axios from "axios";
+
 import Login from "./components/auth/Login";
 import Feed from "./components/Feed";
 import ApplicationForm from "./components/ApplicationForm";
@@ -51,6 +53,7 @@ class App extends React.Component {
     user: {},
     errors: [],
     isSearching: false,
+    posts: [],
     currentTab: "home",
     styles: {
       positiveColor: "green",
@@ -62,24 +65,47 @@ class App extends React.Component {
     this.setState({ user });
   }
 
+  // When the user decides to start/stop searching,
+  // change the state to match that and
+  // if the user starts searching
+  // fetch posts from the database and put them
+  // on the state of this component
   changeSearchingState() {
     const currentState = this.state.isSearching;
     console.log("Clicked! the current state on app is!", currentState);
     this.setState({ isSearching: !currentState });
+    if (currentState === false) {
+      this.getPosts();
+    }
   }
 
-  /*
+  updatePosts(updatedPosts) {
+    this.setState({ posts: updatedPosts });
+  }
+
+  // Get posts from database and
+  // put them on state.posts as a list
+  getPosts() {
+    const items = [];
+    axios
+      .get("/match/matches")
+      .then(res => {
+        const data = res.data;
+        console.log("tietokannasta haetut postaukset:", data);
+        const items = data.map(item => {
+          return { ...item, voted: false };
+        });
+
+        this.setState({ posts: items });
+      })
+      .catch(err => console.log(err));
+  }
+
+  // Fetch posts from the database when the site is
+  // rendered for the first time
   componentDidMount() {
-    const token = JSON.parse(localStorage.jwtTokenTeams);
-    setAuthToken(token);
-
-    // Decode token and get user info and exp
-    const decoded = jwt_decode(token);
-
-    // Set user and isAuthenticated
-    this.setCurrentUser(decoded);
+    this.getPosts();
   }
-  */
 
   render() {
     return (
@@ -104,7 +130,11 @@ class App extends React.Component {
                   />
                 </Grid.Column>
                 <Grid.Column width={9}>
-                  <Feed isSearching={this.state.isSearching}></Feed>
+                  <Feed
+                    updatePosts={this.updatePosts.bind(this)}
+                    posts={this.state.posts}
+                    isSearching={this.state.isSearching}
+                  ></Feed>
                 </Grid.Column>
               </Grid.Row>
             </Route>
