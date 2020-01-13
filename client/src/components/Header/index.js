@@ -2,20 +2,26 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {Button, Menu, Header, Dropdown} from "semantic-ui-react";
 import {isEmpty} from "underscore";
+import { withRouter } from "react-router-dom";
 
-
-export default class HeaderThing extends React.Component {
-  state = {
-    activeItem: "home"
-  };
-
+class HeaderThing extends React.Component {
 
   handleItemClick = (e, { name }) => {
-    this.setState({activeItem: name })
+    //this.setState({activeItem: name })
+
+    if (name === "home" ) {
+      this.props.history.push("/");
+    } else if (name === "logIn" ) {
+      this.props.history.push("/login");
+    } else if (name === "signOut" ) {
+        this.props.history.push("/signout");
+    } else if (name === "userinfo" ) {
+      this.props.history.push("/userinfo");
+    }
+    this.props.setCurrentTab(name);
   }
 
   render() {
-    console.log(this.props.user);
     return (
       <Menu tabular>
         <Menu.Item
@@ -28,33 +34,30 @@ export default class HeaderThing extends React.Component {
         </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item name="home"
-                    active={this.state.activeItem === 'home'}
+                    active={this.props.tab === 'home'}
                     as={Link} to='/'
                     onClick={(event, data) => this.handleItemClick(event, data)}>
               Home
           </Menu.Item>
 
           {!isEmpty(this.props.user) ?
-            <Menu.Item name="logIn"
-              active={this.state.activeItem === 'logIn'}
-              as={Link} to='/signOut'
+            <Menu.Item name="signOut"
+              active={this.props.tab === 'logIn'}
               onClick={(event, data) => this.handleItemClick(event, data)}>
               Sign out
             </Menu.Item>
             :
             <Menu.Item name="logIn"
-              active={this.state.activeItem === 'logIn'}
-              as={Link} to='/login'
+              active={this.props.tab === 'logIn'}
               onClick={(event, data) => this.handleItemClick(event, data)}>
               Log in
             </Menu.Item>
           }
             <Dropdown item text='Settings'
-                      name='settings'
-                      active={this.state.activeItem === 'settings'}>
+                      name='settings'>
               <Dropdown.Menu>
                 <Dropdown.Item icon='user circle' text='User Info'
-                  as={Link} to='/userinfo'
+                  name="userInfo"
                   onClick={(event, data) => this.handleItemClick(event, data)}/>
               </Dropdown.Menu>
             </Dropdown>
@@ -63,3 +66,5 @@ export default class HeaderThing extends React.Component {
     );
   }
 }
+
+export default withRouter(HeaderThing);

@@ -23,6 +23,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.setCurrentUser = this.setCurrentUser.bind(this);
+    this.setCurrentTab = this.setCurrentTab.bind(this);
     this.changeSearchingState = this.changeSearchingState.bind(this);
 
     if (localStorage.jwtTokenTeams) {
@@ -61,7 +62,9 @@ class App extends React.Component {
   setCurrentUser(user) {
     this.setState({ user });
   }
-
+  setCurrentTab(tab) {
+    this.setState({currentTab: tab});
+  }
   changeSearchingState() {
     const currentState = this.state.isSearching;
     console.log("Clicked! the current state on app is!", currentState);
@@ -88,7 +91,8 @@ class App extends React.Component {
           {/* Header row */}
           <Grid.Row centered>
             <Grid.Column>
-              <Header tab={this.state.currentTab} user={this.state.user} />
+              <Header setCurrentTab={this.setCurrentTab}
+                tab={this.state.currentTab} user={this.state.user} />
             </Grid.Column>
           </Grid.Row>
 
@@ -109,6 +113,7 @@ class App extends React.Component {
               </Grid.Row>
             </Route>
             <Route
+              setCurrentTab={this.setCurrentTab}
               path="/login"
               render={props => (
                 <Login {...props} setCurrentUser={this.setCurrentUser} />
@@ -116,12 +121,15 @@ class App extends React.Component {
             />
             <Route path="/register" render={props => <Register {...props} />} />
             <Route
+              setCurrentTab={this.setCurrentTab}
               path="/signout"
               render={props => (
                 <SignOut {...props} setCurrentUser={this.setCurrentUser} />
               )}
             />
-            <Route path="/userinfo" render={props => <UserInfo {...props} />} />
+            <Route
+              setCurrentTab={this.setCurrentTab}
+              path="/userinfo" render={props => <UserInfo {...props} />} />
             <Route>Error: Something went wrong :( Try again later.</Route>
           </Switch>
         </Grid>
