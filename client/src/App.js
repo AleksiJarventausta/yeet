@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuth";
 
 import axios from "axios";
+import { isEmpty } from "underscore";
 
 import Login from "./components/auth/Login";
 import Feed from "./components/Feed";
@@ -51,13 +52,7 @@ class App extends React.Component {
     }
   }
   state = {
-    user: {
-      username: "",
-      discord: "",
-      additional: "",
-      description: "",
-      games: []
-    },
+    user: {},
     errors: [],
     isSearching: false,
     posts: [],
@@ -176,14 +171,16 @@ class App extends React.Component {
               {/* Kontentti row */}
               <Grid.Row>
                 <Grid.Column width={7}>
-                  <ApplicationForm
-                    info={this.state.user}
-                    isSearching={this.state.isSearching}
-                    styles={this.state.styles}
-                    clicked={this.changeSearchingState}
-                    updateUser={this.updateUser.bind(this)}
-                    updateGamelist={this.onGameslistUpdated.bind(this)}
-                  />
+                  {!isEmpty(this.state.user) && (
+                    <ApplicationForm
+                      info={this.state.user}
+                      isSearching={this.state.isSearching}
+                      styles={this.state.styles}
+                      clicked={this.changeSearchingState}
+                      updateUser={this.updateUser.bind(this)}
+                      updateGamelist={this.onGameslistUpdated.bind(this)}
+                    />
+                  )}
                 </Grid.Column>
                 <Grid.Column width={9}>
                   {this.state.isSearching && (
