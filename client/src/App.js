@@ -220,7 +220,7 @@ class App extends React.Component {
             <Route
               path="/userinfo"
               render={props => (
-                <UserInfo {...props} setCurrentTab={this.setCurrentTab} />
+                <UserInfo {...props} user={this.state.user} setCurrentTab={this.setCurrentTab} />
               )}
             />
             <Route>Error: Something went wrong :( Try again later.</Route>

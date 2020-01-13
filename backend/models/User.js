@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var express = require('express')
 
 var Schema = mongoose.Schema;
 
@@ -15,6 +16,10 @@ var userSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  responses: [{type:express.response}],
+  additional: {
+    type: String,
   },
   discord: {
     type: String,

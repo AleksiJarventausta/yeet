@@ -23,6 +23,16 @@ class UserInfo extends Component {
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+  componentDidMount() {
+    console.log("asd");
+    this.setState({
+      username: this.props.user.username,
+      discord: this.props.user.discord,
+      additional: this.props.user.additional
+    });
+  }
+
   onSubmit() {
     /* Poista alla oleva kun saadaan tietoa, tehdään lopussa */
     this.setState({infoSaved: true})
