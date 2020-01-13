@@ -8,7 +8,7 @@ router.get(
   "/matches",
   passport.authenticate("jwt", { session: false }),
   function(req, res) {
-    Post.find({ poster: { $ne: req.user._id } })
+    Post.find({ poster: { $ne: req.user._id }, active: true })
       .select("-liked -unliked  -__proto__ -__v")
       .populate("poster", "username discord")
       .exec(function(err, posts) {
@@ -50,8 +50,7 @@ router.post("/like", passport.authenticate("jwt", { session: false }), function(
   req,
   res
 ) {
-  let userId = mongoose.Types.ObjectId(req.body._id);
-  Post.findOne({ _id: userId }).exec(function(err, otherPost) {
+  Post.findOne({ _id: req.body._id }).exec(function(err, otherPost) {
     if (req.body.like) {
       otherPost.liked.push(req.user._id);
     } else {
@@ -61,7 +60,10 @@ router.post("/like", passport.authenticate("jwt", { session: false }), function(
     Post.findOne({ poster: req.user._id })
       .populate("poster")
       .exec(function(err, userPost) {
-        if (userPost.liked.includes(userId) && req.body.like) {
+        const lol = JSON.parse(JSON.stringify(userPost.liked))
+        const xd = lol.includes(req.body._id)
+
+        if (xd && req.body.like) {
           userPost.responses.map(response => response.write("match:true"));
           return res.json({ match: true });
         }
