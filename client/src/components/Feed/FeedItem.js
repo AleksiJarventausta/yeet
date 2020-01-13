@@ -31,7 +31,7 @@ export default class FeedItem extends React.Component {
 
   render() {
     const gameItems = this.props.games.map(game => {
-      return <Label size="huge"> {game + " "}</Label>;
+      return <Label size="large"> {game + " "}</Label>;
     });
 
     return (
@@ -40,8 +40,7 @@ export default class FeedItem extends React.Component {
           <Card.Header>{gameItems}</Card.Header>
 
           <Card.Description>{this.props.description}</Card.Description>
-        </Card.Content>
-        <Card.Content>
+
           <Icon name="user" />
           {this.props.username}
         </Card.Content>
