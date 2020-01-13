@@ -56,10 +56,12 @@ class HeaderThing extends React.Component {
             <Dropdown item text='Settings'
                       name='settings'>
               <Dropdown.Menu>
+                {!isEmpty(this.props.user) &&
                 <Dropdown.Item icon='user circle' text='User Info'
                   name="userInfo"
                   onClick={(event, data) => this.handleItemClick(event, data)}/>
-              </Dropdown.Menu>
+                }
+                </Dropdown.Menu>
             </Dropdown>
         </Menu.Menu>
       </Menu>
