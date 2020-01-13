@@ -19,7 +19,6 @@ import UserInfo from "./components/Settings/userInfo.js";
 import "./App.css";
 import Axios from "axios";
 
-Axios.defaults.baseURL = "http://yeet-yeet.rahtiapp.fi";
 
 class App extends React.Component {
   constructor(props) {
