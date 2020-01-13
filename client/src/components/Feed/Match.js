@@ -15,7 +15,7 @@ export default class Match extends React.Component {
             <Header.Content>{this.props.username}</Header.Content>
           </Header>
           You share interest in these games:
-          <Label.Group size="big">
+          <Label.Group size="large">
             {this.props.games.map(game => {
               return <Label> {game}</Label>;
             })}

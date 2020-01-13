@@ -14,9 +14,11 @@ class UserInfo extends Component {
     this.state = {
       username: "username",
       discord: "vilps#1234",
-      password1: "",
-      password2: "",
-      infoSaved: false
+      newpassword1: "",
+      newpassword2: "",
+      password: "",
+      infoSaved: false,
+      errors: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -26,8 +28,9 @@ class UserInfo extends Component {
     const newInfo= {
       username: this.state.username,
       discord: this.state.discord,
-      password1: this.state.password1,
-      password2: this.state.password2
+      newpassword1: this.state.newpassword1,
+      newpassword2: this.state.newpassword2,
+      password: this.state.password
     };
     axios
       .post("", newInfo)
@@ -49,14 +52,15 @@ class UserInfo extends Component {
   }
 
   updateBox(e, data) {
-    console.log(e.target.name)
     if (e.target.name === "username") {
       this.setState({username: data.value})
     } else if (e.target.name === "discord") {
       this.setState({discord: data.value})
-    } else if (e.target.name === "password1") {
+    } else if (e.target.name === "newpassword1") {
       this.setState({password1: data.value})
-    } else if (e.target.name === "password2") {
+    } else if (e.target.name === "newpassword2") {
+      this.setState({password2: data.value})
+    } else if (e.target.name === "password") {
       this.setState({password2: data.value})
     }
   };
@@ -81,19 +85,24 @@ class UserInfo extends Component {
           </Form.Field>
           <Form.Field>
           <Input
-          name="password1"
+          name="newpassword1"
           onChange={(event, data) => {this.updateBox(event, data)}}
           placeholder="New Password"
-          value={this.state.password}/>
+          type="password"/>
           </Form.Field>
           <Form.Field>
           <Input
-          name="password2"
+          name="newpassword2"
           onChange={(event, data) => {this.updateBox(event, data)}}
           placeholder="New Password Again"
-          value={this.state.password}/>
+          type="password"/>
           </Form.Field>
           </Message>
+          <Input
+          name="newpassword2"
+          onChange={(event, data) => {this.updateBox(event, data)}}
+          placeholder="Your current password"
+          type="password"/>
           <Button type="submit">
             <Icon name="pencil alternate" />
             Save
@@ -102,11 +111,12 @@ class UserInfo extends Component {
               <h2>
                 info saved
               </h2>
-            }  {this.state.infoSaved &&
-              <h2>
-                info saved
-              </h2>
             }
+            {this.state.errors!=="" &&
+             <h2>
+              some-errors: {this.state.errors}
+            </h2>
+          }
         </Form>
         </Grid.Column>
       </Grid>
