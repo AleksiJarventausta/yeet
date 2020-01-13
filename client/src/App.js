@@ -52,6 +52,7 @@ class App extends React.Component {
     user: {},
     errors: [],
     isSearching: false,
+    /* Current tab = current view, "home", "signOut", "logIn", "userInfo" */
     currentTab: "home",
     styles: {
       positiveColor: "green",
@@ -119,9 +120,10 @@ class App extends React.Component {
                 <Login {...props} setCurrentUser={this.setCurrentUser} />
               )}
             />
-            <Route path="/register" render={props => <Register {...props} />} />
             <Route
-              setCurrentTab={this.setCurrentTab}
+                setCurrentTab={this.setCurrentTab}
+                path="/register" render={props => <Register {...props} />} />
+            <Route
               path="/signout"
               render={props => (
                 <SignOut {...props} setCurrentUser={this.setCurrentUser} />
