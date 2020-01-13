@@ -15,12 +15,10 @@ export default class Games extends React.Component {
   deleteGame(game) {
     const old = this.props.games;
     let updated = this.removeItem(old, game);
-    console.log("updated list after remove:", updated);
     this.props.listUpdated(updated);
   }
 
   render() {
-    console.log("this.props.games", this.props.games);
     const gameItems = this.props.games.map(game => {
       return (
         <Label deleteGame={this.deleteGame}>
@@ -28,7 +26,6 @@ export default class Games extends React.Component {
           <Icon
             game={game}
             onClick={e => {
-              console.log("clicked remove icon", e);
               this.deleteGame(game);
             }}
             name="delete"

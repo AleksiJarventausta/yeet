@@ -15,7 +15,11 @@ export default class CreatePost extends React.Component {
     charsLeft: CHAR_MAX
   };
 
+  componentDidMount() {}
+
   render() {
+    //console.log("DescriptionBox props.info:", this.props.info);
+    //console.log("Characters used:", this.props.info.description.length);
     return (
       <div>
         <Form>
@@ -28,15 +32,17 @@ export default class CreatePost extends React.Component {
               rows={3}
               placeholder="Write your description here..."
               onChange={(event, data) => {
+                console.log("data:", data);
                 if (data.value.length <= CHAR_MAX) {
                   this.setState({
                     charsLeft: CHAR_MAX - data.value.length
                   });
                   const newData = {
+                    ...this.props.info,
                     description: data.value
                   };
+                  console.log("newData", newData);
                   this.props.updateInfo(newData);
-                  //console.log("state vaihdettu");
                 }
               }}
             />
@@ -49,40 +55,3 @@ export default class CreatePost extends React.Component {
     );
   }
 }
-
-/* A PU A
-export default class DescriptionBox extends React.Component {
-  state = {
-    description: "",
-    isTooLong: false
-  };
-
-  render() {
-    return (
-      <div>
-        <Form>
-          <TextArea
-            placeholder="Write your description here"
-            style={{ width: "100%", minWidth: "100%", maxWidth: "100%" }}
-            rows={3}
-            onChange={(event, data) => {
-              if (data.value.length <= CHAR_MAX) {
-                this.setState({
-                  description: data.value,
-                  isTooLong: false
-                });
-              } else {
-                this.setState({
-                  description: data.value,
-                  isTooLong: true
-                });
-              }
-            }}
-            value={this.state.description}
-          />
-        </Form>
-      </div>
-    );
-  }
-}
-*/
