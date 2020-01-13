@@ -25,13 +25,12 @@ router.get(
     // Mandatory headers and http status to keep connection open
     const headers = {
       "Content-Type": "text/event-stream",
-      Connection: "keep-alive",
+      "Connection": "keep-alive",
       "Cache-Control": "no-cache"
     };
     res.writeHead(200, headers);
 
     // After client opens connection send all nests as string
-    const data = `data: ${JSON.stringify(nests)}\n\n`;
     res.write(data);
     req.user.responses.push(res);
     req.user.save();
