@@ -3,6 +3,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 var registerValidation = require("../validation/validateRegisteration");
+var updateValidation = require("../validation/validateUserUpdate");
 var loginValidation = require("../validation/validateLogin");
 const mongoose = require("mongoose");
 const passport = require("passport");
@@ -81,8 +82,24 @@ router.post(
   "/update",
   passport.authenticate("jwt", { session: false }),
   function(req, res, next) {
-    req.user.discord = req.body.discord;
-    req.user.additional = req.body.additional;
+    const { errors, isValid } = updateValidation(req.body);
+
+    // Check validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    if (
+      req.body.discord !== undefined &&
+      req.body.discord !== req.user.discord
+    ) {
+      req.user.discord = req.body.discord;
+    }
+    if (
+      req.body.additional !== undefined &&
+      req.body.additional !== req.user.additional
+    ) {
+      req.user.additional = req.body.additional;
+    }
     if (
       req.body.username !== undefined &&
       req.body.username !== req.user.username
