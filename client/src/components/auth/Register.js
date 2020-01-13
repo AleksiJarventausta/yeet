@@ -1,18 +1,20 @@
 import React, { Component } from "react";
-import {  withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import { Button, Message, Form, Grid} from "semantic-ui-react";
 
 class Register extends Component {
-    constructor() {
-        super();
-        this.state = {
-            username: "",
-            discord:"",
-            password: "",
-            errors:{}
-        };
+    constructor(props) {
+        super(props);
+        this.cancelRegistration = this.cancelRegistration.bind(this);
     }
+  state = {
+        username: "",
+        discord:"",
+        password1: "",
+        password2: "",
+        errors:{}
+    };
 
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
@@ -24,7 +26,8 @@ class Register extends Component {
     const newUser = {
       username: this.state.username,
       discord: this.state.discord,
-      password: this.state.password
+      password1: this.state.password1,
+      password2: this.state.password2
     };
     axios
         .post("/user/register", newUser)
@@ -35,6 +38,9 @@ class Register extends Component {
         .catch(err => console.log(err));
   };
 
+  cancelRegistration () {
+    this.props.history.push("/");
+  }
 
   render() {
     const {errors} = this.props;
@@ -77,12 +83,26 @@ class Register extends Component {
         </div>
 
         <div className="auth-group">
-          <Form.Field>
+        <Form.Field>
           <label>
             <div className="auth-label">Password (min 8 characters)</div>
             <input
               onChange={this.onChange}
-              id="password"
+              id="password1"
+              type="password"
+              className="auth-input"
+            />
+        </label>
+        </Form.Field>
+        </div>
+
+        <div className="auth-group">
+        <Form.Field>
+          <label>
+            <div className="auth-label">Password again</div>
+            <input
+              onChange={this.onChange}
+              id="password2"
               type="password"
               className="auth-input"
             />
@@ -93,6 +113,10 @@ class Register extends Component {
         <div>
           <Button type="submit" className="auth-button">
             Sign up
+          </Button>
+          <Button
+            onClick={this.cancelRegistration}>
+            Cancel
           </Button>
         </div>
         <div className="bottom-group">
@@ -107,10 +131,4 @@ class Register extends Component {
   }
 
 }
-
-const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
-});
-
 export default withRouter(Register)
