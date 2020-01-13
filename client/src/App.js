@@ -88,7 +88,7 @@ class App extends React.Component {
           {/* Header row */}
           <Grid.Row centered>
             <Grid.Column>
-              <Header user={this.state.user} />
+              <Header tab={this.state.currentTab} user={this.state.user} />
             </Grid.Column>
           </Grid.Row>
 
