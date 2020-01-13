@@ -28,11 +28,12 @@ export default class ApplicationForm extends React.Component {
       .get("/post")
       .then(res => {
         const data = res.data;
+        console.log("propsina saatu user data:", this.props.user);
         console.log("haettu userinfo data:", data);
         this.setState({
           info: {
             games: data.games,
-            username: "placeholder user",
+            username: this.props.user.username,
             discord: "ph nickname#1234",
             additional: "ph MTGA username#4321",
             description: data.description
