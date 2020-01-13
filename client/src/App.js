@@ -39,6 +39,10 @@ class App extends React.Component {
       // Set user and isAuthenticated
       this.setCurrentUser(decoded);
 
+      // Get missing information from database
+      // and set user info to the state
+      this.getUserInfo();
+
       // Check for expired token
       const currentTime = Date.now() / 1000; // to get in milliseconds
       if (decoded.exp < currentTime) {
@@ -51,7 +55,13 @@ class App extends React.Component {
     }
   }
   state = {
-    user: {},
+    user: {
+      username: "",
+      discord: "",
+      additional: "",
+      description: "",
+      games: ["a"]
+    },
     errors: [],
     isSearching: false,
     posts: [],
@@ -64,7 +74,28 @@ class App extends React.Component {
   };
 
   setCurrentUser(user) {
+    console.log("set user:", user);
     this.setState({ user });
+  }
+
+  getUserInfo() {
+    axios
+      .get("/post")
+      .then(res => {
+        const data = res.data;
+        console.log("haettu userinfo data:", data);
+        this.setState(prevState => ({
+          user: {
+            ...prevState.user,
+            games: data.games,
+            username: this.state.user.username,
+            discord: this.state.user.discord,
+            additional: "hardcoded placeholder",
+            description: data.description
+          }
+        }));
+      })
+      .catch(err => console.log(err));
   }
 
   // When the user decides to start/stop searching,
@@ -78,7 +109,7 @@ class App extends React.Component {
   }
   changeSearchingState() {
     const currentState = this.state.isSearching;
-    console.log("Clicked! the current state on app is!", currentState);
+    console.log("isSearching is changed:", currentState, "->", !currentState);
     this.setState({ isSearching: !currentState });
     if (currentState === false) {
       this.getPosts();
@@ -89,6 +120,19 @@ class App extends React.Component {
     this.setState({ posts: updatedPosts });
   }
 
+  updateUser(updatedUser) {
+    this.setState({ user: updatedUser });
+  }
+
+  // Updated the gamelist in state
+  onGameslistUpdated(updatedList) {
+    this.setState(prevState => ({
+      user: {
+        ...prevState.info,
+        games: updatedList
+      }
+    }));
+  }
   // Get posts from database and
   // put them on state.posts as a list
   getPosts() {
@@ -97,7 +141,7 @@ class App extends React.Component {
       .get("/match/matches")
       .then(res => {
         const data = res.data;
-        console.log("tietokannasta haetut postaukset:", data);
+        console.log("Tietokannasta haetut postaukset:", data);
         const items = data.map(item => {
           return { ...item, voted: false };
         });
@@ -134,9 +178,12 @@ class App extends React.Component {
               <Grid.Row>
                 <Grid.Column width={7}>
                   <ApplicationForm
-                    user={this.state.user}
+                    info={this.state.user}
+                    isSearching={this.state.isSearching}
                     styles={this.state.styles}
                     clicked={this.changeSearchingState}
+                    updateUser={this.updateUser.bind(this)}
+                    updateGamelist={this.onGameslistUpdated.bind(this)}
                   />
                 </Grid.Column>
                 <Grid.Column width={9}>
@@ -173,7 +220,7 @@ class App extends React.Component {
             <Route
               path="/userinfo"
               render={props => (
-                <UserInfo {...props} setCurrentTab={this.setCurrentTab} />
+                <UserInfo {...props} user={this.state.user} setCurrentTab={this.setCurrentTab} />
               )}
             />
             <Route>Error: Something went wrong :( Try again later.</Route>

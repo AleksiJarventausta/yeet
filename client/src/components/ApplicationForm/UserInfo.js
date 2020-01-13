@@ -1,41 +1,41 @@
 import React from "react";
 
-import { TextArea, Button, Grid, Form, Input } from "semantic-ui-react";
+import { Form, Input } from "semantic-ui-react";
 
 export default class UserInfo extends React.Component {
   render() {
-    console.log("UserInfoon tulevat tiedot", this.props.info);
-
     return (
       <Form>
         <Form.Field>
           <label>Name:</label>
           <Input
             disabled={true}
+            value={this.props.info.username}
+            placeholder="username/nickname"
             onChange={(event, data) => {
-              //this.setState({ username: data.value });
               const newData = {
+                ...this.props.info,
                 username: data.value
               };
               this.props.updateInfo(newData);
             }}
-            value={this.props.info.username}
-            placeholder="username/nickname"
           />
         </Form.Field>
         <Form.Field>
           <label>Discord:</label>
           <Input
             disabled
-            onChange={(event, data) => {
-              //this.setState({ username: data.value });
-              const newData = {
-                discord: data.value
-              };
-              this.props.updateInfo(newData);
-            }}
             value={this.props.info.discord}
             placeholder="eg. testUser#1234"
+            onChange={(event, data) => {
+              console.log("changed discord-field");
+              const newData = {
+                ...this.props.info,
+                discord: data.value
+              };
+              console.log("AAAAA new User data (from user info)", newData);
+              this.props.updateInfo(newData);
+            }}
           />
         </Form.Field>
         <Form.Field>
@@ -45,7 +45,7 @@ export default class UserInfo extends React.Component {
             onChange={(event, data) => {
               //this.setState({ username: data.value });
               const newData = {
-                ...this.state,
+                ...this.props.info,
                 additional: data.value
               };
               this.props.updateInfo(newData);

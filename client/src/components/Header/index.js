@@ -14,8 +14,8 @@ class HeaderThing extends React.Component {
     } else if (name === "logIn" ) {
       this.props.history.push("/login");
     } else if (name === "signOut" ) {
-        this.props.history.push("/signout");
-    } else if (name === "userinfo" ) {
+      this.props.history.push("/signout");
+    } else if (name === "userInfo" ) {
       this.props.history.push("/userinfo");
     }
     this.props.setCurrentTab(name);
@@ -56,10 +56,12 @@ class HeaderThing extends React.Component {
             <Dropdown item text='Settings'
                       name='settings'>
               <Dropdown.Menu>
+                {!isEmpty(this.props.user) &&
                 <Dropdown.Item icon='user circle' text='User Info'
                   name="userInfo"
                   onClick={(event, data) => this.handleItemClick(event, data)}/>
-              </Dropdown.Menu>
+                }
+                </Dropdown.Menu>
             </Dropdown>
         </Menu.Menu>
       </Menu>
