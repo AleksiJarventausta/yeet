@@ -52,7 +52,7 @@ class App extends React.Component {
     user: {},
     errors: [],
     isSearching: false,
-    /* Current tab = current view, "home", "signOut", "logIn", "userInfo" */
+    /* Current tab e.g current view: "home", "signOut", "logIn", "userInfo" */
     currentTab: "home",
     styles: {
       positiveColor: "green",
@@ -65,6 +65,7 @@ class App extends React.Component {
   }
   setCurrentTab(tab) {
     this.setState({currentTab: tab});
+    console.log("Set tab to: " + tab)
   }
   changeSearchingState() {
     const currentState = this.state.isSearching;
@@ -114,24 +115,26 @@ class App extends React.Component {
               </Grid.Row>
             </Route>
             <Route
-              setCurrentTab={this.setCurrentTab}
               path="/login"
               render={props => (
-                <Login {...props} setCurrentUser={this.setCurrentUser} />
+                <Login {...props}
+                  setCurrentTab={this.setCurrentTab}
+                  setCurrentUser={this.setCurrentUser}
+                />
               )}
             />
             <Route
-                setCurrentTab={this.setCurrentTab}
-                path="/register" render={props => <Register {...props} />} />
+                path="/register"
+                render={props => <Register {...props} setCurrentTab={this.setCurrentTab} />}
+              />
             <Route
               path="/signout"
-              render={props => (
-                <SignOut {...props} setCurrentUser={this.setCurrentUser} />
-              )}
+              render={props => <SignOut {...props} setCurrentUser={this.setCurrentUser} />}
             />
             <Route
-              setCurrentTab={this.setCurrentTab}
-              path="/userinfo" render={props => <UserInfo {...props} />} />
+              path="/userinfo"
+              render={props => <UserInfo {...props} setCurrentTab={this.setCurrentTab}  />}
+            />
             <Route>Error: Something went wrong :( Try again later.</Route>
           </Switch>
         </Grid>
