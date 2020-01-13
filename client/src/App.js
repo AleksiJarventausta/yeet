@@ -67,6 +67,7 @@ class App extends React.Component {
     this.setState({ isSearching: !currentState });
   }
 
+  /*
   componentDidMount() {
     const token = JSON.parse(localStorage.jwtTokenTeams);
     setAuthToken(token);
@@ -77,6 +78,7 @@ class App extends React.Component {
     // Set user and isAuthenticated
     this.setCurrentUser(decoded);
   }
+  */
 
   render() {
     return (
