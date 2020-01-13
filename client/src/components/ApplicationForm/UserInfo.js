@@ -11,6 +11,7 @@ export default class UserInfo extends React.Component {
         <Form.Field>
           <label>Name:</label>
           <Input
+            disabled={true}
             onChange={(event, data) => {
               //this.setState({ username: data.value });
               const newData = {
@@ -25,6 +26,7 @@ export default class UserInfo extends React.Component {
         <Form.Field>
           <label>Discord:</label>
           <Input
+            disabled={this.props.isSearching}
             onChange={(event, data) => {
               //this.setState({ username: data.value });
               const newData = {
@@ -39,6 +41,7 @@ export default class UserInfo extends React.Component {
         <Form.Field>
           <label>Additional contact information:</label>
           <Input
+            disabled={this.props.isSearching}
             onChange={(event, data) => {
               //this.setState({ username: data.value });
               const newData = {

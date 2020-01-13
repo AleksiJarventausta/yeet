@@ -10,8 +10,9 @@ import Login from "./components/auth/Login";
 import Feed from "./components/Feed";
 import ApplicationForm from "./components/ApplicationForm";
 import Header from "./components/Header";
-import Register from "./components/auth/Register"
-import SignOut from "./components/auth/SignOut"
+import Register from "./components/auth/Register";
+import SignOut from "./components/auth/SignOut";
+import UserInfo from "./components/Settings/userInfo.js";
 
 import "./App.css";
 import Axios from "axios";
@@ -66,6 +67,19 @@ class App extends React.Component {
     this.setState({ isSearching: !currentState });
   }
 
+  /*
+  componentDidMount() {
+    const token = JSON.parse(localStorage.jwtTokenTeams);
+    setAuthToken(token);
+
+    // Decode token and get user info and exp
+    const decoded = jwt_decode(token);
+
+    // Set user and isAuthenticated
+    this.setCurrentUser(decoded);
+  }
+  */
+
   render() {
     return (
       <Router>
@@ -73,7 +87,7 @@ class App extends React.Component {
           {/* Header row */}
           <Grid.Row centered>
             <Grid.Column>
-              <Header user={this.state.user}/>
+              <Header user={this.state.user} />
             </Grid.Column>
           </Grid.Row>
 
@@ -82,8 +96,11 @@ class App extends React.Component {
               {/* Kontentti row */}
               <Grid.Row>
                 <Grid.Column width={7}>
-                  <ApplicationForm styles ={this.state.styles}
-                    clicked={this.changeSearchingState} />
+                  <ApplicationForm
+                    user={this.state.user}
+                    styles={this.state.styles}
+                    clicked={this.changeSearchingState}
+                  />
                 </Grid.Column>
                 <Grid.Column width={9}>
                   <Feed isSearching={this.state.isSearching}></Feed>
@@ -96,18 +113,14 @@ class App extends React.Component {
                 <Login {...props} setCurrentUser={this.setCurrentUser} />
               )}
             />
+            <Route path="/register" render={props => <Register {...props} />} />
             <Route
-              path="/register"
+              path="/signout"
               render={props => (
-                <Register {...props}/>
+                <SignOut {...props} setCurrentUser={this.setCurrentUser} />
               )}
             />
-          <Route
-            path="/signout"
-            render={props => (
-              <SignOut {...props} setCurrentUser={this.setCurrentUser}/>
-              )}
-            />
+            <Route path="/userinfo" render={props => <UserInfo {...props} />} />
             <Route>Error: Something went wrong :( Try again later.</Route>
           </Switch>
         </Grid>
