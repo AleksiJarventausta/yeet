@@ -10,57 +10,48 @@ export default class HeaderThing extends React.Component {
   };
 
 
-
   handleItemClick = (e, { name }) => {
-    if (this.state.activeItem !== name) {
-      this.setState({activeItem: name })
-    } else {
-      this.setState({activeItem: ""})
-    }
-
-    if (name === 'home') {
-      console.log("Switch to home layout")
-      //this.props.history.push('/')
-    } else if (name === 'logIn') {
-      console.log("Switch to login layout")
-      //this.props.history.push('/login')
-    }
+    this.setState({activeItem: name })
   }
 
   render() {
     console.log(this.props.user);
     return (
-      <Menu>
-        <Menu.Item>
-          <Header as="h1">MatchGamer</Header>
+      <Menu tabular>
+        <Menu.Item
+          name="home"
+          as={Link} to='/'
+          onClick={(event, data) => this.handleItemClick(event, data)}>
+          <Header >
+            MatchGamer
+          </Header>
         </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item name="home"
                     active={this.state.activeItem === 'home'}
-                    onClick={this.handleItemClick}
-                    as={Link} to='/'>
+                    as={Link} to='/'
+                    onClick={(event, data) => this.handleItemClick(event, data)}>
               Home
           </Menu.Item>
 
           {!isEmpty(this.props.user) ?
             <Menu.Item name="logIn"
               active={this.state.activeItem === 'logIn'}
-              onClick={this.handleItemClick}
-              as={Link} to='/signOut'>
+              as={Link} to='/signOut'
+              onClick={(event, data) => this.handleItemClick(event, data)}>
               Sign out
             </Menu.Item>
             :
             <Menu.Item name="logIn"
               active={this.state.activeItem === 'logIn'}
-              onClick={this.handleItemClick}
-              as={Link} to='/login'>
+              as={Link} to='/login'
+              onClick={(event, data) => this.handleItemClick(event, data)}>
               Log in
             </Menu.Item>
           }
             <Dropdown item text='Settings'
                       name='settings'
-                      active={this.state.activeItem === 'settings'}
-                      onClick={this.handleItemClick}>
+                      active={this.state.activeItem === 'settings'}>
               <Dropdown.Menu>
                 <Dropdown.Item icon='user circle' text='User Info'
                   as={Link} to='/userinfo'/>
