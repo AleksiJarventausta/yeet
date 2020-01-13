@@ -6,7 +6,7 @@ import {isEmpty} from "underscore";
 
 export default class HeaderThing extends React.Component {
   state = {
-    activeItem: ""
+    activeItem: "home"
   };
 
 
@@ -54,7 +54,8 @@ export default class HeaderThing extends React.Component {
                       active={this.state.activeItem === 'settings'}>
               <Dropdown.Menu>
                 <Dropdown.Item icon='user circle' text='User Info'
-                  as={Link} to='/userinfo'/>
+                  as={Link} to='/userinfo'
+                  onClick={(event, data) => this.handleItemClick(event, data)}/>
               </Dropdown.Menu>
             </Dropdown>
         </Menu.Menu>
