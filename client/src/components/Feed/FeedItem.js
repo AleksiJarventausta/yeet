@@ -37,12 +37,8 @@ export default class FeedItem extends React.Component {
     return (
       <Card>
         <Card.Content>
-          <Card.Header>
-            <Label.Group size="large">{gameItems}</Label.Group>
-          </Card.Header>
-
+          <Label.Group size="large">{gameItems}</Label.Group>
           <Card.Description>{this.props.description}</Card.Description>
-
           <Icon name="user" />
           {this.props.username}
         </Card.Content>
