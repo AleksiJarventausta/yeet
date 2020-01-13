@@ -31,7 +31,6 @@ router.post("/login", function(req, res) {
         // User matched
         // Create JWT Payload
         const payload = {
-          id: user.id,
           username: user.username,
           discord: user.discord,
           additional: user.additional,
@@ -57,6 +56,18 @@ router.post("/login", function(req, res) {
     });
   });
 });
+
+router.post("/update",
+  passport.authenticate("jwt", { session: false }),
+  function(req, res, next) {
+    req.user.discord = req.body.discord;
+    req.user.additional = req.body.additional;
+
+
+
+
+  }
+ )
 
 router.post("/register", function(req, res) {
   let { errors, isValid } = registerValidation(req.body);
