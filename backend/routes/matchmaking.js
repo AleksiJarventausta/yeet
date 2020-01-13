@@ -28,12 +28,13 @@ router.get(
       "Connection": "keep-alive",
       "Cache-Control": "no-cache"
     };
-    res.writeHead(200, headers);
+    req.user.responses.push(res);
+    req.user.save();
+    res.set(headers);
 
     // After client opens connection send all nests as string
     res.write(data);
-    req.user.responses.push(res);
-    req.user.save();
+    
     // When client closes connection we update the clients list
     // avoiding the disconnected one
     req.on("close", () => {
@@ -62,9 +63,8 @@ router.post("/like", passport.authenticate("jwt", { session: false }), function(
       .exec(function(err, userPost) {
         const lol = JSON.parse(JSON.stringify(userPost.liked))
         const xd = lol.includes(req.body._id)
-
-        if (xd && req.body.like) {
           userPost.responses.map(response => response.write("match:true"));
+        if (xd && req.body.like) {
           return res.json({ match: true });
         }
       });

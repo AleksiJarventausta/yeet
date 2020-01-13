@@ -32,7 +32,7 @@ export default class Feed extends React.Component {
       console.log("Feeditem did mount");
       if (true) {
         console.log("if true");
-        const events = new EventSource('http://yeet-yeet.rahtiapp.fi/match/connnect');
+        const events = new EventSource('http://yeet-yeet.rahtiapp.fi/match/connect');
         events.onmessage = (event) => {
           const parsedData = JSON.parse(event.data);
           if (event.data === "matched") {

@@ -32,7 +32,6 @@ function saveUser(res, sendUser) {
         id: user._id,
         username: user.username,
         discord: user.discord,
-        additional: user.additional
       };
       sendJwtToken(res, payload);
     })
@@ -66,7 +65,6 @@ router.post("/login", function(req, res) {
           id: user._id,
           username: user.username,
           discord: user.discord,
-          additional: user.additional
         };
 
         // Sign token
