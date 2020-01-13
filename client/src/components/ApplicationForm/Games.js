@@ -16,6 +16,7 @@ export default class Games extends React.Component {
     const old = this.props.info.games;
     let updated = this.removeItem(old, game);
     this.props.listUpdated(updated);
+    console.log("Deleted game:", game);
   }
 
   render() {
