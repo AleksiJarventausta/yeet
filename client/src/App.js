@@ -39,10 +39,6 @@ class App extends React.Component {
       // Set user and isAuthenticated
       this.setCurrentUser(decoded);
 
-      // Get missing information from database
-      // and set user info to the state
-      this.getUserInfo();
-
       // Check for expired token
       const currentTime = Date.now() / 1000; // to get in milliseconds
       if (decoded.exp < currentTime) {
@@ -60,7 +56,7 @@ class App extends React.Component {
       discord: "",
       additional: "",
       description: "",
-      games: ["a"]
+      games: []
     },
     errors: [],
     isSearching: false,
@@ -155,6 +151,9 @@ class App extends React.Component {
   // rendered for the first time
   componentDidMount() {
     this.getPosts();
+    // Get missing information from database
+    // and set user info to the state
+    this.getUserInfo();
   }
 
   render() {
