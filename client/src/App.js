@@ -38,10 +38,6 @@ class App extends React.Component {
       // Set user and isAuthenticated
       this.setCurrentUser(decoded);
 
-      // Get missing information from database
-      // and set user info to the state
-      this.getUserInfo();
-
       // Check for expired token
       const currentTime = Date.now() / 1000; // to get in milliseconds
       if (decoded.exp < currentTime) {
@@ -59,7 +55,7 @@ class App extends React.Component {
       discord: "",
       additional: "",
       description: "",
-      games: ["a"]
+      games: []
     },
     errors: [],
     isSearching: false,
@@ -127,7 +123,7 @@ class App extends React.Component {
   onGameslistUpdated(updatedList) {
     this.setState(prevState => ({
       user: {
-        ...prevState.info,
+        ...prevState.user,
         games: updatedList
       }
     }));
@@ -154,6 +150,9 @@ class App extends React.Component {
   // rendered for the first time
   componentDidMount() {
     this.getPosts();
+    // Get missing information from database
+    // and set user info to the state
+    this.getUserInfo();
   }
 
   render() {
@@ -186,11 +185,13 @@ class App extends React.Component {
                   />
                 </Grid.Column>
                 <Grid.Column width={9}>
-                  <Feed
-                    updatePosts={this.updatePosts.bind(this)}
-                    posts={this.state.posts}
-                    isSearching={this.state.isSearching}
-                  ></Feed>
+                  {this.state.isSearching && (
+                    <Feed
+                      updatePosts={this.updatePosts.bind(this)}
+                      posts={this.state.posts}
+                      isSearching={this.state.isSearching}
+                    ></Feed>
+                  )}
                 </Grid.Column>
               </Grid.Row>
             </Route>
@@ -219,7 +220,11 @@ class App extends React.Component {
             <Route
               path="/userinfo"
               render={props => (
-                <UserInfo {...props} user={this.state.user} setCurrentTab={this.setCurrentTab} />
+                <UserInfo
+                  {...props}
+                  user={this.state.user}
+                  setCurrentTab={this.setCurrentTab}
+                />
               )}
             />
             <Route>Error: Something went wrong :( Try again later.</Route>

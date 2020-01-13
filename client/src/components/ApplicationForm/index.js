@@ -102,7 +102,7 @@ export default class ApplicationForm extends React.Component {
             />
             <br />
             <Games
-              games={this.props.info.games}
+              info={this.props.info}
               listUpdated={this.gameslistUpdated.bind(this)}
               isSearching={this.props.isSearching}
             />

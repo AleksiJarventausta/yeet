@@ -13,13 +13,14 @@ export default class Games extends React.Component {
   }
 
   deleteGame(game) {
-    const old = this.props.games;
+    const old = this.props.info.games;
     let updated = this.removeItem(old, game);
     this.props.listUpdated(updated);
+    console.log("Deleted game:", game);
   }
 
   render() {
-    const gameItems = this.props.games.map(game => {
+    const gameItems = this.props.info.games.map(game => {
       return (
         <Label deleteGame={this.deleteGame}>
           {game}{" "}
