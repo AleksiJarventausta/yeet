@@ -10,46 +10,9 @@ import axios from "axios";
 
 export default class ApplicationForm extends React.Component {
   state = {
-    isSearching: false,
-    info: {
-      games: [],
-      username: "",
-      discord: "",
-      additional: "",
-      description: ""
-    },
     color: this.props.styles.positiveColor,
     text: "Start searching"
   };
-
-  getUserInfo() {
-    const items = [];
-    axios
-      .get("/post")
-      .then(res => {
-        const data = res.data;
-        console.log("propsina saatu user data:", this.props.user);
-        console.log("haettu userinfo data:", data);
-        this.setState({
-          info: {
-            games: data.games,
-            username: this.props.user.username,
-            discord: "ph nickname#1234",
-            additional: "ph MTGA username#4321",
-            description: data.description
-          }
-        });
-      })
-      .catch(err => console.log(err));
-  }
-
-  componentDidMount() {
-    // Fetch data from backend
-
-    if (this.state.info.username === "") {
-      this.getUserInfo();
-    }
-  }
 
   sendUpdatedInfoToDatabase(data) {
     // Change the address and parse data to form the back wants
@@ -62,30 +25,26 @@ export default class ApplicationForm extends React.Component {
       .catch(err => console.log(err));
   }
 
-  updateState(data) {
-    console.log("updated state");
-    this.setState(prevState => ({
-      info: {
-        ...prevState.info,
-        username: data.username,
-        discord: data.discord,
-        additional: data.additional,
-        description: data.description
-      }
-    }));
+  updateState(newUser) {
+    console.log("updated userInfo:", newUser);
+    const info = {
+      ...this.props.info,
+      username: newUser.username,
+      discord: newUser.discord,
+      additional: newUser.additional,
+      description: newUser.description
+    };
+
+    this.props.updateUser(info);
     //this.sendUpdatedInfoToDatabase(data);
   }
 
+  // Updated the gamelist in app.js
   gameslistUpdated(updatedList) {
-    // Ei niin mitään lupausta että toi staten päivittäminen toimii
-    this.setState(prevState => ({
-      info: {
-        ...prevState.info,
-        games: updatedList
-      }
-    }));
+    this.props.updateGamelist(updatedList);
   }
 
+  // Sends the new application to the database (?)
   sendNewPost(searchState) {
     const data = {
       description: "hard-coded palceholder", // TODO: hanki tähän kaikki tarvittavat tiedot
@@ -99,8 +58,8 @@ export default class ApplicationForm extends React.Component {
 
   whenClicked() {
     this.props.clicked();
-    const current = this.state.isSearching;
-    if (!this.state.isSearching) {
+    const current = this.props.isSearching;
+    if (!current) {
       this.setState({
         color: this.props.styles.negativeColor,
         text: "Stop searching"
@@ -113,7 +72,6 @@ export default class ApplicationForm extends React.Component {
       });
       this.sendNewPost(!current);
     }
-    this.setState({ isSearching: !current });
     console.log("Clicked!");
   }
 
@@ -125,28 +83,28 @@ export default class ApplicationForm extends React.Component {
           <Segment>
             <UserInfo
               updateInfo={this.updateState.bind(this)}
-              info={this.state.info}
-              isSearching={this.state.isSearching}
+              info={this.props.info}
+              isSearching={this.props.isSearching}
             />
           </Segment>
           <Segment>
             <DescriptionBox
               updateInfo={this.updateState.bind(this)}
-              info={this.state.info}
-              isSearching={this.state.isSearching}
+              info={this.props.info}
+              isSearching={this.props.isSearching}
             />
           </Segment>
           <Segment>
             <SearchBar
-              isSearching={this.state.isSearching}
-              games={this.state.info.games}
-              listUpdated={this.gameslistUpdated.bind(this)}
+              updateInfo={this.updateState.bind(this)}
+              info={this.props.info}
+              isSearching={this.props.isSearching}
             />
             <br />
             <Games
-              games={this.state.info.games}
+              games={this.props.info.games}
               listUpdated={this.gameslistUpdated.bind(this)}
-              isSearching={this.state.isSearching}
+              isSearching={this.props.isSearching}
             />
           </Segment>
         </Segment.Group>
