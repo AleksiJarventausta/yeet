@@ -64,6 +64,8 @@ class App extends React.Component {
     }
   };
 
+  // Set the username and discord, then put
+  // empty values for games, additional and description.
   setCurrentUser(user) {
     console.log("set user:", user);
     const newUser = {
@@ -75,6 +77,8 @@ class App extends React.Component {
     this.setState({ user: newUser });
   }
 
+  // Fetch users data from the database and
+  // set users games, additional and description.
   getUserInfo() {
     axios
       .get("/post")
@@ -95,15 +99,16 @@ class App extends React.Component {
       .catch(err => console.log(err));
   }
 
+  setCurrentTab(tab) {
+    this.setState({ currentTab: tab });
+    console.log("Set tab to: " + tab);
+  }
+
   // When the user decides to start/stop searching,
   // change the state to match that and
   // if the user starts searching
   // fetch posts from the database and put them
   // on the state of this component
-  setCurrentTab(tab) {
-    this.setState({ currentTab: tab });
-    console.log("Set tab to: " + tab);
-  }
   changeSearchingState() {
     const currentState = this.state.isSearching;
     console.log("isSearching is changed:", currentState, "->", !currentState);
@@ -117,6 +122,7 @@ class App extends React.Component {
     this.setState({ posts: updatedPosts });
   }
 
+  // Updates every field of user
   updateUser(updatedUser) {
     this.setState({ user: updatedUser });
   }
@@ -131,7 +137,7 @@ class App extends React.Component {
     }));
   }
   // Get posts from database and
-  // put them on state.posts as a list
+  // put them on state in posts as a list
   getPosts() {
     const items = [];
     axios
@@ -186,6 +192,9 @@ class App extends React.Component {
                       updateUser={this.updateUser.bind(this)}
                       updateGamelist={this.onGameslistUpdated.bind(this)}
                     />
+                  )}
+                  {isEmpty(this.state.user) && (
+                    <h2>You have to log in to see content</h2>
                   )}
                 </Grid.Column>
                 <Grid.Column width={9}>
