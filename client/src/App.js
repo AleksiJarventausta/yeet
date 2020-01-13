@@ -51,6 +51,7 @@ class App extends React.Component {
     user: {},
     errors: [],
     isSearching: false,
+    currentTab: "home",
     styles: {
       positiveColor: "green",
       negativeColor: "red"
