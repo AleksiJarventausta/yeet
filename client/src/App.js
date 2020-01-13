@@ -65,7 +65,13 @@ class App extends React.Component {
 
   setCurrentUser(user) {
     console.log("set user:", user);
-    this.setState({ user });
+    const newUser = {
+      ...user,
+      games: [],
+      additional: "",
+      description: ""
+    };
+    this.setState({ user: newUser });
   }
 
   getUserInfo() {
