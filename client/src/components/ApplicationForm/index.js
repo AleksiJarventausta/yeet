@@ -49,17 +49,17 @@ export default class ApplicationForm extends React.Component {
     if (this.state.info.username === "") {
       this.getUserInfo();
     }
+  }
 
-    /* Test data
-    this.setState({
-      info: {
-        games: ["This", "That"],
-        username: "user",
-        discord: "nickname#1234",
-        additional: "MTGA username#4321",
-        description: "I am a gamer."
-      }
-    }); */
+  sendUpdatedInfoToDatabase(data) {
+    // Change the address and parse data to form the back wants
+    const address = "";
+    axios
+      .post(address, data)
+      .then(res =>
+        console.log("Hakemuksen tiedot päivitetty tietokantaan", data, res)
+      )
+      .catch(err => console.log(err));
   }
 
   updateState(data) {
@@ -73,6 +73,7 @@ export default class ApplicationForm extends React.Component {
         description: data.description
       }
     }));
+    //this.sendUpdatedInfoToDatabase(data);
   }
 
   gameslistUpdated(updatedList) {
@@ -87,7 +88,7 @@ export default class ApplicationForm extends React.Component {
 
   sendNewPost(searchState) {
     const data = {
-      description: "apua", // TODO: hanki tähän kaikki tarvittavat tiedot
+      description: "hard-coded palceholder", // TODO: hanki tähän kaikki tarvittavat tiedot
       active: searchState
     };
     axios
