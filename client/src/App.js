@@ -20,7 +20,6 @@ import UserInfo from "./components/Settings/userInfo.js";
 import "./App.css";
 import Axios from "axios";
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -93,7 +92,7 @@ class App extends React.Component {
       axios
         .post("/games/search-id", { ids: data.games })
         .then(res => {
-          console.log("Haettu pelit:", res.data, res);
+          //console.log("Haettu pelit:", res.data, res);
           newList = res.data.map(g => {
             const newGameItem = { ...g, title: g.name };
 
@@ -102,6 +101,50 @@ class App extends React.Component {
 
           this.setState(prevState => ({
             user: { ...prevState.user, games: newList }
+          }));
+        })
+        .catch(err => console.log(err));
+    }
+  }
+
+  removeItem(array, id) {
+    for (var i in array) {
+      if (array[i]._id === id) {
+        array.splice(i, 1);
+        break;
+      }
+    }
+    return array;
+  }
+
+  getPostsGameInfo(data) {
+    //console.log("data ja data.games", data, data.games);
+
+    if (data.games.length > 0) {
+      let newList = [];
+
+      axios
+        .post("/games/search-id", { ids: data.games })
+        .then(res => {
+          //console.log("Haettu pelit:", res.data, res);
+          newList = res.data.map(g => {
+            const newGameItem = { ...g, title: g.name };
+
+            return newGameItem;
+          });
+          //console.log("newList:", newList);
+
+          let updatedPosts = this.state.posts;
+          const newDataObject = { ...data, games: newList, voted: false };
+
+          //console.log("newDataObject:", newDataObject);
+
+          updatedPosts = this.removeItem(updatedPosts, data._id);
+
+          updatedPosts.push(newDataObject);
+          //console.log("updatedPosts:", updatedPosts);
+          this.setState(prevState => ({
+            post: { updatedPosts }
           }));
         })
         .catch(err => console.log(err));
@@ -203,6 +246,7 @@ class App extends React.Component {
         const data = res.data;
         console.log("Tietokannasta haetut postaukset:", data);
         const items = data.map(item => {
+          this.getPostsGameInfo(item);
           return { ...item, voted: false };
         });
 

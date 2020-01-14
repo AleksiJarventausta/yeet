@@ -77,10 +77,7 @@ export default class Feed extends React.Component {
               postId={item._id}
               userId={item.poster._id}
               description={item.description}
-              games={[
-                { name: "testGame", _id: 1 },
-                { name: "testGame2", _id: 2 }
-              ]}
+              games={item.games}
               username={item.poster.username}
             />
           );
