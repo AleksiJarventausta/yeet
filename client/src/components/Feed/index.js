@@ -1,4 +1,5 @@
 import React from "react";
+
 import FeedItem from "./FeedItem";
 import Match from "./Match";
 
@@ -14,6 +15,9 @@ export default class Feed extends React.Component {
     };
   }
 
+  // Marks the post voted when user has voted it.
+  // Changes items attribute voted to true and
+  // updates it to upper level components.
   postVoted(id) {
     console.log("postVoted:", id);
     const newItems = this.props.posts.map(item => {
@@ -50,12 +54,10 @@ export default class Feed extends React.Component {
     let feeditems = null;
     let counter = 0;
     if (items) {
-      // No return under map
       feeditems = items.map(item => {
         let feedItem = null;
         if (item.voted === false && counter < 2) {
           //console.log("id of this feeditem is:", item._id);
-          // There is key, which is the posts id but it is not valid?
           counter = counter + 1;
           feedItem = (
             <FeedItem
