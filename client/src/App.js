@@ -40,7 +40,7 @@ class App extends React.Component {
         positiveColor: "green",
         negativeColor: "red"
       }
-    }
+    };
     /*
     if (localStorage.jwtTokenTeams) {
       //console.log("is logged in");
@@ -81,9 +81,8 @@ class App extends React.Component {
       };
       this.setState({ user: newUser });
     } else {
-      this.setState({user: {}})
+      this.setState({ user: {} });
     }
-
   }
 
   // Fetch users data from the database and
@@ -152,7 +151,7 @@ class App extends React.Component {
       .get("/match/matches")
       .then(res => {
         const data = res.data;
-        //console.log("Tietokannasta haetut postaukset:", data);
+        console.log("Tietokannasta haetut postaukset:", data);
         const items = data.map(item => {
           return { ...item, voted: false };
         });
@@ -195,7 +194,6 @@ class App extends React.Component {
       // and set user info to the state
       this.getUserInfo();
     }
-
   }
 
   render() {

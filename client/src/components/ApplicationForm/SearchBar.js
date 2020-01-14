@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React, { Component } from "react";
-import { Search, Grid,  Form } from "semantic-ui-react";
+import { Search, Grid, Form } from "semantic-ui-react";
 
 import axios from "axios";
 
@@ -28,7 +28,7 @@ const source = [
 export default class SearchExampleStandard extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
   }
 
   // Get list of games from the backend and put in in state.
@@ -45,7 +45,7 @@ export default class SearchExampleStandard extends Component {
         // Should be done in for loop instead of .map?
         // warning for no return (doesn't give components eg.)
         data.map(game => {
-          list.push({ title: game.name });
+          list.push({ title: game.name, id: game.id });
         });
         this.setState({
           results: list

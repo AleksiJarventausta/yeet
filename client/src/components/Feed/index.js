@@ -54,6 +54,8 @@ export default class Feed extends React.Component {
       feeditems = items.map(item => {
         let feedItem = null;
         if (item.voted === false && counter < 2) {
+          //console.log("id of this feeditem is:", item._id);
+          // There is key, which is the posts id but it is not valid?
           counter = counter + 1;
           feedItem = (
             <FeedItem
@@ -61,7 +63,10 @@ export default class Feed extends React.Component {
               key={item._id}
               id={item._id}
               description={item.description}
-              games={["testGame", "testGame2"]}
+              games={[
+                { name: "testGame", _id: 1 },
+                { name: "testGame2", _id: 2 }
+              ]}
               username={item.poster.username}
             />
           );

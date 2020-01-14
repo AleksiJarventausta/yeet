@@ -33,7 +33,8 @@ export default class FeedItem extends React.Component {
 
   render() {
     const gameItems = this.props.games.map(game => {
-      return <Label> {game + " "}</Label>;
+      console.log("pelin id:", game._id);
+      return <Label key={game._id}> {game.name + " "}</Label>;
     });
 
     return (
