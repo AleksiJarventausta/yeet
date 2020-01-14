@@ -3,8 +3,7 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuth";
 import jwt_decode from "jwt-decode";
-import { Button, Message, Form, Grid, Input, Icon} from "semantic-ui-react";
-
+import { Button, Message, Form, Grid, Input, Icon } from "semantic-ui-react";
 
 class UserInfo extends Component {
   constructor(props) {
@@ -23,8 +22,8 @@ class UserInfo extends Component {
   }
 
   componentDidMount() {
-    console.log("asd");
-    console.log("User: " + this.props.user.username)
+    //console.log("asd");
+    //console.log("User: " + this.props.user.username)
     this.setState({
       username: this.props.user.username,
       discord: this.props.user.discord,
@@ -35,8 +34,8 @@ class UserInfo extends Component {
   onSubmit(e) {
     e.preventDefault();
     /* Poista alla oleva kun saadaan tietoa, tehdään lopussa */
-    this.setState({infoSaved: true})
-    const newInfo= {
+    this.setState({ infoSaved: true });
+    const newInfo = {
       username: this.state.username,
       discord: this.state.discord,
       additional: this.state.additional,
@@ -58,89 +57,102 @@ class UserInfo extends Component {
         const decoded = jwt_decode(token);
         // Set current user
         this.props.setCurrentUser(decoded);
-        this.setState({infoSaved: true});
+        this.setState({ infoSaved: true });
       })
       .catch(err => console.log(err));
   }
 
   updateBox(e, data) {
     if (e.target.name === "username") {
-      this.setState({username: data.value})
+      this.setState({ username: data.value });
     } else if (e.target.name === "discord") {
-      this.setState({discord: data.value})
+      this.setState({ discord: data.value });
     } else if (e.target.name === "additional") {
-      this.setState({additional: data.value})
+      this.setState({ additional: data.value });
     } else if (e.target.name === "newpassword1") {
-      this.setState({password1: data.value})
+      this.setState({ password1: data.value });
     } else if (e.target.name === "newpassword2") {
-      this.setState({password2: data.value})
+      this.setState({ password2: data.value });
     } else if (e.target.name === "password") {
-      this.setState({password2: data.value})
+      this.setState({ password2: data.value });
     }
-  };
+  }
 
   render() {
     return (
       <Grid centered>
         <Grid.Column>
-        <Form onSubmit={this.onSubmit}>
-          <Message>
-          <Form.Field>
+          <Form onSubmit={this.onSubmit}>
+            <Message>
+              <Form.Field>
+                <Input
+                  name="username"
+                  onChange={(event, data) => {
+                    this.updateBox(event, data);
+                  }}
+                  value={this.state.username}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Input
+                  name="discord"
+                  onChange={(event, data) => {
+                    this.updateBox(event, data);
+                  }}
+                  value={this.state.discord}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Input
+                  name="additional"
+                  onChange={(event, data) => {
+                    this.updateBox(event, data);
+                  }}
+                  value={this.state.additional}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Input
+                  name="newpassword1"
+                  onChange={(event, data) => {
+                    this.updateBox(event, data);
+                  }}
+                  placeholder="New Password"
+                  type="password"
+                />
+              </Form.Field>
+              <Form.Field>
+                <Input
+                  name="newpassword2"
+                  onChange={(event, data) => {
+                    this.updateBox(event, data);
+                  }}
+                  placeholder="New Password Again"
+                  type="password"
+                />
+              </Form.Field>
+            </Message>
             <Input
-            name="username"
-            onChange={(event, data) => {this.updateBox(event, data)}}
-            value={this.state.username}/>
-          </Form.Field>
-          <Form.Field>
-          <Input
-          name="discord"
-          onChange={(event, data) => {this.updateBox(event, data)}}
-          value={this.state.discord}/>
-          </Form.Field>
-          <Form.Field>
-          <Input
-          name="additional"
-          onChange={(event, data) => {this.updateBox(event, data)}}
-          value={this.state.additional}/>
-          </Form.Field>
-          <Form.Field>
-          <Input
-          name="newpassword1"
-          onChange={(event, data) => {this.updateBox(event, data)}}
-          placeholder="New Password"
-          type="password"/>
-          </Form.Field>
-          <Form.Field>
-          <Input
-          name="newpassword2"
-          onChange={(event, data) => {this.updateBox(event, data)}}
-          placeholder="New Password Again"
-          type="password"/>
-          </Form.Field>
-          </Message>
-          <Input
-          name="newpassword2"
-          onChange={(event, data) => {this.updateBox(event, data)}}
-          placeholder="Your current password"
-          type="password"/>
-          <Button type="submit">
-            <Icon name="pencil alternate" />
-            Save
-          </Button>
-          {this.state.infoSaved &&
-              <h2>
-                info saved
-              </h2>
-          }
-          {this.state.errors!=="" &&
-             <h2>
-              some errors: {this.state.errors}
-            </h2>
-          }
-        </Form>
+              name="newpassword2"
+              onChange={(event, data) => {
+                this.updateBox(event, data);
+              }}
+              placeholder="Your current password"
+              type="password"
+            />
+            <Button type="submit">
+              <Icon name="pencil alternate" />
+              Save
+            </Button>
+            {this.state.infoSaved && <h2>info saved</h2>}
+            {this.state.errors !== "" && (
+              <h2>some errors: {this.state.errors}</h2>
+            )}
+          </Form>
         </Grid.Column>
       </Grid>
-    )}
+    );
+  }
 }
 
 export default withRouter(UserInfo);

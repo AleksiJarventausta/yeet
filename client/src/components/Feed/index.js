@@ -2,7 +2,7 @@ import React from "react";
 
 import FeedItem from "./FeedItem";
 import Match from "./Match";
-import {EventSourcePolyfill} from 'event-source-polyfill'
+import { EventSourcePolyfill } from "event-source-polyfill";
 
 import { Header } from "semantic-ui-react";
 
@@ -20,7 +20,7 @@ export default class Feed extends React.Component {
   // Changes items attribute voted to true and
   // updates it to upper level components.
   postVoted(id) {
-    console.log("postVoted:", id);
+    //console.log("postVoted:", id);
     const newItems = this.props.posts.map(item => {
       if (item._id === id) {
         item.voted = true;
@@ -34,7 +34,7 @@ export default class Feed extends React.Component {
     if (!this.state.listening) {
       const token = JSON.parse(localStorage.jwtTokenTeams);
       const events = new EventSourcePolyfill(
-        "http://localhost:5000/match/connect",
+        "http://yeet-yeet.rahtiapp.fi/match/connect",
         {
           headers: {
             Authorization: token
@@ -45,7 +45,6 @@ export default class Feed extends React.Component {
       events.onmessage = event => {
         try {
           const parsedData = JSON.parse(event.data);
-
         } catch (e) {}
       };
       this.setState({ events: events });
