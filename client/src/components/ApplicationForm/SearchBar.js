@@ -40,12 +40,11 @@ export default class SearchExampleStandard extends Component {
       .then(res => {
         const data = res.data;
         console.log("Haettiin pelit:", data);
-        const list = [];
 
         // Should be done in for loop instead of .map?
         // warning for no return (doesn't give components eg.)
-        data.map(game => {
-          list.push({ title: game.name, id: game.id });
+        let list = data.map(game => {
+          return { title: game.name, id: game.id };
         });
         this.setState({
           results: list
