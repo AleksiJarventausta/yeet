@@ -78,7 +78,7 @@ router.post("/like", passport.authenticate("jwt", { session: false }), function(
   req,
   res
 ) {
-  Post.findOne({ _id: req.body.postId }).exec(function(err, otherPost) {
+  Post.findOne({ _id: req.body.postId }).populate('poster', 'username discord additional').exec(function(err, otherPost) {
     if (req.body.like) {
       otherPost.liked.push(req.user._id);
     } else {
@@ -86,22 +86,42 @@ router.post("/like", passport.authenticate("jwt", { session: false }), function(
     }
     otherPost
       .save()
-      .then(user => console.log(user))
-      .catch(err => {});
-    Post.findOne({ poster: req.user._id })
-      .populate("poster")
-      .exec(function(err, userPost) {
-        const lol = JSON.parse(JSON.stringify(userPost.liked));
-        const xd = lol.includes(req.body.userId);
-        if (xd && req.body.like) {
-          clients.map(c => {
-            const otherId = mongoose.Types.ObjectId(req.body.userId);
-            if (c.id.equals(req.user._id) || otherId.equals(c.id)) {
-              c.res.write("data: LoYTY MATCHI!!!!!!\n\n");
+      .then(user => {
+        Post.findOne({ poster: req.user._id })
+          .populate("poster")
+          .exec(function(err, userPost) {
+            const lol = JSON.parse(JSON.stringify(userPost.liked));
+            const xd = lol.includes(req.body.userId);
+
+            const matchedUser = {
+              username: otherPost.poster.username,
+              discord: otherPost.poster.discord,
+              games: otherPost.games,
+              description: otherPost.description,
+              additonal: otherPost.poster.additonal,
+            };
+
+            const thisUser = {
+              username: req.user.username,
+              discord: req.user.discord,
+              games: userPost.games,
+              description: userPost.description,
+              additonal: req.user.additonal,
+            }
+
+            if (xd && req.body.like) {
+              clients.map(c => {
+                const otherId = mongoose.Types.ObjectId(req.body.userId);
+                if (c.id.equals(req.user._id)) {
+                  c.res.write("data: "+ JSON.stringify(matchedUser) + "\n\n");
+                } else if(otherId.equals(c.id)) {
+                  c.res.write("data: "+ JSON.stringify(thisUser) + "\n\n");
+                }
+              });
             }
           });
-        }
-      });
+      })
+      .catch(err => {});
   });
   res.send("ok");
 });
