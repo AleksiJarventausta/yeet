@@ -2,7 +2,7 @@ import React from "react";
 import FeedItem from "./FeedItem";
 import Match from "./Match";
 
-import {Header} from "semantic-ui-react";
+import { Header } from "semantic-ui-react";
 
 export default class Feed extends React.Component {
   constructor(props) {
@@ -11,11 +11,8 @@ export default class Feed extends React.Component {
       nests: null,
       listening: false,
       matched: false
-    }
-
+    };
   }
-
-
 
   postVoted(id) {
     console.log("postVoted:", id);
@@ -29,22 +26,23 @@ export default class Feed extends React.Component {
   }
 
   componentDidMount() {
-      console.log("Feeditem did mount");
-      if (true) {
-        console.log("if true");
-        const events = new EventSource('http://yeet-yeet.rahtiapp.fi/match/connnect');
-        events.onmessage = (event) => {
-          //const parsedData = JSON.parse(event.data);
-          if (event.data === "matched") {
-            this.setState({matched:true})
-          }
-        };
+    console.log("Feeditem did mount");
+    if (true) {
+      console.log("if true");
+      const events = new EventSource(
+        "http://yeet-yeet.rahtiapp.fi/match/connnect"
+      );
+      events.onmessage = event => {
+        //const parsedData = JSON.parse(event.data);
+        if (event.data === "matched") {
+          this.setState({ matched: true });
+        }
+      };
 
-        this.setState({listening: true});
-        console.log("set listening true");
-      }
-    };
-
+      this.setState({ listening: true });
+      console.log("set listening true");
+    }
+  }
 
   render() {
     let items = this.props.posts;
@@ -54,9 +52,10 @@ export default class Feed extends React.Component {
     if (items) {
       // No return under map
       feeditems = items.map(item => {
+        let feedItem = null;
         if (item.voted === false && counter < 2) {
           counter = counter + 1;
-          return (
+          feedItem = (
             <FeedItem
               voted={this.postVoted.bind(this)}
               key={item._id}
@@ -67,6 +66,7 @@ export default class Feed extends React.Component {
             />
           );
         }
+        return feedItem;
       });
     }
     return (
@@ -74,7 +74,6 @@ export default class Feed extends React.Component {
         <div>
           {/*true && <h1>Matched!</h1>*/}
           {this.state.matched && <h1>Matched!</h1>}
-
 
           <Header as="h2">Found gamers:</Header>
           {/* Placeholder Match objekti */}
