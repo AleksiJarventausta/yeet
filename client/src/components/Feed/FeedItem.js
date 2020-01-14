@@ -1,8 +1,10 @@
 import React from "react";
-import { Grid, Divider, Label, Card, Icon, Button } from "semantic-ui-react";
+import { Label, Card, Icon, Button } from "semantic-ui-react";
 import axios from "axios";
 
 export default class FeedItem extends React.Component {
+  // Updates to the database that user liked a post.
+  // Updates the posts attribute voted to upper level component.
   liked() {
     const id = this.props.postId;
     const userId = this.props.userId;
@@ -19,6 +21,8 @@ export default class FeedItem extends React.Component {
       .catch(err => console.log(err));
   }
 
+  // Basically same as liked() and these two should be
+  // connected to be only one function.
   notLiked() {
     const id = this.props.postId;
     const userId = this.props.userId;
@@ -37,8 +41,10 @@ export default class FeedItem extends React.Component {
   }
 
   render() {
+    // Creating the gametags that are shown in the post
     const gameItems = this.props.games.map(game => {
-      return <Label> {game + " "}</Label>;
+      //console.log("pelin id:", game._id);
+      return <Label key={game._id}> {game.name + " "}</Label>;
     });
 
     return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Grid, Divider } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 
 // Utils
 import jwt_decode from "jwt-decode";
@@ -28,7 +28,21 @@ class App extends React.Component {
     this.setCurrentTab = this.setCurrentTab.bind(this);
     this.changeSearchingState = this.changeSearchingState.bind(this);
 
+    this.state = {
+      user: {},
+      errors: [],
+      issearching: false,
+      posts: [],
+      // Current tab e.g current view: "home", "signOut", "logIn", "userInfo"
+      currentTab: "home",
+      styles: {
+        positiveColor: "green",
+        negativeColor: "red"
+      }
+    };
+    /*
     if (localStorage.jwtTokenTeams) {
+      //console.log("is logged in");
       // Set auth token header auth
       const token = JSON.parse(localStorage.jwtTokenTeams);
       setAuthToken(token);
@@ -39,6 +53,7 @@ class App extends React.Component {
       // Set user and isAuthenticated
       this.setCurrentUser(decoded);
 
+      //console.log("set current user to:" + decoded.username)
       // Check for expired token
       const currentTime = Date.now() / 1000; // to get in milliseconds
       if (decoded.exp < currentTime) {
@@ -49,37 +64,61 @@ class App extends React.Component {
         window.location.href = "./";
       }
     }
+    */
   }
-  state = {
-    user: {},
-    errors: [],
-    isSearching: false,
-    posts: [],
-    /* Current tab e.g current view: "home", "signOut", "logIn", "userInfo" */
-    currentTab: "home",
-    styles: {
-      positiveColor: "green",
-      negativeColor: "red"
-    }
-  };
 
+  // Set the username and discord, then put
+  // empty values for games, additional and description.
   setCurrentUser(user) {
-    console.log("set user:", user);
-    const newUser = {
-      ...user,
-      games: [],
-      additional: "",
-      description: ""
-    };
-    this.setState({ user: newUser });
+    if (user !== null) {
+      this.getUserInfo2(user);
+      this.getPosts();
+      const newUser = {
+        username: user.username,
+        discord: user.discord,
+        games: [],
+        additional: "",
+        description: ""
+      };
+      this.setState({ user: newUser });
+    } else {
+      this.setState({ user: {} });
+    }
   }
 
+  getGameInfo(data) {
+    if (data.games.length > 0) {
+      let newList = [];
+      console.log("data.games:", data.games);
+      axios
+        .post("/games/search-id", { ids: data.games })
+        .then(res => {
+          console.log("Haettu pelit:", res.data, res);
+          newList = res.data.map(g => {
+            const newGameItem = { ...g, title: g.name };
+            console.log("newGameitem:", newGameItem);
+            return newGameItem;
+          });
+          console.log("newList:", newList);
+          this.setState(prevState => ({
+            user: { ...prevState.user, games: newList }
+          }));
+        })
+        .catch(err => console.log(err));
+    }
+  }
+
+  // Fetch users data from the database and
+  // set users games, additional and description.
   getUserInfo() {
     axios
       .get("/post")
       .then(res => {
         const data = res.data;
-        console.log("haettu userinfo data:", data);
+        console.log("Haettu käyttäjän tiedot:", data);
+
+        this.getGameInfo(data);
+
         this.setState(prevState => ({
           user: {
             ...prevState.user,
@@ -94,19 +133,44 @@ class App extends React.Component {
       .catch(err => console.log(err));
   }
 
+  getUserInfo2(user) {
+    axios
+      .get("/post")
+      .then(res => {
+        const data = res.data;
+        console.log("Haettu käyttäjän tiedot:", data);
+
+        this.getGameInfo(data);
+
+        this.setState(prevState => ({
+          user: {
+            ...prevState.user,
+            ...user,
+            games: data.games,
+            username: this.state.user.username,
+            discord: this.state.user.discord,
+            additional: "hardcoded placeholder",
+            description: data.description
+          }
+        }));
+      })
+      .catch(err => console.log(err));
+  }
+
+  setCurrentTab(tab) {
+    this.setState({ currentTab: tab });
+    //console.log("Set tab to: " + tab);
+  }
+
   // When the user decides to start/stop searching,
   // change the state to match that and
   // if the user starts searching
   // fetch posts from the database and put them
   // on the state of this component
-  setCurrentTab(tab) {
-    this.setState({ currentTab: tab });
-    console.log("Set tab to: " + tab);
-  }
   changeSearchingState() {
-    const currentState = this.state.isSearching;
-    console.log("isSearching is changed:", currentState, "->", !currentState);
-    this.setState({ isSearching: !currentState });
+    const currentState = this.state.issearching;
+    //console.log("issearching is changed:", currentState, "->", !currentState);
+    this.setState({ issearching: !currentState });
     if (currentState === false) {
       this.getPosts();
     }
@@ -116,6 +180,7 @@ class App extends React.Component {
     this.setState({ posts: updatedPosts });
   }
 
+  // Updates every field of user
   updateUser(updatedUser) {
     this.setState({ user: updatedUser });
   }
@@ -130,9 +195,8 @@ class App extends React.Component {
     }));
   }
   // Get posts from database and
-  // put them on state.posts as a list
+  // put them on state in posts as a list
   getPosts() {
-    const items = [];
     axios
       .get("/match/matches")
       .then(res => {
@@ -150,10 +214,29 @@ class App extends React.Component {
   // Fetch posts from the database when the site is
   // rendered for the first time
   componentDidMount() {
-    this.getPosts();
-    // Get missing information from database
-    // and set user info to the state
-    this.getUserInfo();
+    if (localStorage.jwtTokenTeams) {
+      //console.log("is logged in");
+      // Set auth token header auth
+      const token = JSON.parse(localStorage.jwtTokenTeams);
+      setAuthToken(token);
+
+      // Decode token and get user info and exp
+      const decoded = jwt_decode(token);
+
+      // Set user and isAuthenticated
+      this.setCurrentUser(decoded);
+
+      //console.log("set current user to:" + decoded.username)
+      // Check for expired token
+      const currentTime = Date.now() / 1000; // to get in milliseconds
+      if (decoded.exp < currentTime) {
+        // Logout user
+        this.setCurrentUser(null);
+
+        // Redirect to login
+        window.location.href = "./";
+      }
+    }
   }
 
   render() {
@@ -167,6 +250,7 @@ class App extends React.Component {
                 setCurrentTab={this.setCurrentTab}
                 tab={this.state.currentTab}
                 user={this.state.user}
+                setCurrentUser={this.setCurrentUser}
               />
             </Grid.Column>
           </Grid.Row>
@@ -179,20 +263,23 @@ class App extends React.Component {
                   {!isEmpty(this.state.user) && (
                     <ApplicationForm
                       info={this.state.user}
-                      isSearching={this.state.isSearching}
+                      issearching={this.state.issearching}
                       styles={this.state.styles}
                       clicked={this.changeSearchingState}
                       updateUser={this.updateUser.bind(this)}
                       updateGamelist={this.onGameslistUpdated.bind(this)}
                     />
                   )}
+                  {isEmpty(this.state.user) && (
+                    <h2>You have to log in to see content</h2>
+                  )}
                 </Grid.Column>
                 <Grid.Column width={9}>
-                  {this.state.isSearching && (
+                  {this.state.issearching && (
                     <Feed
                       updatePosts={this.updatePosts.bind(this)}
                       posts={this.state.posts}
-                      isSearching={this.state.isSearching}
+                      issearching={this.state.issearching}
                     ></Feed>
                   )}
                 </Grid.Column>

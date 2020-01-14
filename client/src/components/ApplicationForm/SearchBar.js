@@ -1,12 +1,13 @@
 import _ from "lodash";
 import React, { Component } from "react";
-import { Search, Grid, Header, Segment, Form } from "semantic-ui-react";
+import { Search, Grid, Form } from "semantic-ui-react";
 
 import axios from "axios";
 
 const initialState = { isLoading: false, results: [], value: "" };
 
-// Testidataa
+// Some test data
+/*
 const source = [
   {
     title: "Bauch, Kihn and Schoen",
@@ -20,89 +21,30 @@ const source = [
     image:
       "https://s3.amazonaws.com/uifaces/faces/twitter/karthipanraj/128.jpg",
     price: "$72.69"
-  },
-  {
-    title: "McGlynn Inc",
-    description: "Seamless well-modulated success",
-    image:
-      "https://s3.amazonaws.com/uifaces/faces/twitter/stefanozoffoli/128.jpg",
-    price: "$70.78"
-  },
-  {
-    title: "Langosh, Lind and Langworth",
-    description: "Virtual encompassing collaboration",
-    image: "https://s3.amazonaws.com/uifaces/faces/twitter/silv3rgvn/128.jpg",
-    price: "$69.89"
-  },
-  {
-    title: "Bednar - Ritchie",
-    description: "Versatile homogeneous firmware",
-    image:
-      "https://s3.amazonaws.com/uifaces/faces/twitter/chaabane_wail/128.jpg",
-    price: "$20.96"
-  },
-  {
-    title: "Kessler - Will",
-    description: "Multi-layered asynchronous encryption",
-    image: "https://s3.amazonaws.com/uifaces/faces/twitter/nateschulte/128.jpg",
-    price: "$69.48"
-  },
-  {
-    title: "Gerhold, Hettinger and Hahn",
-    description: "Advanced background encryption",
-    image: "https://s3.amazonaws.com/uifaces/faces/twitter/mahdif/128.jpg",
-    price: "$47.39"
-  },
-  {
-    title: "Nader LLC",
-    description: "Optional attitude-oriented moratorium",
-    image:
-      "https://s3.amazonaws.com/uifaces/faces/twitter/ChrisFarina78/128.jpg",
-    price: "$0.34"
-  },
-  {
-    title: "Stark, Bradtke and Grant",
-    description: "Visionary demand-driven adapter",
-    image: "https://s3.amazonaws.com/uifaces/faces/twitter/sreejithexp/128.jpg",
-    price: "$94.22"
-  },
-  {
-    title: "Conn - Kuhn",
-    description: "Networked analyzing capability",
-    image: "https://s3.amazonaws.com/uifaces/faces/twitter/jwalter14/128.jpg",
-    price: "$27.59"
   }
 ];
+*/
 
 export default class SearchExampleStandard extends Component {
-  state = initialState;
-  /*
-  getGameList(value) {
-    const list = [
-      { title: "LoL" },
-      { title: "WoW" },
-      { title: "Counter-Strike" }
-    ];
-    this.setState({
-      gamesList: list
-    });
-*/
-  /*
-  componentDidMount() {
-    this.getGameList(this.state.value);
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
-  */
 
+  // Get list of games from the backend and put in in state.
+  // The gamelist should contain games matching the given parameter.
   getGameList(value) {
     const address = "/games/search";
     axios
       .post(address, { search: value })
       .then(res => {
         const data = res.data;
-        console.log("haettu games data:", data);
-        const list = [];
-        data.map(game => {
-          list.push({ title: game.name });
+        console.log("Haettiin pelit:", data);
+
+        // Should be done in for loop instead of .map?
+        // warning for no return (doesn't give components eg.)
+        let list = data.map(game => {
+          return { title: game.name, id: game.id };
         });
         this.setState({
           results: list
@@ -111,35 +53,39 @@ export default class SearchExampleStandard extends Component {
       .catch(err => console.log(err));
   }
 
+  // Execute when user clicks a game.
+  // Update gamelist in upper levers components.
   handleResultSelect = (e, { result }) => {
-    console.log("Selected:", result);
+    console.log("Added game:", result);
     this.setState({ value: "" });
     const list = this.props.info.games;
-    list.push(result.title);
+    list.push({ name: result.title, title: result.title, id: result.id });
     const newData = {
       ...this.props.info,
       games: list
     };
     this.props.updateInfo(newData);
+    axios
+      .post("/post/addgame", { _id: result.id })
+      .then(res => {
+        const data = res.data;
+        console.log("Lisättiin peli", result.title, res);
+      })
+      .catch(err => console.log(err));
   };
 
+  // Fetch new gamelist matching the given keyword and put in state.
   handleSearchChange = (e, { value }) => {
-    console.log("handleSearchChange");
-    this.getGameList(value);
     this.setState({ isLoading: true, value });
 
     setTimeout(() => {
       if (this.state.value.length < 1) return this.setState(initialState);
 
-      const re = new RegExp(_.escapeRegExp(this.state.value), "i");
-      const isMatch = result => re.test(result.title);
-
+      this.getGameList(value);
       this.setState({
         isLoading: false
-        /*results: _.filter(this.state.gamesList, isMatch)*/
       });
-      console.log("this.state.results", this.state.results);
-    }, 300);
+    }, 400);
   };
 
   render() {
@@ -153,7 +99,7 @@ export default class SearchExampleStandard extends Component {
               <label>Search games:</label>
             </Form.Field>
             <Form.Field>
-              {!this.props.isSearching && (
+              {!this.props.issearching && (
                 <Search
                   fluid
                   loading={isLoading}

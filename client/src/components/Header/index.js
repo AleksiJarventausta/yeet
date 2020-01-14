@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {Button, Menu, Header, Dropdown} from "semantic-ui-react";
+import {Menu, Header, Dropdown} from "semantic-ui-react";
 import {isEmpty} from "underscore";
 import { withRouter } from "react-router-dom";
 
@@ -59,6 +59,7 @@ class HeaderThing extends React.Component {
                 {!isEmpty(this.props.user) &&
                 <Dropdown.Item icon='user circle' text='User Info'
                   name="userInfo"
+                  setCurrentUser={this.props.setCurrentUser}
                   onClick={(event, data) => this.handleItemClick(event, data)}/>
                 }
                 </Dropdown.Menu>

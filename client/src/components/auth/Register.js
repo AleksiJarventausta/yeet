@@ -7,14 +7,14 @@ class Register extends Component {
     constructor(props) {
         super(props);
         this.cancelRegistration = this.cancelRegistration.bind(this);
+        this.state = {
+              username: "",
+              discord:"",
+              password: "",
+              passwordconfirm: ""
+          };
     }
-  state = {
-        username: "",
-        discord:"",
-        password1: "",
-        password2: "",
-        errors:{}
-    };
+
 
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
@@ -26,14 +26,15 @@ class Register extends Component {
     const newUser = {
       username: this.state.username,
       discord: this.state.discord,
-      password1: this.state.password1,
-      password2: this.state.password2
+      password: this.state.password,
+      passwordconfirm: this.state.passwordconfirm
     };
     axios
         .post("/user/register", newUser)
         .then(res => {
-          this.props.history.push("/");
-          this.props.setCurrentTab("home");
+          console.log("axios res");
+          this.props.setCurrentTab("logIn");
+          this.props.history.push("/login");
         })
         .catch(err => console.log(err));
   };
@@ -43,7 +44,6 @@ class Register extends Component {
   }
 
   render() {
-    const {errors} = this.props;
     return (
       <div className="base-wrapper">
         <Grid centered>
@@ -88,7 +88,7 @@ class Register extends Component {
             <div className="auth-label">Password (min 8 characters)</div>
             <input
               onChange={this.onChange}
-              id="password1"
+              id="password"
               type="password"
               className="auth-input"
             />
@@ -102,7 +102,7 @@ class Register extends Component {
             <div className="auth-label">Password again</div>
             <input
               onChange={this.onChange}
-              id="password2"
+              id="passwordconfirm"
               type="password"
               className="auth-input"
             />

@@ -28,12 +28,12 @@ export default class UserInfo extends React.Component {
             value={this.props.info.discord}
             placeholder="eg. testUser#1234"
             onChange={(event, data) => {
-              console.log("changed discord-field");
+              //console.log("changed discord-field");
               const newData = {
                 ...this.props.info,
                 discord: data.value
               };
-              console.log("AAAAA new User data (from user info)", newData);
+              //console.log("AAAAA new User data (from user info)", newData);
               this.props.updateInfo(newData);
             }}
           />
@@ -41,7 +41,7 @@ export default class UserInfo extends React.Component {
         <Form.Field>
           <label>Additional contact information:</label>
           <Input
-            disabled={this.props.isSearching}
+            disabled={this.props.issearching}
             onChange={(event, data) => {
               //this.setState({ username: data.value });
               const newData = {
@@ -58,47 +58,3 @@ export default class UserInfo extends React.Component {
     );
   }
 }
-
-/* 
-  render() {
-    return (
-      <div>
-        <span>Name: </span>
-        <Form>
-          <Input
-            fluid
-            placeholder="username/nickname"
-            onChange={(event, data) => {
-              this.setState({ username: data.value });
-            }}
-            value={this.state.username}
-          />
-        </Form>
-        <span>Discord: </span>
-        <Form>
-          <Input
-            fluid
-            placeholder="eg. testUser#1234"
-            onChange={(event, data) => {
-              this.setState({ discord: data.value });
-            }}
-            value={this.state.discord}
-          />
-        </Form>
-        <span>Additional contact info: </span>
-        <Form>
-          <Input
-            fluid
-            placeholder="eg. MTGA testPlayer#1234"
-            onChange={(event, data) => {
-              this.setState({ additional: data.value });
-            }}
-            value={this.state.additional}
-          />
-        </Form>
-      </div>
-    );
-  }
-}
-
-*/
