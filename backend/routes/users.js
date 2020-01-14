@@ -32,7 +32,6 @@ function saveUser(res, sendUser) {
         id: user._id,
         username: user.username,
         discord: user.discord,
-        additional: user.additional
       };
       sendJwtToken(res, payload);
     })
@@ -54,7 +53,7 @@ router.post("/login", function(req, res) {
   User.findOne({ username }).then(user => {
     // Check if user exists
     if (!user) {
-      return res.status(404).json({ username: "User not found" });
+      return res.status(400).json({ username: "User not found" });
     }
 
     // Check password
@@ -66,7 +65,6 @@ router.post("/login", function(req, res) {
           id: user._id,
           username: user.username,
           discord: user.discord,
-          additional: user.additional
         };
 
         // Sign token
@@ -128,7 +126,7 @@ router.post("/register", function(req, res) {
 
   User.findOne({ username: req.body.username }, function(err, user) {
     if (user) {
-      return res.status(400).json({ email: "Email already in use." });
+      return res.status(400).json({ username: "Username already in use." });
     } else {
       let registeringUser = new User({
         username: req.body.username,

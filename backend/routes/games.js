@@ -2,7 +2,6 @@ const router = require("express").Router();
 const passport = require("passport");
 const axios = require("axios");
 
-
 const axiosConfig = {
   headers: {
     Accept: "application/json",

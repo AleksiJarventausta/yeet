@@ -17,7 +17,7 @@ var userSchema = new Schema({
     type: String,
     required: true
   },
-  responses: [{type:express.response}],
+  responses: [{type: express.response}],
   additional: {
     type: String,
   },
