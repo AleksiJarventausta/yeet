@@ -17,18 +17,19 @@ export default class ApplicationForm extends React.Component {
       color: this.props.styles.positiveColor,
       text: START_TEXT
     };
-    this.updateState = this.updateState.bind(this)
-    this.gameslistUpdated = this.gameslistUpdated.bind(this)
+    this.updateState = this.updateState.bind(this);
+    this.gameslistUpdated = this.gameslistUpdated.bind(this);
   }
-
 
   // Send the application information to the database
   sendUpdatedInfoToDatabase(data) {
     // Change the address and parse data to form the back wants
-    const address = "";
+    const address = "/post/search";
     axios
       .post(address, data)
-      //.then(res => console.log("Hakemuksen tiedot päivitetty tietokantaan", data, res))
+      .then(res =>
+        console.log("Hakemuksen tiedot päivitetty tietokantaan", data, res)
+      )
       .catch(err => console.log(err));
   }
 
@@ -45,7 +46,7 @@ export default class ApplicationForm extends React.Component {
     };
 
     this.props.updateUser(info);
-    //this.sendUpdatedInfoToDatabase(data);
+    this.sendUpdatedInfoToDatabase(info);
   }
 
   // Updated the gamelist in app.js
@@ -80,7 +81,7 @@ export default class ApplicationForm extends React.Component {
       });
       this.sendNewPost(!current);
     } else {
-    //console.log("Searching has been stopped!");
+      //console.log("Searching has been stopped!");
       this.setState({
         color: this.props.styles.positiveColor,
         text: START_TEXT
