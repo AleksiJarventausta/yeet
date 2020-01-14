@@ -2,6 +2,7 @@ import React from "react";
 
 import FeedItem from "./FeedItem";
 import Match from "./Match";
+import { EventSourcePolyfill } from "event-source-polyfill";
 
 import { Header } from "semantic-ui-react";
 
@@ -30,21 +31,31 @@ export default class Feed extends React.Component {
   }
 
   componentDidMount() {
-    //console.log("Feeditem did mount");
-    if (true) {
-      //console.log("if true");
-      const events = new EventSource(
-        "http://yeet-yeet.rahtiapp.fi/match/connnect"
+    if (!this.state.listening) {
+      const token = JSON.parse(localStorage.jwtTokenTeams);
+      const events = new EventSourcePolyfill(
+        "http://localhost:5000/match/connect",
+        {
+          headers: {
+            Authorization: token
+          },
+          skipDefaultHeaders: true
+        }
       );
       events.onmessage = event => {
-        //const parsedData = JSON.parse(event.data);
-        if (event.data === "matched") {
-          this.setState({ matched: true });
-        }
+        try {
+          const parsedData = JSON.parse(event.data);
+        } catch (e) {}
       };
-
+      this.setState({ events: events });
       this.setState({ listening: true });
-      //console.log("set listening true");
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.state.listening) {
+      this.state.events.close();
+      this.setState({ listening: false });
     }
   }
 
@@ -63,7 +74,8 @@ export default class Feed extends React.Component {
             <FeedItem
               voted={this.postVoted.bind(this)}
               key={item._id}
-              id={item._id}
+              postId={item._id}
+              userId={item.poster._id}
               description={item.description}
               games={[
                 { name: "testGame", _id: 1 },

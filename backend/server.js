@@ -70,6 +70,7 @@ app.use(express.urlencoded({ extended: true}));
 // view engine setup
 
 require("./config/passport")(passport);
+app.use(passport.initialize());
 
 app.use(logger('dev'));
 app.use(cookieParser());

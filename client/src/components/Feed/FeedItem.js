@@ -6,11 +6,13 @@ export default class FeedItem extends React.Component {
   // Updates to the database that user liked a post.
   // Updates the posts attribute voted to upper level component.
   liked() {
-    const id = this.props.id;
+    const id = this.props.postId;
+    const userId = this.props.userId;
     console.log("Liked", id);
     this.props.voted(id);
     const data = {
-      _id: id,
+      postId: id,
+      userId: userId,
       like: true
     };
     axios
@@ -22,13 +24,16 @@ export default class FeedItem extends React.Component {
   // Basically same as liked() and these two should be
   // connected to be only one function.
   notLiked() {
-    const id = this.props.id;
-    console.log("Not liked", id);
+    const id = this.props.postId;
+    const userId = this.props.userId;
+    console.log("notLiked", id);
     this.props.voted(id);
     const data = {
-      _id: id,
+      postId: id,
+      userId: userId,
       like: false
     };
+
     axios
       .post("/match/like", data)
       .then(res => console.log("sent not liked", res))
