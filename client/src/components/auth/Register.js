@@ -10,8 +10,8 @@ class Register extends Component {
         this.state = {
               username: "",
               discord:"",
-              password1: "",
-              password2: "",
+              password: "",
+              passwordconfirm: "",
               errors:{}
           };
     }
@@ -27,8 +27,8 @@ class Register extends Component {
     const newUser = {
       username: this.state.username,
       discord: this.state.discord,
-      password1: this.state.password1,
-      password2: this.state.password2
+      password: this.state.password,
+      passwordconfirm: this.state.passwordconfirm
     };
     axios
         .post("/user/register", newUser)
@@ -90,7 +90,7 @@ class Register extends Component {
             <div className="auth-label">Password (min 8 characters)</div>
             <input
               onChange={this.onChange}
-              id="password1"
+              id="password"
               type="password"
               className="auth-input"
             />
@@ -104,7 +104,7 @@ class Register extends Component {
             <div className="auth-label">Password again</div>
             <input
               onChange={this.onChange}
-              id="password2"
+              id="passwordconfirm"
               type="password"
               className="auth-input"
             />
