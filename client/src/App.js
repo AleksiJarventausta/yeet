@@ -51,11 +51,13 @@ class App extends React.Component {
         username: user.username,
         discord: user.discord,
         games: [],
-        additional: user.additional,
-        description: user.description
+        additional: "",
+        description: ""
       };
+      console.log("set currentuser:", newUser);
       this.setState({ user: newUser });
     } else {
+      console.log("set currentuser null");
       this.setState({ user: {} });
     }
   }

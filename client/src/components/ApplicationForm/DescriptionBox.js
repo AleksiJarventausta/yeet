@@ -18,6 +18,7 @@ export default class CreatePost extends React.Component {
   };
 
   render() {
+    console.log("descriptionbox this.props.info:", this.props.info);
     return (
       <div>
         <Form>
