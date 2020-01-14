@@ -73,6 +73,7 @@ class App extends React.Component {
   setCurrentUser(user) {
     if (user !== null) {
       this.getUserInfo2(user);
+      this.getPosts();
       const newUser = {
         username: user.username,
         discord: user.discord,
@@ -212,10 +213,9 @@ class App extends React.Component {
 
     if (isEmpty(this.state.user)) {
       console.log("this.state.user was empty");
-      this.getPosts();
+
       // Get missing information from database
       // and set user info to the state
-      this.getUserInfo();
     }
   }
 
