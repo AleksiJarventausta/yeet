@@ -34,7 +34,7 @@ export default class Feed extends React.Component {
     if (!this.state.listening) {
       const token = JSON.parse(localStorage.jwtTokenTeams);
       const events = new EventSourcePolyfill(
-        "http://yeet-yeet.rahtiapp.fi/match/connect",
+        "http://localhost:5000/match/connect",
         {
           headers: {
             Authorization: token
@@ -45,6 +45,8 @@ export default class Feed extends React.Component {
       events.onmessage = event => {
         try {
           const parsedData = JSON.parse(event.data);
+          console.log(parsedData);
+          
 
         } catch (e) {}
       };
