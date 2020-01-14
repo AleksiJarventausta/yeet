@@ -30,7 +30,6 @@ export default class CreatePost extends React.Component {
               rows={3}
               placeholder="Write your description here..."
               onChange={(event, data) => {
-                console.log("data:", data);
                 if (data.value.length <= CHAR_MAX) {
                   this.setState({
                     charsLeft: CHAR_MAX - data.value.length
@@ -39,7 +38,7 @@ export default class CreatePost extends React.Component {
                     ...this.props.info,
                     description: data.value
                   };
-                  console.log("newData", newData);
+
                   this.props.updateInfo(newData);
                 }
               }}

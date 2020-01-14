@@ -19,7 +19,7 @@ export default class Feed extends React.Component {
   // Changes items attribute voted to true and
   // updates it to upper level components.
   postVoted(id) {
-    console.log("postVoted:", id);
+    //console.log("postVoted:", id);
     const newItems = this.props.posts.map(item => {
       if (item._id === id) {
         item.voted = true;
@@ -30,9 +30,9 @@ export default class Feed extends React.Component {
   }
 
   componentDidMount() {
-    console.log("Feeditem did mount");
+    //console.log("Feeditem did mount");
     if (true) {
-      console.log("if true");
+      //console.log("if true");
       const events = new EventSource(
         "http://yeet-yeet.rahtiapp.fi/match/connnect"
       );
@@ -44,7 +44,7 @@ export default class Feed extends React.Component {
       };
 
       this.setState({ listening: true });
-      console.log("set listening true");
+      //console.log("set listening true");
     }
   }
 
