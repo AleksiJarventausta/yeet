@@ -1,5 +1,5 @@
 import React from "react";
-import { Label, Card, Icon, Button } from "semantic-ui-react";
+import {Label, Card, Icon, Button } from "semantic-ui-react";
 import axios from "axios";
 
 export default class FeedItem extends React.Component {
