@@ -28,12 +28,12 @@ export default class UserInfo extends React.Component {
             value={this.props.info.discord}
             placeholder="eg. testUser#1234"
             onChange={(event, data) => {
-              console.log("changed discord-field");
+              //console.log("changed discord-field");
               const newData = {
                 ...this.props.info,
                 discord: data.value
               };
-              console.log("AAAAA new User data (from user info)", newData);
+              //console.log("AAAAA new User data (from user info)", newData);
               this.props.updateInfo(newData);
             }}
           />

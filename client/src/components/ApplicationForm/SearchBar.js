@@ -59,12 +59,19 @@ export default class SearchExampleStandard extends Component {
     console.log("Added game:", result);
     this.setState({ value: "" });
     const list = this.props.info.games;
-    list.push(result.title);
+    list.push({ name: result.title, title: result.title, id: result.id });
     const newData = {
       ...this.props.info,
       games: list
     };
     this.props.updateInfo(newData);
+    axios
+      .post("/post/addgame", { _id: result.id })
+      .then(res => {
+        const data = res.data;
+        console.log("Lisättiin peli", result.title, res);
+      })
+      .catch(err => console.log(err));
   };
 
   // Fetch new gamelist matching the given keyword and put in state.
