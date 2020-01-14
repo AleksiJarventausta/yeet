@@ -94,7 +94,7 @@ class App extends React.Component {
       .get("/post")
       .then(res => {
         const data = res.data;
-        console.log("haettu userinfo data:", data);
+        console.log("Haettu käyttäjän tiedot:", data);
         this.setState(prevState => ({
           user: {
             ...prevState.user,
@@ -114,7 +114,7 @@ class App extends React.Component {
       .get("/post")
       .then(res => {
         const data = res.data;
-        console.log("haettu userinfo data:", data);
+        console.log("Haettu käyttäjän tiedot:", data);
         this.setState(prevState => ({
           user: {
             ...prevState.user,
@@ -209,13 +209,6 @@ class App extends React.Component {
         // Redirect to login
         window.location.href = "./";
       }
-    }
-
-    if (isEmpty(this.state.user)) {
-      console.log("this.state.user was empty");
-
-      // Get missing information from database
-      // and set user info to the state
     }
   }
 

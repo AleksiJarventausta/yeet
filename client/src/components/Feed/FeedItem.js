@@ -38,7 +38,7 @@ export default class FeedItem extends React.Component {
   render() {
     // Creating the gametags that are shown in the post
     const gameItems = this.props.games.map(game => {
-      console.log("pelin id:", game._id);
+      //console.log("pelin id:", game._id);
       return <Label key={game._id}> {game.name + " "}</Label>;
     });
 

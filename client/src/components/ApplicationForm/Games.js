@@ -24,7 +24,7 @@ export default class Games extends React.Component {
   }
 
   render() {
-    console.log("AAAAA", this.props.info.games);
+    //console.log("AAAAA", this.props.info.games);
     const gameItems = this.props.info.games.map(game => {
       return (
         <Label key={game.id} deleteGame={this.deleteGame}>
