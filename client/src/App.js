@@ -40,31 +40,6 @@ class App extends React.Component {
         negativeColor: "red"
       }
     };
-    /*
-    if (localStorage.jwtTokenTeams) {
-      //console.log("is logged in");
-      // Set auth token header auth
-      const token = JSON.parse(localStorage.jwtTokenTeams);
-      setAuthToken(token);
-
-      // Decode token and get user info and exp
-      const decoded = jwt_decode(token);
-
-      // Set user and isAuthenticated
-      this.setCurrentUser(decoded);
-
-      //console.log("set current user to:" + decoded.username)
-      // Check for expired token
-      const currentTime = Date.now() / 1000; // to get in milliseconds
-      if (decoded.exp < currentTime) {
-        // Logout user
-        this.setCurrentUser(null);
-
-        // Redirect to login
-        window.location.href = "./";
-      }
-    }
-    */
   }
 
   // Set the username and discord, then put
@@ -77,8 +52,8 @@ class App extends React.Component {
         username: user.username,
         discord: user.discord,
         games: [],
-        additional: "",
-        description: ""
+        additional: user.additional,
+        description: user.description
       };
       this.setState({ user: newUser });
     } else {
@@ -125,7 +100,7 @@ class App extends React.Component {
             games: data.games,
             username: this.state.user.username,
             discord: this.state.user.discord,
-            additional: "hardcoded placeholder",
+            additional: this.state.user.additional,
             description: data.description
           }
         }));
@@ -149,7 +124,7 @@ class App extends React.Component {
             games: data.games,
             username: this.state.user.username,
             discord: this.state.user.discord,
-            additional: "hardcoded placeholder",
+            additional: this.state.user.additional,
             description: data.description
           }
         }));
