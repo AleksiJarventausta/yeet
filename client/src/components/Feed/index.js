@@ -1,21 +1,20 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import FeedItem from "./FeedItem";
 import Match from "./Match";
 import axios from "axios";
+import { EventSourcePolyfill } from "event-source-polyfill";
 
 import { Header, Grid, Divider, Label } from "semantic-ui-react";
 
 export default class Feed extends React.Component {
   constructor(props) {
     super(props);
-
   }
   state = {
     nests: null,
     listening: false,
     matched: false
-  }
-
+  };
 
   postVoted(id) {
     console.log("postVoted:", id);
@@ -29,22 +28,34 @@ export default class Feed extends React.Component {
   }
 
   componentDidMount() {
-      console.log("Feeditem did mount");
-      if (true) {
-        console.log("if true");
-        const events = new EventSource('http://yeet-yeet.rahtiapp.fi/match/connect');
-        events.onmessage = (event) => {
+    if (!this.state.listening) {
+      const token = JSON.parse(localStorage.jwtTokenTeams);
+      const events = new EventSourcePolyfill(
+        "http://localhost:5000/match/connect",
+        {
+          headers: {
+            Authorization: token
+          },
+          skipDefaultHeaders: true
+        }
+      );
+      events.onmessage = event => {
+        try {
           const parsedData = JSON.parse(event.data);
-          if (event.data === "matched") {
-            this.setState({matched:true})
-          }
-        };
 
-        this.setState({listening: true});
-        console.log("set listening true");
-      }
-    };
+        } catch (e) {}
+      };
+      this.setState({ events: events });
+      this.setState({ listening: true });
+    }
+  }
 
+  componentWillUnmount() {
+    if (this.state.listening) {
+      this.state.events.close();
+      this.setState({ listening: false });
+    }
+  }
 
   render() {
     let items = this.props.posts;
@@ -59,7 +70,8 @@ export default class Feed extends React.Component {
             <FeedItem
               voted={this.postVoted.bind(this)}
               key={item._id}
-              id={item._id}
+              postId={item._id}
+              userId={item.poster._id}
               description={item.description}
               games={["testGame", "testGame2"]}
               username={item.poster.username}
@@ -73,7 +85,6 @@ export default class Feed extends React.Component {
         <div>
           {/*true && <h1>Matched!</h1>*/}
           {this.state.matched && <h1>Matched!</h1>}
-
 
           <Header as="h2">Found gamers:</Header>
           {/* Placeholder Match objekti */}
