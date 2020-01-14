@@ -56,7 +56,7 @@ export default class SearchExampleStandard extends Component {
   // Execute when user clicks a game.
   // Update gamelist in upper levers components.
   handleResultSelect = (e, { result }) => {
-    console.log("Added game:", result);
+    //console.log("Added game:", result);
     this.setState({ value: "" });
     const list = this.props.info.games;
     list.push({ name: result.title, title: result.title, id: result.id });
@@ -68,8 +68,7 @@ export default class SearchExampleStandard extends Component {
     axios
       .post("/post/addgame", { _id: result.id })
       .then(res => {
-        const data = res.data;
-        console.log("Lisättiin peli", result.title, res);
+        console.log("Added game", result.title, res);
       })
       .catch(err => console.log(err));
   };

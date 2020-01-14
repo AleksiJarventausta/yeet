@@ -89,17 +89,17 @@ class App extends React.Component {
   getGameInfo(data) {
     if (data.games.length > 0) {
       let newList = [];
-      console.log("data.games:", data.games);
+
       axios
         .post("/games/search-id", { ids: data.games })
         .then(res => {
           console.log("Haettu pelit:", res.data, res);
           newList = res.data.map(g => {
             const newGameItem = { ...g, title: g.name };
-            console.log("newGameitem:", newGameItem);
+
             return newGameItem;
           });
-          console.log("newList:", newList);
+
           this.setState(prevState => ({
             user: { ...prevState.user, games: newList }
           }));
