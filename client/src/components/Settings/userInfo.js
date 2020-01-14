@@ -7,8 +7,8 @@ import { Button, Message, Form, Grid, Input, Icon} from "semantic-ui-react";
 
 
 class UserInfo extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       username: "username",
       discord: "vilps#1234",
@@ -43,11 +43,9 @@ class UserInfo extends Component {
       newpassword1: this.state.newpassword1,
       newpassword2: this.state.newpassword2,
       password: this.state.password,
-      //remove email when working
-      email: "emptyPlaceHolder"
     };
     axios
-      .post("", newInfo)
+      .post("/user/update", newInfo)
       .then(res => {
         // Save to localStorage
 
@@ -62,7 +60,7 @@ class UserInfo extends Component {
         this.props.setCurrentUser(decoded);
         this.setState({infoSaved: true});
       })
-      .catch(err => console.log(err.response.data));
+      .catch(err => console.log(err));
   }
 
   updateBox(e, data) {
