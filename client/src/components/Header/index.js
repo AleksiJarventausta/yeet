@@ -5,8 +5,16 @@ import {isEmpty} from "underscore";
 import { withRouter } from "react-router-dom";
 
 class HeaderThing extends React.Component {
+  constructor(props) {
+    super(props);
+    this.setCurrentUser = this.setCurrentUser.bind(this);
+  }
 
+  setCurrentUser(user) {
+    this.props.setCurrentUser(user);
+  }
   handleItemClick = (e, { name }) => {
+    e.preventDefault()
     //this.setState({activeItem: name })
 
     if (name === "home" ) {
@@ -59,7 +67,7 @@ class HeaderThing extends React.Component {
                 {!isEmpty(this.props.user) &&
                 <Dropdown.Item icon='user circle' text='User Info'
                   name="userInfo"
-                  setCurrentUser={this.props.setCurrentUser}
+                  setCurrentUser={this.setCurrentUser}
                   onClick={(event, data) => this.handleItemClick(event, data)}/>
                 }
                 </Dropdown.Menu>

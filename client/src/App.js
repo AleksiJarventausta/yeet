@@ -250,7 +250,7 @@ class App extends React.Component {
                 setCurrentTab={this.setCurrentTab}
                 tab={this.state.currentTab}
                 user={this.state.user}
-                setCurrentUser={this.setCurrentUser}
+                setCurrentUser={this.setCurrentUser.bind(this)}
               />
             </Grid.Column>
           </Grid.Row>
@@ -314,6 +314,7 @@ class App extends React.Component {
                   {...props}
                   user={this.state.user}
                   setCurrentTab={this.setCurrentTab}
+                  setCurrentUser={this.setCurrentUser}
                 />
               )}
             />
