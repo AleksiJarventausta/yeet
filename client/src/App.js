@@ -67,20 +67,6 @@ class App extends React.Component {
     }
     */
   }
-  /*
-  state = {
-    user: {},
-    errors: [],
-    isSearching: false,
-    posts: [],
-    // Current tab e.g current view: "home", "signOut", "logIn", "userInfo"
-    currentTab: "home",
-    styles: {
-      positiveColor: "green",
-      negativeColor: "red"
-    }
-  }
-  */
 
   // Set the username and discord, then put
   // empty values for games, additional and description.
@@ -202,10 +188,14 @@ class App extends React.Component {
         window.location.href = "./";
       }
     }
-    this.getPosts();
-    // Get missing information from database
-    // and set user info to the state
-    this.getUserInfo();
+
+    if (!isEmpty(this.state.user)) {
+      this.getPosts();
+      // Get missing information from database
+      // and set user info to the state
+      this.getUserInfo();
+    }
+
   }
 
   render() {
