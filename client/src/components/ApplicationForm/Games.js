@@ -6,7 +6,7 @@ export default class Games extends React.Component {
   // Would be better to use some library but it works.
   removeItem(array, item) {
     for (var i in array) {
-      if (array[i] == item) {
+      if (array[i] === item) {
         array.splice(i, 1);
         break;
       }

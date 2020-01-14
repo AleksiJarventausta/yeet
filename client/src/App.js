@@ -71,6 +71,7 @@ class App extends React.Component {
   // Set the username and discord, then put
   // empty values for games, additional and description.
   setCurrentUser(user) {
+    this.getUserInfo2(user);
     if (user !== null) {
       const newUser = {
         username: user.username,
@@ -92,10 +93,31 @@ class App extends React.Component {
       .get("/post")
       .then(res => {
         const data = res.data;
-        //console.log("haettu userinfo data:", data);
+        console.log("haettu userinfo data:", data);
         this.setState(prevState => ({
           user: {
             ...prevState.user,
+            games: data.games,
+            username: this.state.user.username,
+            discord: this.state.user.discord,
+            additional: "hardcoded placeholder",
+            description: data.description
+          }
+        }));
+      })
+      .catch(err => console.log(err));
+  }
+
+  getUserInfo2(user) {
+    axios
+      .get("/post")
+      .then(res => {
+        const data = res.data;
+        console.log("haettu userinfo data:", data);
+        this.setState(prevState => ({
+          user: {
+            ...prevState.user,
+            ...user,
             games: data.games,
             username: this.state.user.username,
             discord: this.state.user.discord,
@@ -188,7 +210,8 @@ class App extends React.Component {
       }
     }
 
-    if (!isEmpty(this.state.user)) {
+    if (isEmpty(this.state.user)) {
+      console.log("this.state.user was empty");
       this.getPosts();
       // Get missing information from database
       // and set user info to the state
