@@ -41,7 +41,7 @@ class UserInfo extends Component {
       additional: this.state.additional,
       newpassword1: this.state.newpassword1,
       newpassword2: this.state.newpassword2,
-      password: this.state.password,
+      password: this.state.password
     };
     axios
       .post("/user/update", newInfo)
@@ -91,6 +91,7 @@ class UserInfo extends Component {
                     this.updateBox(event, data);
                   }}
                   value={this.state.username}
+                  placeholder={"username"}
                 />
               </Form.Field>
               <Form.Field>
@@ -100,6 +101,7 @@ class UserInfo extends Component {
                     this.updateBox(event, data);
                   }}
                   value={this.state.discord}
+                  placeholder={"discord"}
                 />
               </Form.Field>
               <Form.Field>
@@ -109,6 +111,7 @@ class UserInfo extends Component {
                     this.updateBox(event, data);
                   }}
                   value={this.state.additional}
+                  placeholder={"additional contact information"}
                 />
               </Form.Field>
               <Form.Field>
