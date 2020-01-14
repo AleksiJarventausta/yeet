@@ -107,7 +107,7 @@ class App extends React.Component {
       .get("/post")
       .then(res => {
         const data = res.data;
-        console.log("haettu userinfo data:", data);
+        //console.log("haettu userinfo data:", data);
         this.setState(prevState => ({
           user: {
             ...prevState.user,
@@ -134,7 +134,7 @@ class App extends React.Component {
   // on the state of this component
   changeSearchingState() {
     const currentState = this.state.isSearching;
-    console.log("isSearching is changed:", currentState, "->", !currentState);
+    //console.log("isSearching is changed:", currentState, "->", !currentState);
     this.setState({ isSearching: !currentState });
     if (currentState === false) {
       this.getPosts();
@@ -162,12 +162,11 @@ class App extends React.Component {
   // Get posts from database and
   // put them on state in posts as a list
   getPosts() {
-    const items = [];
     axios
       .get("/match/matches")
       .then(res => {
         const data = res.data;
-        console.log("Tietokannasta haetut postaukset:", data);
+        //console.log("Tietokannasta haetut postaukset:", data);
         const items = data.map(item => {
           return { ...item, voted: false };
         });
