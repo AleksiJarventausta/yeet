@@ -18,7 +18,6 @@ import SignOut from "./components/auth/SignOut";
 import UserInfo from "./components/Settings/userInfo.js";
 
 import "./App.css";
-import Axios from "axios";
 
 class App extends React.Component {
   constructor(props) {
@@ -44,7 +43,7 @@ class App extends React.Component {
   // Set the username and discord, then put
   // empty values for games, additional and description.
   setCurrentUser(user) {
-    console.log("user:", user);
+    //console.log("user:", user);
     if (user !== null) {
       this.getUserInfo2(user);
       this.getPosts();
@@ -58,10 +57,10 @@ class App extends React.Component {
         additional: "",
         description: ""
       };
-      console.log("set currentuser:", newUser);
+      //console.log("set currentuser:", newUser);
       this.setState({ user: newUser });
     } else {
-      console.log("set currentuser null");
+      //console.log("set currentuser null");
       this.setState({ user: {} });
     }
   }
