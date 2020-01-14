@@ -87,6 +87,28 @@ class App extends React.Component {
     }
   }
 
+  getGameInfo(data) {
+    if (data.games.length > 0) {
+      let newList = [];
+      console.log("data.games:", data.games);
+      axios
+        .post("/games/search-id", { ids: data.games })
+        .then(res => {
+          console.log("Haettu pelit:", res.data, res);
+          newList = res.data.map(g => {
+            const newGameItem = { ...g, title: g.name };
+            console.log("newGameitem:", newGameItem);
+            return newGameItem;
+          });
+          console.log("newList:", newList);
+          this.setState(prevState => ({
+            user: { ...prevState.user, games: newList }
+          }));
+        })
+        .catch(err => console.log(err));
+    }
+  }
+
   // Fetch users data from the database and
   // set users games, additional and description.
   getUserInfo() {
@@ -95,6 +117,9 @@ class App extends React.Component {
       .then(res => {
         const data = res.data;
         console.log("Haettu käyttäjän tiedot:", data);
+
+        this.getGameInfo(data);
+
         this.setState(prevState => ({
           user: {
             ...prevState.user,
@@ -115,6 +140,9 @@ class App extends React.Component {
       .then(res => {
         const data = res.data;
         console.log("Haettu käyttäjän tiedot:", data);
+
+        this.getGameInfo(data);
+
         this.setState(prevState => ({
           user: {
             ...prevState.user,
