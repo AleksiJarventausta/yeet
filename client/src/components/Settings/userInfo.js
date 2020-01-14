@@ -3,8 +3,6 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuth";
 import jwt_decode from "jwt-decode";
-
-import {Link} from "react-router-dom";
 import { Button, Message, Form, Grid, Input, Icon} from "semantic-ui-react";
 
 
@@ -44,7 +42,9 @@ class UserInfo extends Component {
       additional: this.state.additional,
       newpassword1: this.state.newpassword1,
       newpassword2: this.state.newpassword2,
-      password: this.state.password
+      password: this.state.password,
+      //remove email when working
+      email: "emptyPlaceHolder"
     };
     axios
       .post("", newInfo)
@@ -60,9 +60,9 @@ class UserInfo extends Component {
         const decoded = jwt_decode(token);
         // Set current user
         this.props.setCurrentUser(decoded);
-        this.setState({infoSaved: true})
+        this.setState({infoSaved: true});
       })
-      .catch(err => this.setState({ errors: err.response.data }));
+      .catch(err => console.log(err.response.data));
   }
 
   updateBox(e, data) {
@@ -129,7 +129,7 @@ class UserInfo extends Component {
             <Icon name="pencil alternate" />
             Save
           </Button>
-          {this.state.infosaved &&
+          {this.state.infoSaved &&
               <h2>
                 info saved
               </h2>

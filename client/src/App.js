@@ -220,6 +220,7 @@ class App extends React.Component {
                 setCurrentTab={this.setCurrentTab}
                 tab={this.state.currentTab}
                 user={this.state.user}
+                setCurrentUser={this.setCurrentUser}
               />
             </Grid.Column>
           </Grid.Row>

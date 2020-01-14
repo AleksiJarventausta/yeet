@@ -11,8 +11,7 @@ class Register extends Component {
               username: "",
               discord:"",
               password: "",
-              passwordconfirm: "",
-              errors:{}
+              passwordconfirm: ""
           };
     }
 
@@ -45,7 +44,6 @@ class Register extends Component {
   }
 
   render() {
-    const {errors} = this.props;
     return (
       <div className="base-wrapper">
         <Grid centered>
