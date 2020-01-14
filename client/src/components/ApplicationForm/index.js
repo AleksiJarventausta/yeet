@@ -66,12 +66,12 @@ export default class ApplicationForm extends React.Component {
       .catch(err => console.log(err));
   }
 
-  // Change search state (isSearching) in the App.js and
+  // Change search state (issearching) in the App.js and
   // change the buttons style to match current search state and
   // notify back end that searching as started.
   whenClicked() {
     this.props.clicked();
-    const current = this.props.isSearching;
+    const current = this.props.issearching;
     if (!current) {
       //console.log("Searching has been started!");
       this.setState({
@@ -98,27 +98,27 @@ export default class ApplicationForm extends React.Component {
             <UserInfo
               updateInfo={this.updateState}
               info={this.props.info}
-              isSearching={this.props.isSearching}
+              issearching={this.props.issearching}
             />
           </Segment>
           <Segment>
             <DescriptionBox
               updateInfo={this.updateState}
               info={this.props.info}
-              isSearching={this.props.isSearching}
+              issearching={this.props.issearching}
             />
           </Segment>
           <Segment>
             <SearchBar
               updateInfo={this.updateState}
               info={this.props.info}
-              isSearching={this.props.isSearching}
+              issearching={this.props.issearching}
             />
             <br />
             <Games
               info={this.props.info}
               listUpdated={this.gameslistUpdated}
-              isSearching={this.props.isSearching}
+              issearching={this.props.issearching}
             />
           </Segment>
         </Segment.Group>
@@ -128,9 +128,9 @@ export default class ApplicationForm extends React.Component {
           onClick={() => this.whenClicked()}
           color={this.state.color}
         >
-          {this.state.isSearching && <Icon name="pause" />}
+          {this.props.issearching && <Icon name="pause" />}
           {this.state.text}
-          {!this.state.isSearching && <Icon name="arrow right" />}
+          {!this.props.issearching && <Icon name="arrow right" />}
         </Button>
       </div>
     );

@@ -26,7 +26,10 @@ const source = [
 */
 
 export default class SearchExampleStandard extends Component {
-  state = initialState;
+  constructor(props) {
+    super(props);
+    this.state = {}
+  }
 
   // Get list of games from the backend and put in in state.
   // The gamelist should contain games matching the given parameter.
@@ -90,7 +93,7 @@ export default class SearchExampleStandard extends Component {
               <label>Search games:</label>
             </Form.Field>
             <Form.Field>
-              {!this.props.isSearching && (
+              {!this.props.issearching && (
                 <Search
                   fluid
                   loading={isLoading}

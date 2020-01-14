@@ -24,7 +24,7 @@ export default class CreatePost extends React.Component {
           <Form.Field>
             <label>Description:</label>
             <TextArea
-              disabled={this.props.isSearching}
+              disabled={this.props.issearching}
               value={this.props.info.description}
               style={{ width: "100%", minWidth: "100%", maxWidth: "100%" }}
               rows={3}

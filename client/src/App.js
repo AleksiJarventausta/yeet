@@ -32,7 +32,7 @@ class App extends React.Component {
     this.state = {
       user: {},
       errors: [],
-      isSearching: false,
+      issearching: false,
       posts: [],
       // Current tab e.g current view: "home", "signOut", "logIn", "userInfo"
       currentTab: "home",
@@ -119,9 +119,9 @@ class App extends React.Component {
   // fetch posts from the database and put them
   // on the state of this component
   changeSearchingState() {
-    const currentState = this.state.isSearching;
-    //console.log("isSearching is changed:", currentState, "->", !currentState);
-    this.setState({ isSearching: !currentState });
+    const currentState = this.state.issearching;
+    //console.log("issearching is changed:", currentState, "->", !currentState);
+    this.setState({ issearching: !currentState });
     if (currentState === false) {
       this.getPosts();
     }
@@ -222,7 +222,7 @@ class App extends React.Component {
                   {!isEmpty(this.state.user) && (
                     <ApplicationForm
                       info={this.state.user}
-                      isSearching={this.state.isSearching}
+                      issearching={this.state.issearching}
                       styles={this.state.styles}
                       clicked={this.changeSearchingState}
                       updateUser={this.updateUser.bind(this)}
@@ -234,11 +234,11 @@ class App extends React.Component {
                   )}
                 </Grid.Column>
                 <Grid.Column width={9}>
-                  {this.state.isSearching && (
+                  {this.state.issearching && (
                     <Feed
                       updatePosts={this.updatePosts.bind(this)}
                       posts={this.state.posts}
-                      isSearching={this.state.isSearching}
+                      issearching={this.state.issearching}
                     ></Feed>
                   )}
                 </Grid.Column>
