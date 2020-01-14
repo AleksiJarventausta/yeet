@@ -29,7 +29,21 @@ class App extends React.Component {
     this.setCurrentTab = this.setCurrentTab.bind(this);
     this.changeSearchingState = this.changeSearchingState.bind(this);
 
+    this.state = {
+      user: {},
+      errors: [],
+      isSearching: false,
+      posts: [],
+      // Current tab e.g current view: "home", "signOut", "logIn", "userInfo"
+      currentTab: "home",
+      styles: {
+        positiveColor: "green",
+        negativeColor: "red"
+      }
+    }
+    /*
     if (localStorage.jwtTokenTeams) {
+      //console.log("is logged in");
       // Set auth token header auth
       const token = JSON.parse(localStorage.jwtTokenTeams);
       setAuthToken(token);
@@ -40,6 +54,7 @@ class App extends React.Component {
       // Set user and isAuthenticated
       this.setCurrentUser(decoded);
 
+      //console.log("set current user to:" + decoded.username)
       // Check for expired token
       const currentTime = Date.now() / 1000; // to get in milliseconds
       if (decoded.exp < currentTime) {
@@ -50,31 +65,39 @@ class App extends React.Component {
         window.location.href = "./";
       }
     }
+    */
   }
+  /*
   state = {
     user: {},
     errors: [],
     isSearching: false,
     posts: [],
-    /* Current tab e.g current view: "home", "signOut", "logIn", "userInfo" */
+    // Current tab e.g current view: "home", "signOut", "logIn", "userInfo"
     currentTab: "home",
     styles: {
       positiveColor: "green",
       negativeColor: "red"
     }
-  };
+  }
+  */
 
   // Set the username and discord, then put
   // empty values for games, additional and description.
   setCurrentUser(user) {
-    console.log("set user:", user);
-    const newUser = {
-      ...user,
-      games: [],
-      additional: "",
-      description: ""
-    };
-    this.setState({ user: newUser });
+    if (user !== null) {
+      const newUser = {
+        username: user.username,
+        discord: user.discord,
+        games: [],
+        additional: "",
+        description: ""
+      };
+      this.setState({ user: newUser });
+    } else {
+      this.setState({user: {}})
+    }
+
   }
 
   // Fetch users data from the database and
@@ -101,7 +124,7 @@ class App extends React.Component {
 
   setCurrentTab(tab) {
     this.setState({ currentTab: tab });
-    console.log("Set tab to: " + tab);
+    //console.log("Set tab to: " + tab);
   }
 
   // When the user decides to start/stop searching,
@@ -157,6 +180,29 @@ class App extends React.Component {
   // Fetch posts from the database when the site is
   // rendered for the first time
   componentDidMount() {
+    if (localStorage.jwtTokenTeams) {
+      //console.log("is logged in");
+      // Set auth token header auth
+      const token = JSON.parse(localStorage.jwtTokenTeams);
+      setAuthToken(token);
+
+      // Decode token and get user info and exp
+      const decoded = jwt_decode(token);
+
+      // Set user and isAuthenticated
+      this.setCurrentUser(decoded);
+
+      //console.log("set current user to:" + decoded.username)
+      // Check for expired token
+      const currentTime = Date.now() / 1000; // to get in milliseconds
+      if (decoded.exp < currentTime) {
+        // Logout user
+        this.setCurrentUser(null);
+
+        // Redirect to login
+        window.location.href = "./";
+      }
+    }
     this.getPosts();
     // Get missing information from database
     // and set user info to the state

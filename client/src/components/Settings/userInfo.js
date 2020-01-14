@@ -26,6 +26,7 @@ class UserInfo extends Component {
 
   componentDidMount() {
     console.log("asd");
+    console.log("User: " + this.props.user.username)
     this.setState({
       username: this.props.user.username,
       discord: this.props.user.discord,
@@ -33,7 +34,8 @@ class UserInfo extends Component {
     });
   }
 
-  onSubmit() {
+  onSubmit(e) {
+    e.preventDefault();
     /* Poista alla oleva kun saadaan tietoa, tehdään lopussa */
     this.setState({infoSaved: true})
     const newInfo= {

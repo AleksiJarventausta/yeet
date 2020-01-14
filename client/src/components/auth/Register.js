@@ -7,14 +7,15 @@ class Register extends Component {
     constructor(props) {
         super(props);
         this.cancelRegistration = this.cancelRegistration.bind(this);
+        this.state = {
+              username: "",
+              discord:"",
+              password1: "",
+              password2: "",
+              errors:{}
+          };
     }
-  state = {
-        username: "",
-        discord:"",
-        password1: "",
-        password2: "",
-        errors:{}
-    };
+
 
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
@@ -32,8 +33,9 @@ class Register extends Component {
     axios
         .post("/user/register", newUser)
         .then(res => {
-          this.props.history.push("/");
-          this.props.setCurrentTab("home");
+          console.log("axios res");
+          this.props.setCurrentTab("logIn");
+          this.props.history.push("/login");
         })
         .catch(err => console.log(err));
   };
