@@ -1,12 +1,13 @@
 import _ from "lodash";
 import React, { Component } from "react";
-import { Search, Grid, Header, Segment, Form } from "semantic-ui-react";
+import { Search, Grid,  Form } from "semantic-ui-react";
 
 import axios from "axios";
 
 const initialState = { isLoading: false, results: [], value: "" };
 
 // Some test data
+/*
 const source = [
   {
     title: "Bauch, Kihn and Schoen",
@@ -22,6 +23,7 @@ const source = [
     price: "$72.69"
   }
 ];
+*/
 
 export default class SearchExampleStandard extends Component {
   state = initialState;
@@ -36,6 +38,9 @@ export default class SearchExampleStandard extends Component {
         const data = res.data;
         console.log("Haettiin pelit:", data);
         const list = [];
+
+        // Should be done in for loop instead of .map?
+        // warning for no return (doesn't give components eg.)
         data.map(game => {
           list.push({ title: game.name });
         });

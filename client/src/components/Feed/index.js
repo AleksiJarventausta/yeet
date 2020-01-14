@@ -1,26 +1,26 @@
-import React, {useEffect} from "react";
+import React from "react";
 import FeedItem from "./FeedItem";
 import Match from "./Match";
-import axios from "axios";
 
-import { Header, Grid, Divider, Label } from "semantic-ui-react";
+import {Header} from "semantic-ui-react";
 
 export default class Feed extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      nests: null,
+      listening: false,
+      matched: false
+    }
 
   }
-  state = {
-    nests: null,
-    listening: false,
-    matched: false
-  }
+
 
 
   postVoted(id) {
     console.log("postVoted:", id);
     const newItems = this.props.posts.map(item => {
-      if (item._id == id) {
+      if (item._id === id) {
         item.voted = true;
       }
       return item;
@@ -34,7 +34,7 @@ export default class Feed extends React.Component {
         console.log("if true");
         const events = new EventSource('http://yeet-yeet.rahtiapp.fi/match/connnect');
         events.onmessage = (event) => {
-          const parsedData = JSON.parse(event.data);
+          //const parsedData = JSON.parse(event.data);
           if (event.data === "matched") {
             this.setState({matched:true})
           }
@@ -52,8 +52,9 @@ export default class Feed extends React.Component {
     let feeditems = null;
     let counter = 0;
     if (items) {
+      // No return under map
       feeditems = items.map(item => {
-        if (item.voted == false && counter < 2) {
+        if (item.voted === false && counter < 2) {
           counter = counter + 1;
           return (
             <FeedItem
