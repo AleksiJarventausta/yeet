@@ -44,9 +44,13 @@ class App extends React.Component {
   // Set the username and discord, then put
   // empty values for games, additional and description.
   setCurrentUser(user) {
+    console.log("user:", user);
     if (user !== null) {
       this.getUserInfo2(user);
       this.getPosts();
+      // games, additional and description has to bet set
+      // these "empty" values, because the user does not return contain them
+      // because they are fetched in different function
       const newUser = {
         username: user.username,
         discord: user.discord,
