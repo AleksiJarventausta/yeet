@@ -71,8 +71,8 @@ class App extends React.Component {
   // Set the username and discord, then put
   // empty values for games, additional and description.
   setCurrentUser(user) {
-    this.getUserInfo2(user);
     if (user !== null) {
+      this.getUserInfo2(user);
       const newUser = {
         username: user.username,
         discord: user.discord,
