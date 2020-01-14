@@ -70,7 +70,7 @@ export default class Feed extends React.Component {
       });
     }
     return (
-      this.props.isSearching && (
+      this.props.issearching && (
         <div>
           {/*true && <h1>Matched!</h1>*/}
           {this.state.matched && <h1>Matched!</h1>}
