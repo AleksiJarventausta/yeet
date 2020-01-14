@@ -45,6 +45,8 @@ export default class Feed extends React.Component {
       events.onmessage = event => {
         try {
           const parsedData = JSON.parse(event.data);
+          console.log(parsedData);
+          
         } catch (e) {}
       };
       this.setState({ events: events });
