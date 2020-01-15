@@ -18,6 +18,7 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   function(req, res, next) {
     Post.findOne({poster: req.user._id}).exec(function(err, userPost) {
+      if( !userPost || err) return res.status(400).json({error: "user hasn't made post yet"});
       Post.find({
         poster: { $ne: req.user._id },
         active: true,
