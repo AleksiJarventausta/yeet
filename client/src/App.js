@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Grid } from "semantic-ui-react";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { Grid, Button} from "semantic-ui-react";
 
 // Utils
 import jwt_decode from "jwt-decode";
@@ -179,7 +179,6 @@ class App extends React.Component {
       })
       .catch(err => console.log(err));
   }
-
   setCurrentTab(tab) {
     this.setState({ currentTab: tab });
     //console.log("Set tab to: " + tab);
@@ -303,7 +302,13 @@ class App extends React.Component {
                     />
                   )}
                   {isEmpty(this.state.user) && (
+                    <div>
                     <h2>You have to log in to see content</h2>
+                      <Button as={Link} to='/login'>
+                        To login page
+                      </Button>
+                    </div>
+
                   )}
                 </Grid.Column>
                 <Grid.Column width={9}>
