@@ -5,7 +5,7 @@ import setAuthToken from "../../utils/setAuth";
 import jwt_decode from "jwt-decode";
 import { Button, Message, Form, Grid, Input, Icon } from "semantic-ui-react";
 
-class UserInfo extends Component {
+class UserSettings extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -158,4 +158,4 @@ class UserInfo extends Component {
   }
 }
 
-export default withRouter(UserInfo);
+export default withRouter(UserSettings);
