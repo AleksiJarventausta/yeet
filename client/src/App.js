@@ -77,7 +77,7 @@ class App extends React.Component {
     const updateInterval = setInterval(() => {
       //console.log("getting posts");
       this.getPosts();
-      },8000);
+    },2000);
     this.setState({intervalId: updateInterval})
   }
 
@@ -105,7 +105,7 @@ class App extends React.Component {
       this.setState({ user: {} });
     }
   }
-  
+
   getGameInfo(data) {
     if (data.games.length > 0) {
       let newList = [];
@@ -180,7 +180,7 @@ class App extends React.Component {
       .get("/post")
       .then(res => {
         const data = res.data;
-        console.log("Haettu käyttäjän tiedot:", data);
+        //console.log("Haettu käyttäjän tiedot:", data);
 
         this.getGameInfo(data);
 
@@ -203,7 +203,7 @@ class App extends React.Component {
       .get("/post")
       .then(res => {
         const data = res.data;
-        console.log("Haettu käyttäjän tiedot:", data);
+        //console.log("Haettu käyttäjän tiedot:", data);
 
         this.getGameInfo(data);
 
@@ -273,7 +273,7 @@ class App extends React.Component {
       .get("/match/matches")
       .then(res => {
         const data = res.data;
-        console.log("Tietokannasta haetut postaukset:", data);
+        //console.log("Tietokannasta haetut postaukset:", data);
         const items = data.map(item => {
           this.getPostsGameInfo(item);
           return { ...item, voted: false };

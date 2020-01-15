@@ -5,7 +5,7 @@ import setAuthToken from "../../utils/setAuth";
 import jwt_decode from "jwt-decode";
 
 import { Link } from "react-router-dom";
-import { Button, Message, Form, Grid, Input, Label } from "semantic-ui-react";
+import { Button, Message, Form, Grid, Input } from "semantic-ui-react";
 
 class Login extends Component {
   constructor() {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Label, Card, Header, Icon, Button } from "semantic-ui-react";
+import { Label, Card, Header, Icon } from "semantic-ui-react";
 
 export default class Match extends React.Component {
   state = {
