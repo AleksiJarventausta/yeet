@@ -15,7 +15,7 @@ import ApplicationForm from "./components/ApplicationForm";
 import Header from "./components/Header";
 import Register from "./components/auth/Register";
 import SignOut from "./components/auth/SignOut";
-import UserInfo from "./components/Settings/userInfo.js";
+import UserSettings from "./components/Settings/userSettings.js";
 
 import "./App.css";
 
@@ -31,7 +31,7 @@ class App extends React.Component {
       errors: [],
       issearching: false,
       posts: [],
-      // Current tab e.g current view: "home", "signOut", "logIn", "userInfo"
+      // Current tab e.g current view: "home", "signOut", "logIn", "userSettings"
       currentTab: "home",
       styles: {
         positiveColor: "green",
@@ -340,9 +340,9 @@ class App extends React.Component {
               )}
             />
             <Route
-              path="/userinfo"
+              path="/usersettings"
               render={props => (
-                <UserInfo
+                <UserSettings
                   {...props}
                   user={this.state.user}
                   setCurrentTab={this.setCurrentTab}
