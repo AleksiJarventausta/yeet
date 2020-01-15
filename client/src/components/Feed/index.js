@@ -2,7 +2,9 @@ import React from "react";
 
 import FeedItem from "./FeedItem";
 import Match from "./Match";
+
 import { EventSourcePolyfill } from "event-source-polyfill";
+import axios from "axios";
 
 import { Header } from "semantic-ui-react";
 import { isEmpty } from "underscore";
@@ -32,6 +34,34 @@ export default class Feed extends React.Component {
     this.props.updatePosts(newItems);
   }
 
+  getGameInfo(data) {
+    //console.log("got data:", data);
+    if (data.games.length > 0) {
+      let newList = [];
+
+      axios
+        .post("/games/search-id", { ids: data.games })
+        .then(res => {
+          //console.log("Haettu pelit:", res.data, res);
+          newList = res.data.map(g => {
+            const newGameItem = { ...g, title: g.name };
+
+            return newGameItem;
+          });
+
+          let old = { ...this.state.matchedUser };
+          //console.log("old matched:", old);
+          const updatedUser = { ...old, games: newList };
+          //console.log("updatedUser:", updatedUser);
+          this.setState(prevState => ({
+            ...prevState,
+            matchedUser: updatedUser
+          }));
+        })
+        .catch(err => console.log(err));
+    }
+  }
+
   componentDidMount() {
     if (!this.state.listening) {
       const token = JSON.parse(localStorage.jwtTokenTeams);
@@ -47,8 +77,14 @@ export default class Feed extends React.Component {
       events.onmessage = event => {
         try {
           const parsedData = JSON.parse(event.data);
-          console.log(parsedData);
-          this.setState({ matchedUser: parsedData });
+          //console.log("AAA matched user:", parsedData);
+
+          this.getGameInfo(parsedData);
+
+          this.setState(prevState => ({
+            ...prevState,
+            matchedUser: parsedData
+          }));
         } catch (e) {}
       };
       this.setState({ events: events });
@@ -97,6 +133,7 @@ export default class Feed extends React.Component {
             feeditems
           ) : (
             <Match
+              matchedUser={this.state.matchedUser}
               description={this.state.matchedUser.description}
               games={this.state.matchedUser.games}
               username={this.state.matchedUser.username}

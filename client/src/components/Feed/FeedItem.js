@@ -1,5 +1,5 @@
 import React from "react";
-import {Label, Card, Icon, Button } from "semantic-ui-react";
+import { Label, Card, Icon, Button } from "semantic-ui-react";
 import axios from "axios";
 
 export default class FeedItem extends React.Component {
@@ -26,7 +26,7 @@ export default class FeedItem extends React.Component {
   notLiked() {
     const id = this.props.postId;
     const userId = this.props.userId;
-    console.log("notLiked", id);
+    console.log("Disliked", id);
     this.props.voted(id);
     const data = {
       postId: id,
@@ -34,9 +34,7 @@ export default class FeedItem extends React.Component {
       like: false
     };
 
-    axios
-      .post("/match/like", data)
-      .catch(err => console.log(err));
+    axios.post("/match/like", data).catch(err => console.log(err));
   }
 
   render() {

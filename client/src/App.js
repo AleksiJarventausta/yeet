@@ -114,17 +114,18 @@ class App extends React.Component {
           });
           //console.log("newList:", newList);
 
-          let updatedPosts = this.state.posts;
+          let updatedPosts = [...this.state.posts];
           const newDataObject = { ...data, games: newList, voted: false };
 
           //console.log("newDataObject:", newDataObject);
 
+          // TODO: Make this remove the old post and add the updated post in the same place (same index as the deleted post)
           updatedPosts = this.removeItem(updatedPosts, data._id);
-
           updatedPosts.push(newDataObject);
+
           //console.log("updatedPosts:", updatedPosts);
           this.setState(prevState => ({
-            post: { updatedPosts }
+            posts: updatedPosts
           }));
         })
         .catch(err => console.log(err));
