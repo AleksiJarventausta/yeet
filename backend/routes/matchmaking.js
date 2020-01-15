@@ -13,20 +13,27 @@ function nocache(res) {
   res.header("Pragma", "no-cache");
 }
 
-function sseAuthorization(req) {}
-
 router.get(
   "/matches",
   passport.authenticate("jwt", { session: false }),
   function(req, res, next) {
-    Post.find({ poster: { $ne: req.user._id }, active: true })
-      .select("-liked -unliked  -__proto__ -__v")
-      .populate("poster", "username discord")
-      .exec(function(err, posts) {
-        if (err) return res.status(400).json({ error: "failed" });
-        nocache(res);
-        res.json(posts);
-      });
+    Post.findOne({poster: req.user._id}).exec(function(err, userPost) {
+      if( !userPost || err) return res.status(400).json({error: "user hasn't made post yet"});
+      Post.find({
+        poster: { $ne: req.user._id },
+        active: true,
+        liked: { $ne: req.user_id },
+        unliked: { $ne: req.user_id },
+        games: { $in: userPost.games }
+      })
+        .select("-liked -unliked  -__proto__ -__v")
+        .populate("poster", "username discord")
+        .exec(function(err, posts) {
+          if (err) return res.status(400).json({ error: "failed" });
+          nocache(res);
+          res.json(posts);
+        });
+    });
   }
 );
 
@@ -51,8 +58,10 @@ router.get("/connect", function(req, res, next) {
           res.write("retry: 2000\n");
           res.write("data: moi\n\n");
 
+          const time = Date.now();
           const newClient = {
             id: user._id,
+            timer: time,
             res
           };
           clients.push(newClient);
@@ -61,8 +70,16 @@ router.get("/connect", function(req, res, next) {
           }, 20000);
 
           req.on("close", () => {
-            clients = clients.filter(c => c.id !== user.id);
+            clients = clients.filter(
+              c => c.id !== user._id && c.timer !== time
+            );
             clearInterval(timer);
+            Post.findOne({ poster: user._id }).exec(function(err, userPost) {
+              userPost.active = false;
+              userPost.liked = [];
+              userPost.unliked = [];
+              userPost.save().catch(err => console.log(err));
+            });
           });
         } else {
           next(res.status(401).send("Unauthorized."));
@@ -78,51 +95,55 @@ router.post("/like", passport.authenticate("jwt", { session: false }), function(
   req,
   res
 ) {
-  Post.findOne({ _id: req.body.postId }).populate('poster', 'username discord additional').exec(function(err, otherPost) {
-    if (req.body.like) {
-      otherPost.liked.push(req.user._id);
-    } else {
-      otherPost.unliked.push(req.user._id);
-    }
-    otherPost
-      .save()
-      .then(user => {
-        Post.findOne({ poster: req.user._id })
-          .populate("poster")
-          .exec(function(err, userPost) {
-            const lol = JSON.parse(JSON.stringify(userPost.liked));
-            const xd = lol.includes(req.body.userId);
+  Post.findOne({ _id: req.body.postId })
+    .populate("poster", "username discord additional")
+    .exec(function(err, otherPost) {
+      if (req.body.like) {
+        otherPost.liked.push(req.user._id);
+      } else {
+        otherPost.unliked.push(req.user._id);
+      }
+      otherPost
+        .save()
+        .then(user => {
+          Post.findOne({ poster: req.user._id })
+            .populate("poster")
+            .exec(function(err, userPost) {
+              const lol = JSON.parse(JSON.stringify(userPost.liked));
+              const xd = lol.includes(req.body.userId);
 
-            const matchedUser = {
-              username: otherPost.poster.username,
-              discord: otherPost.poster.discord,
-              games: otherPost.games,
-              description: otherPost.description,
-              additonal: otherPost.poster.additonal,
-            };
+              const matchedUser = {
+                username: otherPost.poster.username,
+                discord: otherPost.poster.discord,
+                games: otherPost.games,
+                description: otherPost.description,
+                additonal: otherPost.poster.additonal
+              };
 
-            const thisUser = {
-              username: req.user.username,
-              discord: req.user.discord,
-              games: userPost.games,
-              description: userPost.description,
-              additonal: req.user.additonal,
-            }
+              const thisUser = {
+                username: req.user.username,
+                discord: req.user.discord,
+                games: userPost.games,
+                description: userPost.description,
+                additonal: req.user.additonal
+              };
 
-            if (xd && req.body.like) {
-              clients.map(c => {
-                const otherId = mongoose.Types.ObjectId(req.body.userId);
-                if (c.id.equals(req.user._id)) {
-                  c.res.write("data: "+ JSON.stringify(matchedUser) + "\n\n");
-                } else if(otherId.equals(c.id)) {
-                  c.res.write("data: "+ JSON.stringify(thisUser) + "\n\n");
-                }
-              });
-            }
-          });
-      })
-      .catch(err => {});
-  });
+              if (xd && req.body.like) {
+                clients.map(c => {
+                  const otherId = mongoose.Types.ObjectId(req.body.userId);
+                  if (c.id.equals(req.user._id)) {
+                    c.res.write(
+                      "data: " + JSON.stringify(matchedUser) + "\n\n"
+                    );
+                  } else if (otherId.equals(c.id)) {
+                    c.res.write("data: " + JSON.stringify(thisUser) + "\n\n");
+                  }
+                });
+              }
+            });
+        })
+        .catch(err => {});
+    });
   res.send("ok");
 });
 
