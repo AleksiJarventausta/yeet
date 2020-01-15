@@ -5,25 +5,33 @@ import { Search, Grid, Form } from "semantic-ui-react";
 import axios from "axios";
 
 const initialState = { isLoading: false, results: [], value: "" };
+const CancelToken = axios.CancelToken;
+let cancel;
 
 export default class SearchExampleStandard extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
 
   // Get list of games from the backend and put in in state.
   // The gamelist should contain games matching the given parameter.
   getGameList(value) {
     const address = "/games/search";
+    if(cancel !== undefined) {
+      cancel();
+    }
     axios
-      .post(address, { search: value })
+      .post(address, { search: value }, {cancelToken: new CancelToken(function executor(c)
+        {
+          cancel = c;
+        })
+      })
       .then(res => {
         const data = res.data;
         console.log("Haettiin pelit:", data);
 
-        // Should be done in for loop instead of .map?
-        // warning for no return (doesn't give components eg.)
         let list = data.map(game => {
           return { title: game.name, id: game.id };
         });
