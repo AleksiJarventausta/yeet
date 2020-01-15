@@ -87,34 +87,14 @@ class App extends React.Component {
     }
   }
 
-  replaceItem(array, removablesId, newObject) {
-    const insert = (arr, index, newItem) => [
-      // part of the array before the specified index
-      ...arr.slice(0, index),
-      // inserted item
-      newItem,
-      // part of the array after the specified index
-      ...arr.slice(index)
-    ];
-
-    let newArray = array;
+  removeItem(array, id) {
     for (var i in array) {
-      if (array[i]._id === removablesId) {
-        newArray = insert(array, i, newObject);
-        break;
-      }
-    }
-
-    /*
-    for (var i in array) {
-      if (array[i]._id === removablesId) {
+      if (array[i]._id === id) {
         array.splice(i, 1);
-        array.insert()
         break;
       }
     }
-    */
-    return newArray;
+    return array;
   }
 
   getPostsGameInfo(data) {
@@ -140,16 +120,8 @@ class App extends React.Component {
           //console.log("newDataObject:", newDataObject);
 
           // TODO: Make this remove the old post and add the updated post in the same place (same index as the deleted post)
-          /*
           updatedPosts = this.removeItem(updatedPosts, data._id);
           updatedPosts.push(newDataObject);
-          */
-
-          updatedPosts = this.replaceItem(
-            updatedPosts,
-            data._id,
-            newDataObject
-          );
 
           //console.log("updatedPosts:", updatedPosts);
           this.setState(prevState => ({
