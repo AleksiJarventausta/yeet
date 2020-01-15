@@ -29,6 +29,10 @@ export default class Feed extends React.Component {
       }
       return item;
     });
+
+    if (newItems.length() < 2) {
+      console.log("low on stack")
+    }
     this.props.updatePosts(newItems);
   }
 
