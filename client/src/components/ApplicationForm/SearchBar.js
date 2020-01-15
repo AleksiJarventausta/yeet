@@ -6,25 +6,6 @@ import axios from "axios";
 
 const initialState = { isLoading: false, results: [], value: "" };
 
-// Some test data
-/*
-const source = [
-  {
-    title: "Bauch, Kihn and Schoen",
-    description: "Diverse coherent archive",
-    image: "https://s3.amazonaws.com/uifaces/faces/twitter/sur4dye/128.jpg",
-    price: "$89.82"
-  },
-  {
-    title: "Sawayn - Grady",
-    description: "Diverse optimizing budgetary management",
-    image:
-      "https://s3.amazonaws.com/uifaces/faces/twitter/karthipanraj/128.jpg",
-    price: "$72.69"
-  }
-];
-*/
-
 export default class SearchExampleStandard extends Component {
   constructor(props) {
     super(props);

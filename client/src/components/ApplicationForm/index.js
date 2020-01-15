@@ -27,9 +27,6 @@ export default class ApplicationForm extends React.Component {
     const address = "/post/search";
     axios
       .post(address, data)
-      .then(res =>
-        console.log("Hakemuksen tiedot päivitetty tietokantaan", data, res)
-      )
       .catch(err => console.log(err));
   }
 

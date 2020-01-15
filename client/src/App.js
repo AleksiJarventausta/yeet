@@ -193,11 +193,19 @@ class App extends React.Component {
   changeSearchingState() {
     const currentState = this.state.issearching;
     //console.log("issearching is changed:", currentState, "->", !currentState);
-    this.setState({ issearching: !currentState });
-    if (currentState === false) {
-      this.getPosts();
+    const setSearch = {
+      active: !currentState,
     }
-  }
+    axios
+      .post("/post/search", setSearch)
+      .then(res => {
+        this.setState({ issearching: !currentState })
+        if (currentState === false) {
+          this.getPosts();
+        }
+      })
+      .catch(err => console.log(err));
+    }
 
   updatePosts(updatedPosts) {
     this.setState({ posts: updatedPosts });
