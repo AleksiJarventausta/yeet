@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import { Grid, Button} from "semantic-ui-react";
+import { Grid, Button } from "semantic-ui-react";
 
 // Utils
 import jwt_decode from "jwt-decode";
@@ -193,18 +193,18 @@ class App extends React.Component {
     const currentState = this.state.issearching;
     //console.log("issearching is changed:", currentState, "->", !currentState);
     const setSearch = {
-      active: !currentState,
-    }
+      active: !currentState
+    };
     axios
       .post("/post/search", setSearch)
       .then(res => {
-        this.setState({ issearching: !currentState })
+        this.setState({ issearching: !currentState });
         if (currentState === false) {
           this.getPosts();
         }
       })
       .catch(err => console.log(err));
-    }
+  }
 
   updatePosts(updatedPosts) {
     this.setState({ posts: updatedPosts });
@@ -303,12 +303,9 @@ class App extends React.Component {
                   )}
                   {isEmpty(this.state.user) && (
                     <div>
-                    <h2>You have to log in to see content</h2>
-                      <Button as={Link} to='/login'>
-                        To login page
-                      </Button>
+                      <h2>You have to log in to see content</h2>
+                      <Button primary as={Link} to="/login" content="Log in" />
                     </div>
-
                   )}
                 </Grid.Column>
                 <Grid.Column width={9}>

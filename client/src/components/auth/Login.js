@@ -5,7 +5,7 @@ import setAuthToken from "../../utils/setAuth";
 import jwt_decode from "jwt-decode";
 
 import { Link } from "react-router-dom";
-import { Button, Message, Form, Grid } from "semantic-ui-react";
+import { Button, Message, Form, Grid, Input, Label } from "semantic-ui-react";
 
 class Login extends Component {
   constructor() {
@@ -22,7 +22,9 @@ class Login extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.setCurrentTab("logIn");
+  }
 
   componentDidUpdate() {}
 
@@ -59,44 +61,36 @@ class Login extends Component {
         <Grid.Column>
           <Message>
             <Form noValidate onSubmit={this.onSubmit}>
-              <div className="auth-group">
-                <Form.Field>
-                  <label>
-                    <div className="auth-label">Username</div>
-                    <input
-                      onChange={this.onChange}
-                      value={this.state.username}
-                      error={errors.username}
-                      id="username"
-                      type="username"
-                      className="auth-input"
-                    />
-                    <div className="auth-error">{errors.username}</div>
-                  </label>
-                </Form.Field>
-              </div>
+              <Form.Field>
+                Username
+                <Input
+                  onChange={this.onChange}
+                  value={this.state.username}
+                  error={errors.username}
+                  id="username"
+                  type="username"
+                  className="auth-input"
+                />
+                {errors.username}
+              </Form.Field>
+              <Form.Field>
+                Password
+                <Input
+                  onChange={this.onChange}
+                  error={errors.password}
+                  id="password"
+                  type="password"
+                  className="auth-input"
+                />
+                {errors.password}
+              </Form.Field>
 
-              <div className="auth-group">
-                <Form.Field>
-                  <label>
-                    <div className="auth-label">Password</div>
-                    <input
-                      onChange={this.onChange}
-                      error={errors.password}
-                      id="password"
-                      type="password"
-                      className="auth-input"
-                    />
-                    <div className="auth-error">{errors.password}</div>
-                  </label>
-                </Form.Field>
-              </div>
-
-              <div>
-                <Button type="submit">Sign In</Button>
-              </div>
+              <Button.Group fluid>
+                <Button primary type="submit" content="Log in" />
+                <Button as={Link} content="Sign up" to="/register" />
+              </Button.Group>
             </Form>
-            No account? Register <Link to="/register"> here </Link>
+            {/*No account? Register <Link to="/register"> here </Link>*/}
           </Message>
         </Grid.Column>
       </Grid>
