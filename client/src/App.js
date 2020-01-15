@@ -39,7 +39,34 @@ class App extends React.Component {
       }
     };
   }
+  // Fetch posts from the database when the site is
+  // rendered for the first time
+  componentDidMount() {
+    this.setUpdatePostsInterval();
+    if (localStorage.jwtTokenTeams) {
+      //console.log("is logged in");
+      // Set auth token header auth
+      const token = JSON.parse(localStorage.jwtTokenTeams);
+      setAuthToken(token);
 
+      // Decode token and get user info and exp
+      const decoded = jwt_decode(token);
+
+      // Set user and isAuthenticated
+      this.setCurrentUser(decoded);
+
+      //console.log("set current user to:" + decoded.username)
+      // Check for expired token
+      const currentTime = Date.now() / 1000; // to get in milliseconds
+      if (decoded.exp < currentTime) {
+        // Logout user
+        this.setCurrentUser(null);
+
+        // Redirect to login
+        window.location.href = "./";
+      }
+    }
+  }
   // Set the username and discord, then put
   // empty values for games, additional and description.
   setCurrentUser(user) {
@@ -63,6 +90,13 @@ class App extends React.Component {
       //console.log("set currentuser null");
       this.setState({ user: {} });
     }
+  }
+
+  setUpdatePostsInterval() {
+    setInterval(() => {
+      //console.log("getting posts");
+      this.getPosts();
+      },8000);
   }
 
   getGameInfo(data) {
@@ -243,33 +277,7 @@ class App extends React.Component {
       .catch(err => console.log(err));
   }
 
-  // Fetch posts from the database when the site is
-  // rendered for the first time
-  componentDidMount() {
-    if (localStorage.jwtTokenTeams) {
-      //console.log("is logged in");
-      // Set auth token header auth
-      const token = JSON.parse(localStorage.jwtTokenTeams);
-      setAuthToken(token);
 
-      // Decode token and get user info and exp
-      const decoded = jwt_decode(token);
-
-      // Set user and isAuthenticated
-      this.setCurrentUser(decoded);
-
-      //console.log("set current user to:" + decoded.username)
-      // Check for expired token
-      const currentTime = Date.now() / 1000; // to get in milliseconds
-      if (decoded.exp < currentTime) {
-        // Logout user
-        this.setCurrentUser(null);
-
-        // Redirect to login
-        window.location.href = "./";
-      }
-    }
-  }
 
   render() {
     return (
