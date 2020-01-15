@@ -92,12 +92,15 @@ class Register extends Component {
                   />
                 </Form.Field>
 
-                <div>
-                  <Button type="submit" className="auth-button">
-                    Sign up
-                  </Button>
-                  <Button onClick={this.cancelRegistration}>Cancel</Button>
-                </div>
+                <Button.Group fluid>
+                  <Button
+                    primary
+                    type="submit"
+                    className="auth-button"
+                    content="Sign up"
+                  />
+                  <Button onClick={this.cancelRegistration} content="Cancel" />
+                </Button.Group>
                 <div className="bottom-group"></div>
               </Form>
             </Message>
