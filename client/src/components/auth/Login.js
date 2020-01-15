@@ -22,7 +22,9 @@ class Login extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.setCurrentTab("logIn");
+  }
 
   componentDidUpdate() {}
 
@@ -69,7 +71,7 @@ class Login extends Component {
                   type="username"
                   className="auth-input"
                 />
-                <div className="auth-error">{errors.username}</div>
+                {errors.username}
               </Form.Field>
               <Form.Field>
                 Password
@@ -80,14 +82,15 @@ class Login extends Component {
                   type="password"
                   className="auth-input"
                 />
-                <div className="auth-error">{errors.password}</div>
+                {errors.password}
               </Form.Field>
 
-              <div>
-                <Button type="submit">Sign In</Button>
-              </div>
+              <Button.Group fluid>
+                <Button primary type="submit" content="Log in" />
+                <Button as={Link} content="Sign up" to="/register" />
+              </Button.Group>
             </Form>
-            No account? Register <Link to="/register"> here </Link>
+            {/*No account? Register <Link to="/register"> here </Link>*/}
           </Message>
         </Grid.Column>
       </Grid>
