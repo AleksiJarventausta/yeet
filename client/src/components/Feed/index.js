@@ -5,6 +5,7 @@ import Match from "./Match";
 import { EventSourcePolyfill } from "event-source-polyfill";
 
 import { Header } from "semantic-ui-react";
+import {isEmpty} from "underscore";
 
 export default class Feed extends React.Component {
   constructor(props) {
@@ -12,7 +13,8 @@ export default class Feed extends React.Component {
     this.state = {
       nests: null,
       listening: false,
-      matched: false
+      matched: false,
+      matchedUser: {}
     };
   }
 
@@ -46,7 +48,8 @@ export default class Feed extends React.Component {
         try {
           const parsedData = JSON.parse(event.data);
           console.log(parsedData);
-          
+          this.setState({matchedUser: parsedData});
+
         } catch (e) {}
       };
       this.setState({ events: events });
@@ -90,17 +93,15 @@ export default class Feed extends React.Component {
     return (
       this.props.issearching && (
         <div>
-          {/*true && <h1>Matched!</h1>*/}
-          {this.state.matched && <h1>Matched!</h1>}
-
-          <Header as="h2">Found gamers:</Header>
-          {/* Placeholder Match objekti */}
-          <Match
-            description={"UwU OwO"}
-            games={["testGame", "testGame2"]}
-            username={"HentaiMaster9000"}
-          />
-          {feeditems}
+          <Header as="h2">Found gamers: </Header>
+          {isEmpty(this.state.matchedUser) ?  feeditems :   <Match
+              description={this.state.matchedUser.description}
+              games={["testGame", "testGame2"]}
+              username={this.state.matchedUser.username}
+              discord={this.state.matchedUser.discord}
+              issearching={this.props.issearching}
+            />
+        }
         </div>
       )
     );
