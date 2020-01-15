@@ -87,11 +87,12 @@ class UserSettings extends Component {
               <Form.Field>
                 <Input
                   name="username"
+                  disabled={true}
                   onChange={(event, data) => {
                     this.updateBox(event, data);
                   }}
                   value={this.state.username}
-                  placeholder={"username"}
+                  placeholder={this.state.username}
                 />
               </Form.Field>
               <Form.Field>
@@ -105,6 +106,7 @@ class UserSettings extends Component {
                 />
               </Form.Field>
               <Form.Field>
+              {/*
                 <Input
                   name="additional"
                   onChange={(event, data) => {
@@ -113,6 +115,7 @@ class UserSettings extends Component {
                   value={this.state.additional}
                   placeholder={"additional contact information"}
                 />
+              */}
               </Form.Field>
               <Form.Field>
                 <Input
@@ -135,6 +138,7 @@ class UserSettings extends Component {
                 />
               </Form.Field>
             </Message>
+            {/* Ask for password when implemented to backend}
             <Input
               name="newpassword2"
               onChange={(event, data) => {
@@ -143,6 +147,7 @@ class UserSettings extends Component {
               placeholder="Your current password"
               type="password"
             />
+            */}
             <Button type="submit">
               <Icon name="pencil alternate" />
               Save
