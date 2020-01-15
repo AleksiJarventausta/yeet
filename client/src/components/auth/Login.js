@@ -26,7 +26,6 @@ class Login extends Component {
     this.props.setCurrentTab("logIn");
   }
 
-  componentDidUpdate() {}
 
   onSubmit(e) {
     e.preventDefault();
