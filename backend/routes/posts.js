@@ -12,6 +12,10 @@ router.post(
     Post.findOne({ poster: req.user._id }).exec(function(err, post) {
       if (err) return res.status(400).json({ error: "failed" });
       if (post) {
+        if (req.body.additional !== undefined && req.body.additional !== req.user.additonal) {
+          req.user.additional = req.body.additional
+          req.user.save().catch(err => console.log(err));
+        }
         if (req.body.active !== undefined) {
           if(req.body.active) {
             post.liked = []

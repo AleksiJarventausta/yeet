@@ -17,16 +17,17 @@ router.get(
   "/matches",
   passport.authenticate("jwt", { session: false }),
   function(req, res, next) {
-    Post.findOne({poster: req.user._id}).exec(function(err, userPost) {
-      if( !userPost || err) return res.status(400).json({error: "user hasn't made post yet"});
+    Post.findOne({ poster: req.user._id }).exec(function(err, userPost) {
+      if (!userPost || err)
+        return res.status(400).json({ error: "user hasn't made post yet" });
       Post.find({
         poster: { $ne: req.user._id },
         active: true,
-        liked: { $ne: req.user_id },
-        unliked: { $ne: req.user_id },
+        liked: { $ne: req.user._id },
+        unliked: { $ne: req.user._id },
         games: { $in: userPost.games }
       })
-        .select("-liked -unliked  -__proto__ -__v")
+        .select(" -__proto__ -__v")
         .populate("poster", "username discord")
         .exec(function(err, posts) {
           if (err) return res.status(400).json({ error: "failed" });
@@ -46,7 +47,7 @@ router.get("/connect", function(req, res, next) {
         if (user) {
           const headers = {
             "Content-Type": "text/event-stream",
-            Connection: "keep-alive",
+            "Connection": "keep-alive",
             "Cache-Control": "no-cache",
             "Access-control-allow-headers": "x-requested-with",
             "Access-Control-Allow-Origin": "*"
@@ -55,12 +56,11 @@ router.get("/connect", function(req, res, next) {
           //req.user.save();
           res.writeHead(200, headers);
           res.write(":" + Array(2049).join(" ") + "\n"); // 2kB padding for IE
-          res.write("retry: 2000\n");
-          res.write("data: moi\n\n");
+          res.write("retry: 2000\n\n");
           Post.findOne({ poster: user._id }).exec(function(err, userPost) {
-              userPost.active = true;
-              userPost.save().catch(err => console.log(err));
-            });
+            userPost.active = true;
+            userPost.save().catch(err => console.log(err));
+          });
           const time = Date.now();
           const newClient = {
             id: user._id,
@@ -68,15 +68,17 @@ router.get("/connect", function(req, res, next) {
             res
           };
           clients.push(newClient);
+          /*
           const timer = setInterval(() => {
             res.write("data: empty \n\n");
           }, 20000);
 
+          */
           req.on("close", () => {
             clients = clients.filter(
               c => c.id !== user._id && c.timer !== time
             );
-            clearInterval(timer);
+            //clearInterval(timer);
             Post.findOne({ poster: user._id }).exec(function(err, userPost) {
               userPost.active = false;
               userPost.save().catch(err => console.log(err));
@@ -113,23 +115,22 @@ router.post("/like", passport.authenticate("jwt", { session: false }), function(
               const lol = JSON.parse(JSON.stringify(userPost.liked));
               const xd = lol.includes(req.body.userId);
 
-              const matchedUser = {
-                username: otherPost.poster.username,
-                discord: otherPost.poster.discord,
-                games: otherPost.games,
-                description: otherPost.description,
-                additonal: otherPost.poster.additonal
-              };
-
-              const thisUser = {
-                username: req.user.username,
-                discord: req.user.discord,
-                games: userPost.games,
-                description: userPost.description,
-                additonal: req.user.additonal
-              };
-
               if (xd && req.body.like) {
+                const matchedUser = {
+                  username: otherPost.poster.username,
+                  discord: otherPost.poster.discord,
+                  games: otherPost.games,
+                  description: otherPost.description,
+                  additonal: otherPost.poster.additonal
+                };
+
+                const thisUser = {
+                  username: req.user.username,
+                  discord: req.user.discord,
+                  games: userPost.games,
+                  description: userPost.description,
+                  additonal: req.user.additonal
+                };
                 clients.map(c => {
                   const otherId = mongoose.Types.ObjectId(req.body.userId);
                   if (c.id.equals(req.user._id)) {

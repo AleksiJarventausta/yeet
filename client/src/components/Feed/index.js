@@ -71,7 +71,7 @@ export default class Feed extends React.Component {
     if (!this.state.listening) {
       const token = JSON.parse(localStorage.jwtTokenTeams);
       const events = new EventSourcePolyfill(
-        "/match/connect",
+        "http://yeet-yeet.rahtiapp.fi/match/connect",
         {
           headers: {
             Authorization: token
