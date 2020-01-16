@@ -1,7 +1,6 @@
 import React from "react";
 import { TextArea, Form } from "semantic-ui-react";
 
-import { throttle } from "lodash";
 // Maximum numbers ofcharacters the user can use
 // on his/hers description
 const CHAR_MAX = 255;
