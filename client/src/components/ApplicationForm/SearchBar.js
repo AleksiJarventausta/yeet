@@ -39,7 +39,7 @@ export default class SearchExampleStandard extends Component {
       )
       .then(res => {
         const data = res.data;
-        console.log("Haettiin pelit:", data);
+        //console.log("Haettiin pelit:", data);
 
         let list = data.map(game => {
           return { title: game.name, id: game.id };
@@ -48,6 +48,7 @@ export default class SearchExampleStandard extends Component {
           results: list
         });
       })
+      /* error on every cancel */
       .catch(err => console.log(err));
   }
 
@@ -55,7 +56,7 @@ export default class SearchExampleStandard extends Component {
     axios
       .post("/post/addgame", { _id: gameid })
       .then(res => {
-        console.log("Added game", gameid, res);
+        //console.log("Added game", gameid, res);
       })
       .catch(err => console.log(err));
   }
