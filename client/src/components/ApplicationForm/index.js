@@ -53,7 +53,7 @@ export default class ApplicationForm extends React.Component {
   // A pu A
   updateToDatabase(newUser) {
     //console.log("updated userInfo:", newUser);
-    console.log("aaaa");
+    //console.log("aaaa");
     const info = {
       ...this.props.info,
       username: newUser.username,
@@ -74,7 +74,7 @@ export default class ApplicationForm extends React.Component {
   // when the users starts the search
   sendNewPost(searchState) {
     const data = {
-      description: "hard-coded palceholder", // TODO: hanki tähän kaikki tarvittavat tiedot
+      description: this.props.info.description, // TODO: hanki tähän kaikki tarvittavat tiedot
       active: searchState
     };
     axios

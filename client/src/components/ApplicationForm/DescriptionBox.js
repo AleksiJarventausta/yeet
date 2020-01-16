@@ -21,7 +21,7 @@ export default class CreatePost extends React.Component {
               rows={3}
               placeholder="Write your description here..."
               onChange={(event, data) => {
-                console.log("state muutettu");
+                //console.log("state muutettu");
                 if (data.value.length <= CHAR_MAX) {
                   const newData = {
                     ...this.props.info,
