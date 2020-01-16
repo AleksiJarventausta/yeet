@@ -34,6 +34,7 @@ export default class UserInfo extends React.Component {
                 discord: data.value
               };
               //console.log("AAAAA new User data (from user info)", newData);
+
               this.props.updateInfo(newData);
             }}
           />
@@ -44,11 +45,13 @@ export default class UserInfo extends React.Component {
             disabled={this.props.issearching}
             onChange={(event, data) => {
               //this.setState({ username: data.value });
+              //console.log("bbbb");
               const newData = {
                 ...this.props.info,
                 additional: data.value
               };
               this.props.updateInfo(newData);
+              this.props.updateToDatabase(newData);
             }}
             value={this.props.info.additional}
             placeholder="eg. MTGA testPlayer#1234"
