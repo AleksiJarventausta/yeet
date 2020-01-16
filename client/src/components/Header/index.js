@@ -31,7 +31,7 @@ class HeaderThing extends React.Component {
 
   render() {
     return (
-      <Menu tabular>
+      <Menu tabular stackable>
         <Menu.Item
           name="home"
           as={Link} to='/'
