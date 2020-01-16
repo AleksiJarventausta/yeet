@@ -36,7 +36,7 @@ class App extends React.Component {
       styles: {
         positiveColor: "green",
         negativeColor: "red"
-      },
+      }
     };
   }
   // Fetch posts from the database when the site is
@@ -68,7 +68,6 @@ class App extends React.Component {
     }
   }
 
-
   componentWillUnmount() {
     clearInterval(this.state.intervalId);
   }
@@ -77,14 +76,15 @@ class App extends React.Component {
     const updateInterval = setInterval(() => {
       //console.log("getting posts");
       this.getPosts();
-    },2000);
-    this.setState({intervalId: updateInterval})
+    }, 2000);
+    this.setState({ intervalId: updateInterval });
   }
 
   // Set the username and discord, then put
   // empty values for games, additional and description.
   setCurrentUser(user) {
     //console.log("user:", user);
+
     if (user !== null) {
       this.getUserInfo2(user);
       this.getPosts();
@@ -283,8 +283,6 @@ class App extends React.Component {
       })
       .catch(err => console.log(err));
   }
-
-
 
   render() {
     return (

@@ -6,6 +6,8 @@ import Games from "./Games";
 import { Button, Icon, Header, Segment } from "semantic-ui-react";
 import axios from "axios";
 
+import _ from "lodash";
+
 // Texts for the button
 const START_TEXT = "Start searching";
 const STOP_TEXT = "Stop searching";
@@ -19,15 +21,18 @@ export default class ApplicationForm extends React.Component {
     };
     this.updateState = this.updateState.bind(this);
     this.gameslistUpdated = this.gameslistUpdated.bind(this);
+
+    this.throttledUpdate = _.throttle(
+      data => this.updateToDatabase(data),
+      1000
+    ).bind(this);
   }
 
   // Send the application information to the database
   sendUpdatedInfoToDatabase(data) {
     // Change the address and parse data to form the back wants
     const address = "/post/search";
-    axios
-      .post(address, data)
-      .catch(err => console.log(err));
+    axios.post(address, data).catch(err => console.log(err));
   }
 
   // Send users (changed) info to the App.js and
@@ -43,6 +48,20 @@ export default class ApplicationForm extends React.Component {
     };
 
     this.props.updateUser(info);
+  }
+
+  // A pu A
+  updateToDatabase(newUser) {
+    //console.log("updated userInfo:", newUser);
+    console.log("aaaa");
+    const info = {
+      ...this.props.info,
+      username: newUser.username,
+      discord: newUser.discord,
+      additional: newUser.additional,
+      description: newUser.description
+    };
+
     this.sendUpdatedInfoToDatabase(info);
   }
 
@@ -94,6 +113,7 @@ export default class ApplicationForm extends React.Component {
         <Segment.Group>
           <Segment>
             <UserInfo
+              updateToDatabase={this.throttledUpdate}
               updateInfo={this.updateState}
               info={this.props.info}
               issearching={this.props.issearching}
@@ -102,6 +122,7 @@ export default class ApplicationForm extends React.Component {
           <Segment>
             <DescriptionBox
               updateInfo={this.updateState}
+              updateToDatabase={this.throttledUpdate}
               info={this.props.info}
               issearching={this.props.issearching}
             />
