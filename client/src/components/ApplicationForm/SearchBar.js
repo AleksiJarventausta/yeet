@@ -11,23 +11,32 @@ let cancel;
 export default class SearchExampleStandard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
+
+    this.throttledSendGames = _.throttle(
+      gameid => this.sendGamesToDatabase(gameid),
+      600
+    ).bind(this);
   }
 
   // Get list of games from the backend and put in in state.
   // The gamelist should contain games matching the given parameter.
   getGameList(value) {
     const address = "/games/search";
-    if(cancel !== undefined) {
+    if (cancel !== undefined) {
       cancel();
     }
+
     axios
-      .post(address, { search: value }, {cancelToken: new CancelToken(function executor(c)
+      .post(
+        address,
+        { search: value },
         {
-          cancel = c;
-        })
-      })
+          cancelToken: new CancelToken(function executor(c) {
+            cancel = c;
+          })
+        }
+      )
       .then(res => {
         const data = res.data;
         console.log("Haettiin pelit:", data);
@@ -38,6 +47,15 @@ export default class SearchExampleStandard extends Component {
         this.setState({
           results: list
         });
+      })
+      .catch(err => console.log(err));
+  }
+
+  sendGamesToDatabase(gameid) {
+    axios
+      .post("/post/addgame", { _id: gameid })
+      .then(res => {
+        console.log("Added game", gameid, res);
       })
       .catch(err => console.log(err));
   }
@@ -54,12 +72,7 @@ export default class SearchExampleStandard extends Component {
       games: list
     };
     this.props.updateInfo(newData);
-    axios
-      .post("/post/addgame", { _id: result.id })
-      .then(res => {
-        console.log("Added game", result.title, res);
-      })
-      .catch(err => console.log(err));
+    this.throttledSendGames(result.id);
   };
 
   // Fetch new gamelist matching the given keyword and put in state.
