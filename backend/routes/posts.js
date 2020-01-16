@@ -13,6 +13,10 @@ router.post(
       if (err) return res.status(400).json({ error: "failed" });
       if (post) {
         if (req.body.active !== undefined) {
+          if(req.body.active) {
+            post.liked = []
+            post.unliked = []
+          }
           post.active = req.body.active;
         }
         if (req.body.description !== undefined) {

@@ -57,7 +57,10 @@ router.get("/connect", function(req, res, next) {
           res.write(":" + Array(2049).join(" ") + "\n"); // 2kB padding for IE
           res.write("retry: 2000\n");
           res.write("data: moi\n\n");
-
+          Post.findOne({ poster: user._id }).exec(function(err, userPost) {
+              userPost.active = true;
+              userPost.save().catch(err => console.log(err));
+            });
           const time = Date.now();
           const newClient = {
             id: user._id,
@@ -76,8 +79,6 @@ router.get("/connect", function(req, res, next) {
             clearInterval(timer);
             Post.findOne({ poster: user._id }).exec(function(err, userPost) {
               userPost.active = false;
-              userPost.liked = [];
-              userPost.unliked = [];
               userPost.save().catch(err => console.log(err));
             });
           });
