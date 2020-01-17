@@ -43,7 +43,7 @@ class HeaderThing extends React.Component {
         <Menu.Menu position="right">
           <Menu.Item
             icon="home"
-            // name="home"
+            name="home"
             active={this.props.tab === "home"}
             as={Link}
             to="/"
