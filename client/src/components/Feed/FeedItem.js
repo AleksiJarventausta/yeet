@@ -3,12 +3,17 @@ import { Label, Card, Icon, Button } from "semantic-ui-react";
 import axios from "axios";
 
 export default class FeedItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      games: []
+    };
+  }
   // Updates to the database that user liked a post.
   // Updates the posts attribute voted to upper level component.
   liked() {
     const id = this.props.postId;
     const userId = this.props.userId;
-    console.log("Liked", id);
     this.props.voted(id);
     const data = {
       postId: id,
@@ -26,7 +31,6 @@ export default class FeedItem extends React.Component {
   notLiked() {
     const id = this.props.postId;
     const userId = this.props.userId;
-    console.log("Disliked", id);
     this.props.voted(id);
     const data = {
       postId: id,
@@ -37,11 +41,22 @@ export default class FeedItem extends React.Component {
     axios.post("/match/like", data).catch(err => console.log(err));
   }
 
+  componentDidMount() {
+    axios
+      .post("/games/search-id", { ids: this.props.games })
+      .then(res => {
+        const gameArray = res.data.map(g => {
+          return { ...g, title: g.name };
+        });
+        this.setState({ games: gameArray });
+      })
+      .catch(err => console.log(err));
+  }
+
   render() {
     // Creating the gametags that are shown in the post
-    const gameItems = this.props.games.map(game => {
-      //console.log("pelin id:", game._id);
-      return <Label key={game._id}> {game.name + " "}</Label>;
+    const gameItems = this.state.games.map(game => {
+      return <Label key={game.id}> {game.name + " "}</Label>;
     });
 
     return (

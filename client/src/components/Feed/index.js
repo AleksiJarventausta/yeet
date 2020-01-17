@@ -16,8 +16,12 @@ export default class Feed extends React.Component {
       nests: null,
       listening: false,
       matched: false,
-      matchedUser: {}
+      matchedUser: {},
+      posts: []
     };
+    this.getPosts = this.getPosts.bind(this);
+    this.setMatchPoller = this.setMatchPoller.bind(this);
+    this.timeoutLoop = this.timeoutLoop.bind(this);
   }
 
   // Marks the post voted when user has voted it.
@@ -25,7 +29,7 @@ export default class Feed extends React.Component {
   // updates it to upper level components.
   postVoted(id) {
     //console.log("postVoted:", id);
-    const newItems = this.props.posts.map(item => {
+    const newItems = this.state.posts.map(item => {
       if (item._id === id) {
         item.voted = true;
       }
@@ -36,7 +40,7 @@ export default class Feed extends React.Component {
       console.log("low on stack")
     }
     */
-    this.props.updatePosts(newItems);
+    this.setState({ posts: newItems });
   }
 
   getGameInfo(data) {
@@ -67,7 +71,21 @@ export default class Feed extends React.Component {
     }
   }
 
+  timeoutLoop() {
+    this.getPosts();
+    this.setState( {stopPoller: setTimeout(this.timeoutLoop, 4000)});
+  }
+
+  setMatchPoller() {
+    let timer = 0;
+    timer = setTimeout(this.timeoutLoop, 4000);
+    
+    this.setState({ stopPoller: timer});
+  }
+
   componentDidMount() {
+    this.getPosts();
+    this.setMatchPoller();
     if (!this.state.listening) {
       const token = JSON.parse(localStorage.jwtTokenTeams);
       const events = new EventSourcePolyfill(
@@ -82,10 +100,7 @@ export default class Feed extends React.Component {
       events.onmessage = event => {
         try {
           const parsedData = JSON.parse(event.data);
-          //console.log("AAA matched user:", parsedData);
-
           this.getGameInfo(parsedData);
-
           this.setState(prevState => ({
             ...prevState,
             matchedUser: parsedData
@@ -98,22 +113,34 @@ export default class Feed extends React.Component {
   }
 
   componentWillUnmount() {
+    clearTimeout(this.state.stopPoller)
     if (this.state.listening) {
       this.state.events.close();
       this.setState({ listening: false });
     }
   }
 
-  render() {
-    let items = this.props.posts;
+  getPosts() {
+    axios
+      .get("/match/matches")
+      .then(res => {
+        const data = res.data;
+        const items = data.map(item => {
+          return { ...item, voted: false };
+        });
 
+        this.setState({ posts: items });
+      })
+      .catch(err => console.log(err));
+  }
+
+  render() {
     let feeditems = null;
     let counter = 0;
-    if (items) {
-      feeditems = items.map(item => {
+    if (this.state.posts) {
+      feeditems = this.state.posts.map(item => {
         let feedItem = null;
         if (item.voted === false && counter < 2) {
-          //console.log("id of this feeditem is:", item._id);
           counter = counter + 1;
           feedItem = (
             <FeedItem

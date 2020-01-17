@@ -38,6 +38,16 @@ router.get(
   }
 );
 
+function closeClient(user) {
+  clients = clients.filter(c => c.id !== user._id && c.timer !== time);
+  if (clients.filter(c => c.id === user._id) < 1) {
+    Post.findOne({ poster: user._id }).exec(function(err, userPost) {
+      userPost.active = false;
+      userPost.save().catch(err => console.log(err));
+    });
+  }
+}
+
 router.get("/connect", function(req, res, next) {
   // Mandatory headers and http status to keep connection open
   if (req.headers.authorization) {
@@ -47,7 +57,7 @@ router.get("/connect", function(req, res, next) {
         if (user) {
           const headers = {
             "Content-Type": "text/event-stream",
-            "Connection": "keep-alive",
+            Connection: "keep-alive",
             "Cache-Control": "no-cache",
             "Access-control-allow-headers": "x-requested-with",
             "Access-Control-Allow-Origin": "*"
@@ -61,6 +71,7 @@ router.get("/connect", function(req, res, next) {
             userPost.active = true;
             userPost.save().catch(err => console.log(err));
           });
+
           const time = Date.now();
           const newClient = {
             id: user._id,
@@ -68,22 +79,8 @@ router.get("/connect", function(req, res, next) {
             res
           };
           clients.push(newClient);
-          /*
-          const timer = setInterval(() => {
-            res.write("data: empty \n\n");
-          }, 20000);
 
-          */
-          req.on("close", () => {
-            clients = clients.filter(
-              c => c.id !== user._id && c.timer !== time
-            );
-            //clearInterval(timer);
-            Post.findOne({ poster: user._id }).exec(function(err, userPost) {
-              userPost.active = false;
-              userPost.save().catch(err => console.log(err));
-            });
-          });
+          req.on("close", () => closeClient(user));
         } else {
           next(res.status(401).send("Unauthorized."));
         }
@@ -93,6 +90,32 @@ router.get("/connect", function(req, res, next) {
   // When client closes connection we update the clients list
   // avoiding the disconnected one
 });
+
+function matchUsers(req, otherPost, userPost) {
+  const matchedUser = {
+    username: otherPost.poster.username,
+    discord: otherPost.poster.discord,
+    games: otherPost.games,
+    description: otherPost.description,
+    additonal: otherPost.poster.additonal
+  };
+
+  const thisUser = {
+    username: req.user.username,
+    discord: req.user.discord,
+    games: userPost.games,
+    description: userPost.description,
+    additonal: req.user.additonal
+  };
+  clients.map(c => {
+    const otherId = mongoose.Types.ObjectId(req.body.userId);
+    if (c.id.equals(req.user._id)) {
+      c.res.write("data: " + JSON.stringify(matchedUser) + "\n\n");
+    } else if (otherId.equals(c.id)) {
+      c.res.write("data: " + JSON.stringify(thisUser) + "\n\n");
+    }
+  });
+}
 
 router.post("/like", passport.authenticate("jwt", { session: false }), function(
   req,
@@ -114,33 +137,8 @@ router.post("/like", passport.authenticate("jwt", { session: false }), function(
             .exec(function(err, userPost) {
               const lol = JSON.parse(JSON.stringify(userPost.liked));
               const xd = lol.includes(req.body.userId);
-
               if (xd && req.body.like) {
-                const matchedUser = {
-                  username: otherPost.poster.username,
-                  discord: otherPost.poster.discord,
-                  games: otherPost.games,
-                  description: otherPost.description,
-                  additonal: otherPost.poster.additonal
-                };
-
-                const thisUser = {
-                  username: req.user.username,
-                  discord: req.user.discord,
-                  games: userPost.games,
-                  description: userPost.description,
-                  additonal: req.user.additonal
-                };
-                clients.map(c => {
-                  const otherId = mongoose.Types.ObjectId(req.body.userId);
-                  if (c.id.equals(req.user._id)) {
-                    c.res.write(
-                      "data: " + JSON.stringify(matchedUser) + "\n\n"
-                    );
-                  } else if (otherId.equals(c.id)) {
-                    c.res.write("data: " + JSON.stringify(thisUser) + "\n\n");
-                  }
-                });
+                matchUsers(req, otherPost, userPost);
               }
             });
         })

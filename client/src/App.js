@@ -42,7 +42,6 @@ class App extends React.Component {
   // Fetch posts from the database when the site is
   // rendered for the first time
   componentDidMount() {
-    this.setUpdatePostsInterval();
     if (localStorage.jwtTokenTeams) {
       //console.log("is logged in");
       // Set auth token header auth
@@ -68,17 +67,9 @@ class App extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    clearInterval(this.state.intervalId);
-  }
+  
 
-  setUpdatePostsInterval() {
-    const updateInterval = setInterval(() => {
-      //console.log("getting posts");
-      this.getPosts();
-    }, 2000);
-    this.setState({ intervalId: updateInterval });
-  }
+  
 
   // Set the username and discord, then put
   // empty values for games, additional and description.
@@ -87,7 +78,6 @@ class App extends React.Component {
 
     if (user !== null) {
       this.getUserInfo2(user);
-      this.getPosts();
       // games, additional and description has to bet set
       // these "empty" values, because the user does not return contain them
       // because they are fetched in different function
@@ -233,7 +223,6 @@ class App extends React.Component {
   // on the state of this component
   changeSearchingState() {
     const currentState = this.state.issearching;
-    //console.log("issearching is changed:", currentState, "->", !currentState);
     const setSearch = {
       active: !currentState
     };
@@ -241,16 +230,11 @@ class App extends React.Component {
       .post("/post/search", setSearch)
       .then(res => {
         this.setState({ issearching: !currentState });
-        if (currentState === false) {
-          this.getPosts();
-        }
       })
       .catch(err => console.log(err));
   }
 
-  updatePosts(updatedPosts) {
-    this.setState({ posts: updatedPosts });
-  }
+  
 
   // Updates every field of user
   updateUser(updatedUser) {
@@ -268,21 +252,6 @@ class App extends React.Component {
   }
   // Get posts from database and
   // put them on state in posts as a list
-  getPosts() {
-    axios
-      .get("/match/matches")
-      .then(res => {
-        const data = res.data;
-        //console.log("Tietokannasta haetut postaukset:", data);
-        const items = data.map(item => {
-          this.getPostsGameInfo(item);
-          return { ...item, voted: false };
-        });
-
-        this.setState({ posts: items });
-      })
-      .catch(err => console.log(err));
-  }
 
   render() {
     return (
@@ -325,8 +294,6 @@ class App extends React.Component {
                 <Grid.Column width={9}>
                   {this.state.issearching && (
                     <Feed
-                      updatePosts={this.updatePosts.bind(this)}
-                      posts={this.state.posts}
                       issearching={this.state.issearching}
                     ></Feed>
                   )}
