@@ -38,7 +38,7 @@ router.get(
   }
 );
 
-function closeClient(user) {
+function closeClient(user, time) {
   clients = clients.filter(c => c.id !== user._id && c.timer !== time);
   if (clients.filter(c => c.id === user._id) < 1) {
     Post.findOne({ poster: user._id }).exec(function(err, userPost) {
@@ -80,7 +80,7 @@ router.get("/connect", function(req, res, next) {
           };
           clients.push(newClient);
 
-          req.on("close", () => closeClient(user));
+          req.on("close", () => closeClient(user, time));
         } else {
           next(res.status(401).send("Unauthorized."));
         }
