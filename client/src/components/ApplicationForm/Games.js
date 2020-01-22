@@ -62,13 +62,15 @@ export default class Games extends React.Component {
       return (
         <Label key={game.id} deleteGame={this.deleteGame}>
           {game.name}{" "}
-          <Icon
-            game={game}
-            onClick={e => {
-              this.deleteGame(game);
-            }}
-            name="delete"
-          />
+          {!this.props.issearching && (
+            <Icon
+              game={game}
+              onClick={e => {
+                this.deleteGame(game);
+              }}
+              name="delete"
+            />
+          )}
         </Label>
       );
     });
