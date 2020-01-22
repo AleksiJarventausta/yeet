@@ -109,31 +109,44 @@ export default class ApplicationForm extends React.Component {
   render() {
     return (
       <div>
-        <Header as="h2">Your application form</Header>
+        {!this.props.issearching && (
+          <Header as="h2">Your application form</Header>
+        )}
         <Segment.Group>
+          {!this.props.issearching && (
+            <Segment>
+              <UserInfo
+                updateToDatabase={this.throttledUpdate}
+                updateInfo={this.updateState}
+                info={this.props.info}
+                issearching={this.props.issearching}
+              />
+            </Segment>
+          )}
           <Segment>
-            <UserInfo
-              updateToDatabase={this.throttledUpdate}
-              updateInfo={this.updateState}
-              info={this.props.info}
-              issearching={this.props.issearching}
-            />
-          </Segment>
-          <Segment>
-            <DescriptionBox
-              updateInfo={this.updateState}
-              updateToDatabase={this.throttledUpdate}
-              info={this.props.info}
-              issearching={this.props.issearching}
-            />
-          </Segment>
-          <Segment>
-            <SearchBar
-              updateInfo={this.updateState}
-              info={this.props.info}
-              issearching={this.props.issearching}
-            />
-            <br />
+            {!this.props.issearching ? (
+              <div>
+                <DescriptionBox
+                  updateInfo={this.updateState}
+                  updateToDatabase={this.throttledUpdate}
+                  info={this.props.info}
+                  issearching={this.props.issearching}
+                />
+                <br />
+              </div>
+            ) : (
+              <Segment>{this.props.info.description}</Segment>
+            )}
+            {!this.props.issearching && (
+              <div>
+                <SearchBar
+                  updateInfo={this.updateState}
+                  info={this.props.info}
+                  issearching={this.props.issearching}
+                />
+                <br />
+              </div>
+            )}
             <Games
               info={this.props.info}
               listUpdated={this.gameslistUpdated}
