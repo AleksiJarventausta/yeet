@@ -53,20 +53,20 @@ class HeaderThing extends React.Component {
             <Dropdown.Menu>
               {!isEmpty(this.props.user) ? (
                 <Dropdown.Item
+                  icon="lock"
+                  text="Log out"
                   name="signOut"
                   active={this.props.tab === "logIn"}
                   onClick={(event, data) => this.handleItemClick(event, data)}
-                >
-                  Log out
-                </Dropdown.Item>
+                />
               ) : (
                 <Dropdown.Item
+                  icon="key"
+                  text="Log in"
                   name="logIn"
                   active={this.props.tab === "logIn"}
                   onClick={(event, data) => this.handleItemClick(event, data)}
-                >
-                  Log in
-                </Dropdown.Item>
+                />
               )}
               {!isEmpty(this.props.user) && (
                 <Dropdown.Item
