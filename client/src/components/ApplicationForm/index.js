@@ -8,17 +8,9 @@ import axios from "axios";
 
 import _ from "lodash";
 
-// Texts for the button
-const START_TEXT = "Start searching";
-const STOP_TEXT = "Stop searching";
-
 export default class ApplicationForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      color: this.props.styles.positiveColor,
-      text: START_TEXT
-    };
     this.updateState = this.updateState.bind(this);
     this.gameslistUpdated = this.gameslistUpdated.bind(this);
 
@@ -91,17 +83,9 @@ export default class ApplicationForm extends React.Component {
     const current = this.props.issearching;
     if (!current) {
       //console.log("Searching has been started!");
-      this.setState({
-        color: this.props.styles.negativeColor,
-        text: STOP_TEXT
-      });
       this.sendNewPost(!current);
     } else {
       //console.log("Searching has been stopped!");
-      this.setState({
-        color: this.props.styles.positiveColor,
-        text: START_TEXT
-      });
       this.sendNewPost(!current);
     }
   }
@@ -158,10 +142,14 @@ export default class ApplicationForm extends React.Component {
           fluid
           size="big"
           onClick={() => this.whenClicked()}
-          color={this.state.color}
+          color={
+            this.props.issearching
+              ? this.props.styles.negativeColor
+              : this.props.styles.positiveColor
+          }
         >
           {this.props.issearching && <Icon name="pause" />}
-          {this.state.text}
+          {this.props.issearching ? "Stop searching" : "Start searching"}
           {!this.props.issearching && <Icon name="arrow right" />}
         </Button>
       </div>
