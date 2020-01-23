@@ -80,7 +80,7 @@ export default class Feed extends React.Component {
     let timer = 0;
     timer = setTimeout(this.timeoutLoop, 4000);
 
-    this.setState({ stopPoller: timer});
+    this.setState({ stopPoller: timer });
   }
 
   componentDidMount() {
@@ -166,7 +166,13 @@ export default class Feed extends React.Component {
               ? "Searching for other gamers..."
               : "Found gamers:"}
           </Header>
-          {isEmpty(feeditems) && <Loader active inline="centered" />}
+          {isEmpty(feeditems) && isEmpty(this.state.matchedUser) && (
+            <div>
+              <br />
+              <br />
+              <Loader active inline="centered" />
+            </div>
+          )}
           {isEmpty(this.state.matchedUser) ? (
             feeditems
           ) : (

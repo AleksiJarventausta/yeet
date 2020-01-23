@@ -62,8 +62,8 @@ export default class ApplicationForm extends React.Component {
     this.props.updateGamelist(updatedList);
   }
 
-  // Sends the new application to the database (?),
-  // when the users starts the search
+  /* Send search state change to server
+     then send own state to match server */
   sendNewPost(searchState) {
     const data = {
       description: this.props.info.description, // TODO: hanki tähän kaikki tarvittavat tiedot
@@ -71,23 +71,13 @@ export default class ApplicationForm extends React.Component {
     };
     axios
       .post("/post/search", data)
-      //.then(res => console.log("Uusi hakemus tehty", data, res))
+      .then(res => this.props.clicked())
       .catch(err => console.log(err));
   }
 
-  // Change search state (issearching) in the App.js and
-  // change the buttons style to match current search state and
-  // notify back end that searching as started.
+  /* Make call to server to change search state */
   whenClicked() {
-    this.props.clicked();
-    const current = this.props.issearching;
-    if (!current) {
-      //console.log("Searching has been started!");
-      this.sendNewPost(!current);
-    } else {
-      //console.log("Searching has been stopped!");
-      this.sendNewPost(!current);
-    }
+    this.sendNewPost(!this.props.issearching);
   }
 
   render() {
