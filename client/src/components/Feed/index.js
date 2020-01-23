@@ -147,7 +147,6 @@ export default class Feed extends React.Component {
               voted={this.postVoted.bind(this)}
               key={item._id}
               postId={item._id}
-              userId={item.poster._id}
               description={item.description}
               games={item.games}
               username={item.poster.username}

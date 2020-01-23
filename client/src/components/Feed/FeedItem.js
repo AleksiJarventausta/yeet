@@ -13,11 +13,9 @@ export default class FeedItem extends React.Component {
   // Updates the posts attribute voted to upper level component.
   liked() {
     const id = this.props.postId;
-    const userId = this.props.userId;
     this.props.voted(id);
     const data = {
       postId: id,
-      userId: userId,
       like: true
     };
     axios
@@ -30,11 +28,9 @@ export default class FeedItem extends React.Component {
   // connected to be only one function.
   notLiked() {
     const id = this.props.postId;
-    const userId = this.props.userId;
     this.props.voted(id);
     const data = {
       postId: id,
-      userId: userId,
       like: false
     };
 
