@@ -97,7 +97,7 @@ function matchUsers(req, otherPost, userPost) {
     discord: otherPost.poster.discord,
     games: otherPost.games,
     description: otherPost.description,
-    additonal: otherPost.poster.additonal
+    additional: otherPost.poster.additional
   };
 
   const thisUser = {
@@ -105,7 +105,7 @@ function matchUsers(req, otherPost, userPost) {
     discord: req.user.discord,
     games: userPost.games,
     description: userPost.description,
-    additonal: req.user.additonal
+    additional: userPost.poster.additional
   };
   clients.map(c => {
     if (c.id.equals(req.user._id)) {
