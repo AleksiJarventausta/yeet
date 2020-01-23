@@ -129,15 +129,15 @@ router.post("/like", passport.authenticate("jwt", { session: false }), function(
       } else {
         otherPost.unliked.push(req.user._id);
       }
+      const userId = otherPost.poster._id
       otherPost
         .save()
         .then(user => {
           Post.findOne({ poster: req.user._id })
             .populate("poster")
             .exec(function(err, userPost) {
-              const lol = JSON.parse(JSON.stringify(userPost.liked));
-              const xd = lol.includes(otherPost.poster._id);
-              if (xd && req.body.like) {
+              const isMatch = userPost.liked.includes(userId)
+              if (isMatch && req.body.like) {
                 matchUsers(req, otherPost, userPost);
               }
             });
