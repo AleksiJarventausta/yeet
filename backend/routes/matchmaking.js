@@ -28,7 +28,7 @@ router.get(
         games: { $in: userPost.games }
       })
         .select(" -__proto__ -__v")
-        .populate("poster", "username discord")
+        .populate("poster", "-_id username discord additional")
         .exec(function(err, posts) {
           if (err) return res.status(400).json({ error: "failed" });
           nocache(res);
@@ -136,7 +136,7 @@ router.post("/like", passport.authenticate("jwt", { session: false }), function(
             .populate("poster")
             .exec(function(err, userPost) {
               const lol = JSON.parse(JSON.stringify(userPost.liked));
-              const xd = lol.includes(req.body.userId);
+              const xd = lol.includes(otherPost._id);
               if (xd && req.body.like) {
                 matchUsers(req, otherPost, userPost);
               }
