@@ -6,7 +6,7 @@ import Match from "./Match";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import axios from "axios";
 
-import { Header } from "semantic-ui-react";
+import { Header, Loader } from "semantic-ui-react";
 import { isEmpty } from "underscore";
 
 export default class Feed extends React.Component {
@@ -167,6 +167,7 @@ export default class Feed extends React.Component {
               ? "Searching for other gamers..."
               : "Found gamers:"}
           </Header>
+          {isEmpty(feeditems) && <Loader active inline="centered" />}
           {isEmpty(this.state.matchedUser) ? (
             feeditems
           ) : (
