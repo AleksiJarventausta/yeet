@@ -3,15 +3,23 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuth";
 import jwt_decode from "jwt-decode";
-import { Button, Message, Form, Grid, Input, Icon, Header } from "semantic-ui-react";
+import {
+  Button,
+  Form,
+  Grid,
+  Input,
+  Icon,
+  Header,
+  Segment
+} from "semantic-ui-react";
 
 class UserSettings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "username",
-      discord: "vilps#1234",
-      additional: "additionalinfo",
+      username: "",
+      discord: "",
+      additional: "",
       newpassword1: "",
       newpassword2: "",
       password: "",
@@ -33,7 +41,7 @@ class UserSettings extends Component {
   }
 
   cancelSettings() {
-    this.props.history.push("/")
+    this.props.history.push("/");
   }
   onSubmit(e) {
     e.preventDefault();
@@ -74,11 +82,11 @@ class UserSettings extends Component {
     } else if (e.target.name === "additional") {
       this.setState({ additional: data.value });
     } else if (e.target.name === "newpassword1") {
-      this.setState({ password1: data.value });
+      this.setState({ newpassword1: data.value });
     } else if (e.target.name === "newpassword2") {
-      this.setState({ password2: data.value });
+      this.setState({ newpassword2: data.value });
     } else if (e.target.name === "password") {
-      this.setState({ password2: data.value });
+      this.setState({ password: data.value });
     }
   }
 
@@ -87,30 +95,33 @@ class UserSettings extends Component {
       <Grid centered>
         <Grid.Column>
           <Form onSubmit={this.onSubmit}>
-            <Message>
-              <Form.Field>
-                <Input
-                  name="username"
-                  disabled={true}
-                  onChange={(event, data) => {
-                    this.updateBox(event, data);
-                  }}
-                  value={this.state.username}
-                  placeholder={this.state.username}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Input
-                  name="discord"
-                  onChange={(event, data) => {
-                    this.updateBox(event, data);
-                  }}
-                  value={this.state.discord}
-                  placeholder={"discord"}
-                />
-              </Form.Field>
-              <Form.Field>
-              {/*
+            <Segment.Group>
+              <Segment>
+                <Form.Field>
+                  <Header>Logged in as {this.state.username}</Header>
+                  {/* Username
+                  <Input
+                    name="username"
+                    disabled={true}
+                    onChange={(event, data) => {
+                      this.updateBox(event, data);
+                    }}
+                    value={this.state.username}
+                    placeholder={this.state.username}
+                  /> */}
+                </Form.Field>
+                <Form.Field>
+                  Discord tag
+                  <Input
+                    name="discord"
+                    onChange={(event, data) => {
+                      this.updateBox(event, data);
+                    }}
+                    value={this.state.discord}
+                    placeholder={"discord"}
+                  />
+                </Form.Field>
+                {/* <Form.Field>
                 <Input
                   name="additional"
                   onChange={(event, data) => {
@@ -119,50 +130,52 @@ class UserSettings extends Component {
                   value={this.state.additional}
                   placeholder={"additional contact information"}
                 />
-              */}
-              </Form.Field>
-              <Form.Field>
+                </Form.Field> */}
+              </Segment>
+              <Segment>
+                <Form.Field>
+                  Change password
+                  <Input
+                    name="newpassword1"
+                    onChange={(event, data) => {
+                      this.updateBox(event, data);
+                    }}
+                    placeholder="New Password"
+                    type="password"
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Input
+                    name="newpassword2"
+                    onChange={(event, data) => {
+                      this.updateBox(event, data);
+                    }}
+                    placeholder="New Password Again"
+                    type="password"
+                  />
+                </Form.Field>
+              </Segment>
+              <Segment>
                 <Input
-                  name="newpassword1"
+                  name="password"
                   onChange={(event, data) => {
                     this.updateBox(event, data);
                   }}
-                  placeholder="New Password"
+                  placeholder="Your current password"
                   type="password"
                 />
-              </Form.Field>
-              <Form.Field>
-                <Input
-                  name="newpassword2"
-                  onChange={(event, data) => {
-                    this.updateBox(event, data);
-                  }}
-                  placeholder="New Password Again"
-                  type="password"
-                />
-              </Form.Field>
-            </Message>
-            {/* Ask for password when implemented to backend}
-            <Input
-              name="newpassword2"
-              onChange={(event, data) => {
-                this.updateBox(event, data);
-              }}
-              placeholder="Your current password"
-              type="password"
-            />
-            */}
-            <Button type="submit">
-              <Icon name="pencil alternate" />
-              Save
-            </Button>
-            <Button onClick={this.cancelSettings}>Cancel</Button>
-            {this.state.errors !== "" && (
-              <h2>some errors: {this.state.errors}</h2>
-            )}
+                <Button type="submit">
+                  <Icon name="pencil alternate" />
+                  Save
+                </Button>
+                <Button onClick={this.cancelSettings}>Cancel</Button>
+                {this.state.errors !== "" && (
+                  <h2>some errors: {this.state.errors}</h2>
+                )}
+                {this.state.infoSaved && <Header> Info saved! </Header>}
+              </Segment>
+            </Segment.Group>
           </Form>
-          {this.state.infoSaved &&
-          <Header> Info saved! </Header>}
         </Grid.Column>
       </Grid>
     );
