@@ -79,7 +79,7 @@ export default class Feed extends React.Component {
   setMatchPoller() {
     let timer = 0;
     timer = setTimeout(this.timeoutLoop, 4000);
-    
+
     this.setState({ stopPoller: timer});
   }
 
@@ -170,6 +170,7 @@ export default class Feed extends React.Component {
               games={this.state.matchedUser.games}
               username={this.state.matchedUser.username}
               discord={this.state.matchedUser.discord}
+              additional={this.state.matchedUser.additional}
               issearching={this.props.issearching}
             />
           )}
