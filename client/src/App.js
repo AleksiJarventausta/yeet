@@ -219,6 +219,9 @@ class App extends React.Component {
   // on the state of this component
   changeSearchingState() {
     const currentState = this.state.issearching;
+    this.setState({ issearching: !currentState });
+    /*
+    const currentState = this.state.issearching;
     const setSearch = {
       active: !currentState
     };
@@ -228,6 +231,7 @@ class App extends React.Component {
         this.setState({ issearching: !currentState });
       })
       .catch(err => console.log(err));
+      */
   }
 
   // Updates every field of user
