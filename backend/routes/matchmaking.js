@@ -64,9 +64,9 @@ router.get("/connect", function(req, res, next) {
           };
           //req.user.responses.push(res);
           //req.user.save();
-          res.writeHead(200, headers);
+          res.set(headers);
           res.write(":" + Array(2049).join(" ") + "\n"); // 2kB padding for IE
-          res.write("retry: 2000\n\n");
+          res.write("retry: 10000\n\n");
           Post.findOne({ poster: user._id }).exec(function(err, userPost) {
             userPost.active = true;
             userPost.save().catch(err => console.log(err));
