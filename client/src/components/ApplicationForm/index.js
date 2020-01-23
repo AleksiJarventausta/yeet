@@ -127,21 +127,22 @@ export default class ApplicationForm extends React.Component {
               issearching={this.props.issearching}
             />
           </Segment>
+          <Button
+            attached="bottom"
+            fluid
+            size="big"
+            onClick={() => this.whenClicked()}
+            color={
+              this.props.issearching
+                ? this.props.styles.negativeColor
+                : this.props.styles.positiveColor
+            }
+          >
+            {this.props.issearching && <Icon name="pause" />}
+            {this.props.issearching ? "Stop searching" : "Start searching"}
+            {!this.props.issearching && <Icon name="arrow right" />}
+          </Button>
         </Segment.Group>
-        <Button
-          fluid
-          size="big"
-          onClick={() => this.whenClicked()}
-          color={
-            this.props.issearching
-              ? this.props.styles.negativeColor
-              : this.props.styles.positiveColor
-          }
-        >
-          {this.props.issearching && <Icon name="pause" />}
-          {this.props.issearching ? "Stop searching" : "Start searching"}
-          {!this.props.issearching && <Icon name="arrow right" />}
-        </Button>
       </div>
     );
   }
