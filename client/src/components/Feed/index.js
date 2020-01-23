@@ -73,7 +73,7 @@ export default class Feed extends React.Component {
 
   timeoutLoop() {
     this.getPosts();
-    this.setState( {stopPoller: setTimeout(this.timeoutLoop, 4000)});
+    this.setState({ stopPoller: setTimeout(this.timeoutLoop, 4000) });
   }
 
   setMatchPoller() {
@@ -113,7 +113,7 @@ export default class Feed extends React.Component {
   }
 
   componentWillUnmount() {
-    clearTimeout(this.state.stopPoller)
+    clearTimeout(this.state.stopPoller);
     if (this.state.listening) {
       this.state.events.close();
       this.setState({ listening: false });
@@ -160,7 +160,13 @@ export default class Feed extends React.Component {
     return (
       this.props.issearching && (
         <div>
-          <Header as="h2">Found gamers: </Header>
+          <Header as="h2">
+            {!isEmpty(this.state.matchedUser)
+              ? "Matched with:"
+              : isEmpty(feeditems)
+              ? "Searching for other gamers..."
+              : "Found gamers:"}
+          </Header>
           {isEmpty(this.state.matchedUser) ? (
             feeditems
           ) : (
