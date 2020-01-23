@@ -38,7 +38,7 @@ class HeaderThing extends React.Component {
           to="/"
           onClick={(event, data) => this.handleItemClick(event, data)}
         >
-          <Header>MatchGamer</Header>
+          <Header>MatchMaker</Header>
         </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item
