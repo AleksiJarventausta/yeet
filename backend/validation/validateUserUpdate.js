@@ -12,9 +12,9 @@ module.exports = function validateUpdate(data) {
   data.newpassword2 = !isEmpty(data.newpassword2) ? data.newpassword2 : "";
 
   if (Validator.isEmpty(data.password)) {
-    if (!Validator.isEmpty(data.newpassword1))
-      errors.password = "Password field can't be empty if updating password.";
-  } else {
+      errors.password = "Password field is empty";
+  }
+  if (!Validator.isEmpty(data.newpassword1)) {
     if (!Validator.isLength(data.newpassword1, { min: 8, max: 32 })) {
       errors.newpassword1 = "Password has to be 8 to 32 characters long.";
     } else if (data.newpassword1 !== data.newpassword2) {

@@ -28,7 +28,8 @@ describe("User router", function() {
     });
     it("should update discord with ok values", function(done) {
       const newDiscord = {
-        discord: "lol1"
+        discord: "lol1",
+        password: "00000000"
       };
       chai
         .request(app)
@@ -37,12 +38,30 @@ describe("User router", function() {
         .send(newDiscord)
         .end((err, res) => {
           res.should.have.status(200);
+          expect(res.body.token).to.exist;
+          done();
+        });
+    });
+    it("should throw error when invalid password", function(done) {
+      const newDiscord = {
+        discord: "lol1",
+        password: "0000000"
+      };
+      chai
+        .request(app)
+        .post("/user/update")
+        .set("Authorization", registeredUserToken)
+        .send(newDiscord)
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.password).to.equal("Wrong password")
           done();
         });
     });
     it("should send that username is already in use", function(done) {
       const newDiscord = {
-        username: "llll"
+        username: "9",
+        password: "00000000"
       };
       chai
         .request(app)
@@ -57,7 +76,8 @@ describe("User router", function() {
     });
     it("should change the username", function(done) {
       const newDiscord = {
-        username: "freeUsernameForTesting"
+        username: "freeUsernameForTestingggg",
+        password: "00000000"
       };
       chai
         .request(app)
@@ -72,7 +92,8 @@ describe("User router", function() {
     });
     it("should change the username back", function(done) {
       const newDiscord = {
-        username: "freeUsernameForTesting2"
+        username: "freeUsernameForTesting2",
+        password: "00000000"
       };
       chai
         .request(app)
