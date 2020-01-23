@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuth";
 import jwt_decode from "jwt-decode";
-import { Button, Message, Form, Grid, Input, Icon } from "semantic-ui-react";
+import { Button, Message, Form, Grid, Input, Icon, Header } from "semantic-ui-react";
 
 class UserSettings extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class UserSettings extends Component {
       errors: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
+    this.cancelSettings = this.cancelSettings.bind(this);
   }
 
   componentDidMount() {
@@ -31,6 +32,9 @@ class UserSettings extends Component {
     });
   }
 
+  cancelSettings() {
+    this.props.history.push("/")
+  }
   onSubmit(e) {
     e.preventDefault();
     /* Poista alla oleva kun saadaan tietoa, tehdään lopussa */
@@ -152,11 +156,13 @@ class UserSettings extends Component {
               <Icon name="pencil alternate" />
               Save
             </Button>
-            {this.state.infoSaved && <h2>info saved</h2>}
+            <Button onClick={this.cancelSettings}>Cancel</Button>
             {this.state.errors !== "" && (
               <h2>some errors: {this.state.errors}</h2>
             )}
           </Form>
+          {this.state.infoSaved &&
+          <Header> Info saved! </Header>}
         </Grid.Column>
       </Grid>
     );
