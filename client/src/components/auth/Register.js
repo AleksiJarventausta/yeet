@@ -39,7 +39,7 @@ class Register extends Component {
   };
 
   cancelRegistration() {
-    this.props.history.push("/");
+    this.props.history.push("/login");
   }
 
   render() {

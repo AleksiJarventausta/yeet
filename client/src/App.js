@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import { Grid, Button } from "semantic-ui-react";
+import { Grid, Button, Loader } from "semantic-ui-react";
 
 // Utils
 import jwt_decode from "jwt-decode";
@@ -66,10 +66,6 @@ class App extends React.Component {
       }
     }
   }
-
-  
-
-  
 
   // Set the username and discord, then put
   // empty values for games, additional and description.
@@ -234,8 +230,6 @@ class App extends React.Component {
       .catch(err => console.log(err));
   }
 
-  
-
   // Updates every field of user
   updateUser(updatedUser) {
     this.setState({ user: updatedUser });
@@ -293,9 +287,7 @@ class App extends React.Component {
                 </Grid.Column>
                 <Grid.Column width={9}>
                   {this.state.issearching && (
-                    <Feed
-                      issearching={this.state.issearching}
-                    ></Feed>
+                    <Feed issearching={this.state.issearching}></Feed>
                   )}
                 </Grid.Column>
               </Grid.Row>

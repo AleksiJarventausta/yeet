@@ -6,7 +6,7 @@ import Match from "./Match";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import axios from "axios";
 
-import { Header } from "semantic-ui-react";
+import { Header, Loader } from "semantic-ui-react";
 import { isEmpty } from "underscore";
 
 export default class Feed extends React.Component {
@@ -73,13 +73,13 @@ export default class Feed extends React.Component {
 
   timeoutLoop() {
     this.getPosts();
-    this.setState( {stopPoller: setTimeout(this.timeoutLoop, 4000)});
+    this.setState({ stopPoller: setTimeout(this.timeoutLoop, 4000) });
   }
 
   setMatchPoller() {
     let timer = 0;
     timer = setTimeout(this.timeoutLoop, 4000);
-    
+
     this.setState({ stopPoller: timer});
   }
 
@@ -113,7 +113,7 @@ export default class Feed extends React.Component {
   }
 
   componentWillUnmount() {
-    clearTimeout(this.state.stopPoller)
+    clearTimeout(this.state.stopPoller);
     if (this.state.listening) {
       this.state.events.close();
       this.setState({ listening: false });
@@ -159,7 +159,14 @@ export default class Feed extends React.Component {
     return (
       this.props.issearching && (
         <div>
-          <Header as="h2">Found gamers: </Header>
+          <Header as="h2">
+            {!isEmpty(this.state.matchedUser)
+              ? "Matched with:"
+              : isEmpty(feeditems)
+              ? "Searching for other gamers..."
+              : "Found gamers:"}
+          </Header>
+          {isEmpty(feeditems) && <Loader active inline="centered" />}
           {isEmpty(this.state.matchedUser) ? (
             feeditems
           ) : (
@@ -169,6 +176,7 @@ export default class Feed extends React.Component {
               games={this.state.matchedUser.games}
               username={this.state.matchedUser.username}
               discord={this.state.matchedUser.discord}
+              additional={this.state.matchedUser.additional}
               issearching={this.props.issearching}
             />
           )}
