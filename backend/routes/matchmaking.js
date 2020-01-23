@@ -108,10 +108,9 @@ function matchUsers(req, otherPost, userPost) {
     additonal: req.user.additonal
   };
   clients.map(c => {
-    const otherId = mongoose.Types.ObjectId(req.body.userId);
     if (c.id.equals(req.user._id)) {
       c.res.write("data: " + JSON.stringify(matchedUser) + "\n\n");
-    } else if (otherId.equals(c.id)) {
+    } else if (otherPost.poster._id.equals(c.id)) {
       c.res.write("data: " + JSON.stringify(thisUser) + "\n\n");
     }
   });
