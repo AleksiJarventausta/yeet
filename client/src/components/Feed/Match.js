@@ -14,11 +14,11 @@ export default class Match extends React.Component {
             <Icon name="user" />
             <Header.Content>{this.props.username}</Header.Content>
           </Header>
-          <Header size="big">
+          <Header size="large">
             <Header.Content>Discord: {this.props.discord}</Header.Content>
           </Header>
           {this.props.additional && (
-            <Header size="large">
+            <Header size="medium">
               <Header.Content>
                 Additional info: {this.props.additional}
               </Header.Content>
@@ -26,7 +26,11 @@ export default class Match extends React.Component {
           )}
           <Label.Group size="large">
             {this.props.matchedUser.games.map(game => {
-              return <Label> {game.name}</Label>;
+              if (!game.id) {
+                const id = game;
+                game = { id: id };
+              }
+              return <Label key={game.id}> {game.name}</Label>;
             })}
           </Label.Group>
           <Card.Description>{this.props.description}</Card.Description>
