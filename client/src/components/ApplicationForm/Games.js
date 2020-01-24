@@ -5,13 +5,12 @@ import axios from "axios";
 
 export default class Games extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       games: []
-    }
+    };
     this.deleteGame = this.deleteGame.bind(this);
   }
-
 
   // Function to remove specific item from a list.
   // Would be better to use some library but it works.
@@ -61,7 +60,12 @@ export default class Games extends React.Component {
     const gameItems = this.props.info.games.map(game => {
       //const gameItems = this.getGameInfo({games: [1332, 11198]}).map(game => {
 
-      console.log("game: ", game);
+      //console.log("game: ", game);
+
+      if (!game.id) {
+        const id = game;
+        game = { id: id };
+      }
 
       return (
         <Label key={game.id}>
