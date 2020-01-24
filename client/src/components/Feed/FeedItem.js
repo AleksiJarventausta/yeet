@@ -20,7 +20,7 @@ export default class FeedItem extends React.Component {
     };
     axios
       .post("/match/like", data)
-      .then(res => console.log("sent liked", res))
+      //.then(res => console.log("sent liked", res))
       .catch(err => console.log(err));
   }
 

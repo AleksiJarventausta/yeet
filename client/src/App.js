@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import { Grid, Button, Loader } from "semantic-ui-react";
+import { Grid, Button} from "semantic-ui-react";
 
 // Utils
 import jwt_decode from "jwt-decode";
