@@ -4,9 +4,14 @@ import { Label, Icon } from "semantic-ui-react";
 import axios from "axios";
 
 export default class Games extends React.Component {
-  state = {
-    games: []
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      games: []
+    }
+    this.deleteGame = this.deleteGame.bind(this);
+  }
+
 
   // Function to remove specific item from a list.
   // Would be better to use some library but it works.
@@ -29,9 +34,6 @@ export default class Games extends React.Component {
 
     axios
       .post("/post/deletegame", { _id: game.id })
-      .then(res => {
-        console.log("Poistettiin peli", game);
-      })
       .catch(err => console.log(err));
   }
 
@@ -59,8 +61,10 @@ export default class Games extends React.Component {
     const gameItems = this.props.info.games.map(game => {
       //const gameItems = this.getGameInfo({games: [1332, 11198]}).map(game => {
 
+      console.log("game: ", game);
+
       return (
-        <Label key={game.id} deleteGame={this.deleteGame}>
+        <Label key={game.id}>
           {game.name}{" "}
           {!this.props.issearching && (
             <Icon

@@ -111,24 +111,7 @@ export default class SearchExampleStandard extends Component {
                 })}
                 results={results}
                 value={value}
-                {...this.props}
               />
-            {/*}
-              {!this.props.issearching && (
-                <Search
-                  fluid
-                  loading={isLoading}
-                  onResultSelect={this.handleResultSelect}
-                  onSearchChange={_.debounce(this.handleSearchChange, 500, {
-                    leading: true
-                  })}
-                  results={results}
-                  value={value}
-                  {...this.props}
-                />
-
-              )}
-              */}
             </Form.Field>
           </Form>
         </Grid.Column>
