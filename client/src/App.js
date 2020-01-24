@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import { Grid, Button, Loader } from "semantic-ui-react";
+import { Grid, Button} from "semantic-ui-react";
 
 // Utils
 import jwt_decode from "jwt-decode";
@@ -219,6 +219,9 @@ class App extends React.Component {
   // on the state of this component
   changeSearchingState() {
     const currentState = this.state.issearching;
+    this.setState({ issearching: !currentState });
+    /*
+    const currentState = this.state.issearching;
     const setSearch = {
       active: !currentState
     };
@@ -228,6 +231,7 @@ class App extends React.Component {
         this.setState({ issearching: !currentState });
       })
       .catch(err => console.log(err));
+      */
   }
 
   // Updates every field of user

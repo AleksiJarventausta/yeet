@@ -73,7 +73,6 @@ class HeaderThing extends React.Component {
                   icon="pencil"
                   text="Edit user information"
                   name="userSettings"
-                  setCurrentUser={this.setCurrentUser}
                   onClick={(event, data) => this.handleItemClick(event, data)}
                 />
               )}

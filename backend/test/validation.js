@@ -5,9 +5,9 @@ const validateLogin = require("../validation/validateLogin");
 const validateRegisteration = require("../validation/validateRegisteration");
 
 describe("User Info update", function() {
-  it("should be valid with empty object.", function() {
+  it("should not be valid with empty object.", function() {
     const emptyObject = {};
-    assert.equal(validateUpdate(emptyObject).isValid, true);
+    assert.equal(validateUpdate(emptyObject).isValid, false);
   });
   it("should be valid with ok values", function() {
     const user = {
@@ -15,6 +15,14 @@ describe("User Info update", function() {
       password: "12345678",
       newpassword1: "23456789",
       newpassword2: "23456789"
+    };
+
+    assert(validateUpdate(user).isValid);
+  });
+  it("should be valid without new password", function() {
+    const user = {
+      username: "testname",
+      password: "12345678"
     };
 
     assert(validateUpdate(user).isValid);
@@ -29,12 +37,12 @@ describe("User Info update", function() {
 
     assert(validateUpdate(user).errors.newpassword1);
   });
-  it("should be valid without passwords", function() {
+  it("shouldn't be valid without passwords", function() {
     const user = {
       username: "testname"
     };
 
-    assert(validateUpdate(user).isValid);
+    assert(!validateUpdate(user).isValid);
   });
   it("should return error about passwords not matching", function() {
     const user = {

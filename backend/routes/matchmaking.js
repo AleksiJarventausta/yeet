@@ -64,9 +64,9 @@ router.get("/connect", function(req, res, next) {
           };
           //req.user.responses.push(res);
           //req.user.save();
-          res.writeHead(200, headers);
+          res.set(headers);
           res.write(":" + Array(2049).join(" ") + "\n"); // 2kB padding for IE
-          res.write("retry: 2000\n\n");
+          res.write("retry: 10000\n\n");
           Post.findOne({ poster: user._id }).exec(function(err, userPost) {
             userPost.active = true;
             userPost.save().catch(err => console.log(err));
@@ -97,7 +97,7 @@ function matchUsers(req, otherPost, userPost) {
     discord: otherPost.poster.discord,
     games: otherPost.games,
     description: otherPost.description,
-    additonal: otherPost.poster.additonal
+    additional: otherPost.poster.additional
   };
 
   const thisUser = {
@@ -105,13 +105,12 @@ function matchUsers(req, otherPost, userPost) {
     discord: req.user.discord,
     games: userPost.games,
     description: userPost.description,
-    additonal: req.user.additonal
+    additional: userPost.poster.additional
   };
   clients.map(c => {
-    const otherId = mongoose.Types.ObjectId(req.body.userId);
     if (c.id.equals(req.user._id)) {
       c.res.write("data: " + JSON.stringify(matchedUser) + "\n\n");
-    } else if (otherId.equals(c.id)) {
+    } else if (otherPost.poster._id.equals(c.id)) {
       c.res.write("data: " + JSON.stringify(thisUser) + "\n\n");
     }
   });
@@ -129,15 +128,15 @@ router.post("/like", passport.authenticate("jwt", { session: false }), function(
       } else {
         otherPost.unliked.push(req.user._id);
       }
+      const userId = otherPost.poster._id
       otherPost
         .save()
         .then(user => {
           Post.findOne({ poster: req.user._id })
             .populate("poster")
             .exec(function(err, userPost) {
-              const lol = JSON.parse(JSON.stringify(userPost.liked));
-              const xd = lol.includes(otherPost._id);
-              if (xd && req.body.like) {
+              const isMatch = userPost.liked.includes(userId)
+              if (isMatch && req.body.like) {
                 matchUsers(req, otherPost, userPost);
               }
             });

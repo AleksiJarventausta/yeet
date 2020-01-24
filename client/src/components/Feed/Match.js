@@ -17,11 +17,13 @@ export default class Match extends React.Component {
           <Header size="big">
             <Header.Content>Discord: {this.props.discord}</Header.Content>
           </Header>
-          {this.props.additional &&
-          <Header size="large">
-            <Header.Content>Additional info: {this.props.additional}</Header.Content>
-          </Header>
-          }
+          {this.props.additional && (
+            <Header size="large">
+              <Header.Content>
+                Additional info: {this.props.additional}
+              </Header.Content>
+            </Header>
+          )}
           <Label.Group size="large">
             {this.props.matchedUser.games.map(game => {
               return <Label> {game.name}</Label>;

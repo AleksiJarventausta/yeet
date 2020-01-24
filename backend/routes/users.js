@@ -24,18 +24,49 @@ function sendJwtToken(res, payload) {
   );
 }
 
-function saveUser(res, sendUser) {
-  sendUser
-    .save()
-    .then(user => {
-      const payload = {
-        id: user._id,
-        username: user.username,
-        discord: user.discord,
-      };
-      sendJwtToken(res, payload);
-    })
-    .catch(err => res.json({ error: "failed to update user info." }));
+function saveUser(req, res) {
+  bcrypt.compare(req.body.password, req.user.password).then(isMatch => {
+    if (isMatch) {
+      if (req.body.newpassword1) {
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(registeringUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            req.user.password = hash;
+            req.user
+              .save()
+              .then(user => {
+                const payload = {
+                  id: req.user._id,
+                  username: req.user.username,
+                  discord: req.user.discord
+                };
+                // Sign token
+                sendJwtToken(res, payload);
+              })
+              .catch(err => res.json({ error: "failed to update user info." }));
+          });
+        });
+      } else {
+        req.user
+          .save()
+          .then(user => {
+            const payload = {
+              id: req.user._id,
+              username: req.user.username,
+              discord: req.user.discord
+            };
+            // Sign token
+            sendJwtToken(res, payload);
+          })
+          .catch(err => {
+            let o = err;
+            res.json({ error: "failed to update user info." });
+          });
+      }
+    } else {
+      return res.status(400).json({ password: "Wrong password" });
+    }
+  });
 }
 
 router.post("/login", function(req, res) {
@@ -49,7 +80,7 @@ router.post("/login", function(req, res) {
   const username = req.body.username;
   const password = req.body.password;
 
-  // Find user by 
+  // Find user by
   User.findOne({ username }).then(user => {
     // Check if user exists
     if (!user) {
@@ -64,9 +95,8 @@ router.post("/login", function(req, res) {
         const payload = {
           id: user._id,
           username: user.username,
-          discord: user.discord,
+          discord: user.discord
         };
-
         // Sign token
         sendJwtToken(res, payload);
       } else {
@@ -98,22 +128,28 @@ router.post(
     ) {
       req.user.additional = req.body.additional;
     }
+    let name;
+    let newName = false;
     if (
       req.body.username !== undefined &&
-      req.body.username !== req.user.username
+      req.body.username !== req.user.username &&
+      req.body.username !== ""
     ) {
-      User.findOne({ username: req.body.username }, function(err, user) {
-        if (err) return res.status(400).json({ error: "failed" });
-        if (user) {
-          return res.status(400).json({ username: "Username already in use" });
-        } else {
-          req.user.username = req.body.username;
-          saveUser(res, req.user);
-        }
-      });
+      name = req.body.username;
+      newName = true;
     } else {
-      saveUser(res, req.user);
+      name = req.user.username;
+      newName = false;
     }
+    User.findOne({ username: name }, function(err, user) {
+      if (err) return res.status(400).json({ error: "failed" });
+      if (user && newName) {
+        return res.status(400).json({ username: "Username already in use" });
+      } else {
+        req.user.username = name;
+        saveUser(req, res);
+      }
+    });
   }
 );
 
@@ -140,7 +176,7 @@ router.post("/register", function(req, res) {
           registeringUser.password = hash;
           registeringUser
             .save()
-            .then(user => res.json(user))
+            .then(user => res.send("ok"))
             .catch(err => console.log(err));
         });
       });
